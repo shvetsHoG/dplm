@@ -10,8 +10,7 @@ services:
       - 3000:3000
     depends_on:
       - db
-    command: |
-      npm run start:migrate:prod
+    command: sh -c "npm run start:migrate:prod"
 
   db:
     image: postgres

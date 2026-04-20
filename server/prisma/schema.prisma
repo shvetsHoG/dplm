@@ -16,5 +16,86 @@ model User {
   name     String?
   password String
 
-  @@map("user")
+  @@map("users")
+}
+
+model Contract {
+  id             Int             @id @default(autoincrement())
+  name           String
+  employeeGroups EmployeeGroup[]
+  Shift          Shift?
+
+  @@map("contracts")
+}
+
+model EmployeeGroup {
+  id         Int        @id @default(autoincrement())
+  externalId Int
+  name       String
+  employees  Employee[]
+  contractId Int
+  contract   Contract   @relation(fields: [contractId], references: [id], onDelete: Cascade)
+
+  @@map("employee_groups")
+}
+
+model Employee {
+  id              Int           @id
+  fullname        String
+  employeeGroupId Int
+  employeeGroup   EmployeeGroup @relation(fields: [employeeGroupId], references: [id], onDelete: Cascade)
+
+  @@map("employees")
+}
+
+model Shift {
+  id         Int         @id @default(autoincrement())
+  duration   Int
+  name       String
+  startDate  DateTime
+  startTime  DateTime
+  type       ShiftType
+  customDays CustomDay[]
+  contractId Int         @unique
+  contract   Contract    @relation(fields: [contractId], references: [id], onDelete: Cascade)
+
+  @@map("shifts")
+}
+
+model CustomDay {
+  id         Int         @id @default(autoincrement())
+  type       WeekdayType
+  weeknumber Int
+  shiftId    Int
+  shift      Shift       @relation(fields: [shiftId], references: [id], onDelete: Cascade)
+
+  @@map("custom_days")
+}
+
+model ContractType {
+  id   Int    @id @default(autoincrement())
+  name String
+  type String
+
+  @@map("contract_types")
+}
+
+model WeekDay {
+  id        Int     @id @default(autoincrement())
+  fullname  String
+  isWeekend Boolean @map("is_weekend")
+  number    Int     @unique
+  shortname String
+
+  @@map("week_days")
+}
+
+enum WeekdayType {
+  weekend
+  workday
+}
+
+enum ShiftType {
+  custom_days
+  cycle
 }
