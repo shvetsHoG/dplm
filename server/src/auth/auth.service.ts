@@ -21,7 +21,6 @@ export class AuthService {
     ) {}
 
     public async login(dto: AuthDto) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...user } = await this.validateUser(dto);
         const tokens = this.issueToken(user.id);
 
@@ -37,7 +36,6 @@ export class AuthService {
             throw new BadRequestException('Пользователь уже существует');
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...user } = await this.userService.createUser(dto);
         const tokens = this.issueToken(user.id);
 
@@ -53,7 +51,6 @@ export class AuthService {
             throw new UnauthorizedException('Неверный рефреш токен');
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...user } = await this.userService.getUserById(
             result.id,
         );

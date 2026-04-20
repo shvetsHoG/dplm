@@ -1,0 +1,29 @@
+### Register
+
+POST {{host}}/auth/registration
+Content-Type: application/json
+
+{
+  "email": "mail@mail.ru",
+  "password": "12345678"
+}
+
+### Login
+
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "mail@mail.ru",
+  "password": "12345678"
+}
+
+### Get Token
+
+POST {{host}}/auth/login/access-token
+Content-Type: application/json
+
+### Logout
+
+POST {{host}}/auth/logout
+Content-Type: application/json
