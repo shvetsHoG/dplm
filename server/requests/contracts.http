@@ -1,0 +1,44 @@
+### POST contract
+
+POST {{host}}/contracts
+Content-Type: application/json
+
+{
+  "name": "Контракт №1",
+  "shift": {
+    "duration": 8,
+    "id": 1,
+    "startDate": null,
+    "startTime": "2026-04-22T08:00:00.000Z",
+    "customDays": [
+      {
+        "type": "workday",
+        "weeknumber": 0
+      },
+      {
+        "type": "workday",
+        "weeknumber": 1
+      },
+      {
+        "type": "workday",
+        "weeknumber": 2
+      },
+      {
+        "type": "workday",
+        "weeknumber": 3
+      },
+      {
+        "type": "workday",
+        "weeknumber": 4
+      },
+      {
+        "type": "weekend",
+        "weeknumber": 5
+      },
+      {
+        "type": "weekend",
+        "weeknumber": 6
+      }
+    ]
+  }
+}

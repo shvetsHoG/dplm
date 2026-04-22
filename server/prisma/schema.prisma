@@ -20,20 +20,20 @@ model User {
 }
 
 model Contract {
-  id             Int             @id @default(autoincrement())
-  name           String
-  employeeGroups EmployeeGroup[]
-  Shift          Shift?
+  id              Int             @id @default(autoincrement())
+  name            String
+  employee_groups EmployeeGroup[]
+  shift           Shift?
 
   @@map("contracts")
 }
 
 model EmployeeGroup {
   id         Int        @id @default(autoincrement())
-  externalId Int
+  externalId Int        @map("external_id")
   name       String
   employees  Employee[]
-  contractId Int
+  contractId Int        @map("contract_id")
   contract   Contract   @relation(fields: [contractId], references: [id], onDelete: Cascade)
 
   @@map("employee_groups")
@@ -42,7 +42,7 @@ model EmployeeGroup {
 model Employee {
   id              Int           @id
   fullname        String
-  employeeGroupId Int
+  employeeGroupId Int           @map("employee_group_id")
   employeeGroup   EmployeeGroup @relation(fields: [employeeGroupId], references: [id], onDelete: Cascade)
 
   @@map("employees")
@@ -51,12 +51,11 @@ model Employee {
 model Shift {
   id         Int         @id @default(autoincrement())
   duration   Int
-  name       String
-  startDate  DateTime
-  startTime  DateTime
+  startDate  DateTime    @map("start_date")
+  startTime  DateTime    @map("start_time")
   type       ShiftType
   customDays CustomDay[]
-  contractId Int         @unique
+  contractId Int         @unique @map("contract_id")
   contract   Contract    @relation(fields: [contractId], references: [id], onDelete: Cascade)
 
   @@map("shifts")
@@ -66,7 +65,7 @@ model CustomDay {
   id         Int         @id @default(autoincrement())
   type       WeekdayType
   weeknumber Int
-  shiftId    Int
+  shiftId    Int         @map("shift_id")
   shift      Shift       @relation(fields: [shiftId], references: [id], onDelete: Cascade)
 
   @@map("custom_days")
