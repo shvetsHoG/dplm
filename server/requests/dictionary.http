@@ -1,0 +1,9 @@
+### weekdays
+
+GET {{host}}/dictionary/weekdays
+Content-Type: application/json; charset=utf-8;
+
+### contract_types
+
+GET {{host}}/dictionary/contract_types
+Content-Type: application/json; charset=utf-8;
