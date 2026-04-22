@@ -61,6 +61,15 @@ model Shift {
   @@map("shifts")
 }
 
+model Event {
+  id          Int       @id @default(autoincrement())
+  desc        String
+  startDt     DateTime  @map("start_dt")
+  endDt       DateTime  @map("end_dt")
+  type        EventType @relation(fields: [eventTypeId], references: [id])
+  eventTypeId Int       @map("event_type_id")
+}
+
 model CustomDay {
   id         Int         @id @default(autoincrement())
   type       WeekdayType
@@ -90,9 +99,10 @@ model WeekDay {
 }
 
 model EventType {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  color String @unique
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  color String  @unique
+  event Event[]
 
   @@map("event_types")
 }
