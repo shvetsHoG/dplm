@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { AuthDto } from '../dto/auth.dto';
-import { hash } from 'argon2';
 import { ContractDto } from './dto/contracts.dto';
 import { ShiftType, WeekdayType } from '@prisma/client';
 import { plainToClass } from 'class-transformer';
@@ -14,9 +13,8 @@ export class ContractsService {
     public createContract(dto: ContractDto) {
         const { name, shift } = dto;
 
-        const contractType = shift.customDays
-            ? ShiftType.custom_days
-            : ShiftType.cycle;
+        const contractType =
+            shift.id === 1 ? ShiftType.custom_days : ShiftType.cycle;
 
         return this.prisma.contract.create({
             data: {
@@ -28,7 +26,7 @@ export class ContractsService {
                         startTime: new Date(shift.startTime),
                         type: contractType,
                         customDays: {
-                            create: shift.customDays.map(customDay => ({
+                            create: shift.customDays?.map(customDay => ({
                                 type:
                                     customDay.type === 'weekend'
                                         ? WeekdayType.weekend

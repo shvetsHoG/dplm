@@ -1,4 +1,20 @@
-### POST contract
+### POST contract cycle
+
+POST {{host}}/contracts
+Content-Type: application/json
+
+{
+    "name": "123",
+    "shift": {
+      "duration": 12,
+      "id": 2,
+      "startDate": "2026-04-22T16:29:59.457Z",
+      "startTime": "2026-04-22T09:00:00.000Z",
+      "customDays": null
+    }
+}
+
+### POST contract custom
 
 POST {{host}}/contracts
 Content-Type: application/json
@@ -45,5 +61,5 @@ Content-Type: application/json
 
 ### get contract by id
 
-GET {{host}}/contracts/1
+GET {{host}}/contracts/3
 Content-Type: application/json; charset=utf-8;
