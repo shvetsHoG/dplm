@@ -38,9 +38,7 @@ export class EventsService {
     }
 
     public async deleteEvent(employeeId: number, eventId: number) {
-        const event = await this.prisma.event.findUnique({
-            where: { id: eventId, employeeId },
-        });
+        const event = await this._getEmployeeEvent(employeeId, eventId);
 
         if (!event) {
             throw new NotFoundException(`Event not found`);
@@ -48,6 +46,28 @@ export class EventsService {
 
         return this.prisma.event.delete({
             where: { id: eventId, employeeId },
+        });
+    }
+
+    public async changeEvent(
+        employeeId: number,
+        eventId: number,
+        dto: EventsCreateDto,
+    ) {
+        const event = await this._getEmployeeEvent(employeeId, eventId);
+
+        if (!event) {
+            throw new NotFoundException(`Event not found`);
+        }
+
+        return this.prisma.event.update({
+            where: { id: eventId, employeeId },
+            data: {
+                desc: dto.desc,
+                startDt: new Date(dto.startDt),
+                endDt: new Date(dto.endDt),
+                eventTypeId: dto.eventTypeId,
+            },
         });
     }
 
@@ -85,6 +105,12 @@ export class EventsService {
                 type: true,
                 employee: true,
             },
+        });
+    }
+
+    private async _getEmployeeEvent(employeeId: number, eventId: number) {
+        return this.prisma.event.findUnique({
+            where: { id: eventId, employeeId },
         });
     }
 }

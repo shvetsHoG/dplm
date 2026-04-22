@@ -6,6 +6,7 @@ import {
     Param,
     ParseIntPipe,
     Post,
+    Put,
     UsePipes,
     ValidationPipe,
 } from '@nestjs/common';
@@ -15,7 +16,6 @@ import { EventsCreateDto } from './dto/events.dto';
 @Controller('employees')
 export class EventsController {
     constructor(private readonly eventsService: EventsService) {}
-
     @UsePipes(new ValidationPipe())
     @HttpCode(200)
     @Post(':employeeId/events')
@@ -34,5 +34,16 @@ export class EventsController {
         @Param('eventId', ParseIntPipe) eventId: number,
     ) {
         return this.eventsService.deleteEvent(employeeId, eventId);
+    }
+
+    @UsePipes(new ValidationPipe())
+    @HttpCode(200)
+    @Put(':employeeId/events/:eventId')
+    async changeContract(
+        @Param('employeeId', ParseIntPipe) employeeId: number,
+        @Param('eventId', ParseIntPipe) eventId: number,
+        @Body() dto: EventsCreateDto,
+    ) {
+        return this.eventsService.changeEvent(employeeId, eventId, dto);
     }
 }
