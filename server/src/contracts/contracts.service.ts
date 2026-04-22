@@ -1,7 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+    ConflictException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { AuthDto } from '../dto/auth.dto';
-import { ContractDto } from './dto/contracts.dto';
+import { ContractAssignDto, ContractDto } from './dto/contracts.dto';
 import { ShiftType, WeekdayType } from '@prisma/client';
 import { plainToClass } from 'class-transformer';
 import { ContractResponseDto } from './dto/contracts-rexponse.dto';
@@ -113,5 +117,129 @@ export class ContractsService {
                 where: { id },
             });
         }
+    }
+
+    async assignEmployeeToContract(contractId: number, dto: ContractAssignDto) {
+        const { employee } = dto;
+
+        const contract = await this.prisma.contract.findUnique({
+            where: { id: contractId },
+            include: {
+                employeeGroups: {
+                    include: {
+                        employees: true,
+                    },
+                },
+            },
+        });
+
+        if (!contract) {
+            throw new NotFoundException(
+                `Contract with ID ${contractId} not found`,
+            );
+        }
+
+        const existingEmployee = await this.prisma.employee.findUnique({
+            where: { id: employee.id },
+            include: {
+                employeeGroup: {
+                    include: {
+                        contract: true,
+                    },
+                },
+            },
+        });
+
+        if (existingEmployee) {
+            if (existingEmployee.employeeGroup?.contractId) {
+                throw new ConflictException(
+                    `Employee ${employee.fullname} (ID: ${employee.id}) is already assigned to contract ID: ${existingEmployee.employeeGroup.contractId}`,
+                );
+            }
+
+            return this.updateExistingEmployee(contractId, existingEmployee);
+        }
+
+        return this.createNewEmployeeInContract(contractId, employee);
+    }
+
+    private async updateExistingEmployee(contractId: number, employee: any) {
+        const employeeGroup = await this.getOrCreateEmployeeGroup(contractId);
+
+        const updatedEmployee = await this.prisma.employee.update({
+            where: { id: employee.id },
+            data: {
+                employeeGroupId: employeeGroup.id,
+            },
+            include: {
+                employeeGroup: {
+                    include: {
+                        contract: true,
+                    },
+                },
+            },
+        });
+
+        return {
+            success: true,
+            message: 'Employee assigned to contract successfully',
+            employee: {
+                id: updatedEmployee.id,
+                fullname: updatedEmployee.fullname,
+                contractId: updatedEmployee.employeeGroup.contractId,
+                employeeGroupId: updatedEmployee.employeeGroupId,
+            },
+        };
+    }
+
+    private async createNewEmployeeInContract(
+        contractId: number,
+        employee: { id: number; fullname: string },
+    ) {
+        const employeeGroup = await this.getOrCreateEmployeeGroup(contractId);
+
+        const newEmployee = await this.prisma.employee.create({
+            data: {
+                id: employee.id,
+                fullname: employee.fullname,
+                employeeGroupId: employeeGroup.id,
+            },
+            include: {
+                employeeGroup: {
+                    include: {
+                        contract: true,
+                    },
+                },
+            },
+        });
+
+        return {
+            success: true,
+            message: 'Employee created and assigned to contract successfully',
+            employee: {
+                id: newEmployee.id,
+                fullname: newEmployee.fullname,
+                contractId: newEmployee.employeeGroup.contractId,
+                employeeGroupId: newEmployee.employeeGroupId,
+            },
+        };
+    }
+
+    private async getOrCreateEmployeeGroup(contractId: number) {
+        let employeeGroup = await this.prisma.employeeGroup.findFirst({
+            where: { contractId },
+        });
+
+        if (!employeeGroup) {
+            employeeGroup = await this.prisma.employeeGroup.create({
+                data: {
+                    externalId: contractId,
+                    name: `Contract Group ${contractId}`,
+                    contractId: contractId,
+                },
+            });
+        }
+
+        return employeeGroup;
     }
 }

@@ -61,7 +61,7 @@ Content-Type: application/json
 
 ### get contract by id
 
-GET {{host}}/contracts/2
+GET {{host}}/contracts/1
 Content-Type: application/json; charset=utf-8;
 
 ### delete contract by id
@@ -73,3 +73,15 @@ Content-Type: application/json; charset=utf-8;
 
 GET {{host}}/contracts
 Content-Type: application/json; charset=utf-8;
+
+### assign
+
+POST {{host}}/contracts/1/assign
+Content-Type: application/json
+
+{
+  "employee": {
+    "fullname": "Лозовой Борис Сергеевич",
+    "id": 678937
+  }
+}

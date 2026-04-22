@@ -1,4 +1,11 @@
-import { IsDateString, IsNumber, IsString } from 'class-validator';
+import {
+    IsDateString,
+    IsNotEmpty,
+    IsNumber,
+    IsString,
+    ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class ContractDto {
     @IsString()
@@ -31,14 +38,16 @@ export class CustomDaysDto {
     weeknumber: number;
 }
 
-export class ContractAssignDto {
-    employee: ContractAssignEmployeeDto;
-}
-
 export class ContractAssignEmployeeDto {
     @IsString()
     fullname: string;
 
     @IsNumber()
     id: number;
+}
+
+export class ContractAssignDto {
+    @ValidateNested()
+    @Type(() => ContractAssignEmployeeDto)
+    employee: ContractAssignEmployeeDto;
 }

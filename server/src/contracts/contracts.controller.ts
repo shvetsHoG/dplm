@@ -8,6 +8,7 @@ import {
     ParseIntPipe,
     Post,
     Put,
+    Req,
     UsePipes,
     ValidationPipe,
 } from '@nestjs/common';
@@ -45,17 +46,16 @@ export class ContractsController {
     @HttpCode(200)
     @Put(':id')
     async changeContract(
-        @Param('id', ParseIntPipe) id: string,
+        @Param('id', ParseIntPipe) id: number,
         @Body() dto: ContractDto,
     ) {}
 
     @UsePipes(new ValidationPipe())
     @HttpCode(200)
     @Post(':id/assign')
-    async assign(
-        @Param('id', ParseIntPipe) id: string,
-        @Body() dto: ContractAssignDto,
-    ) {}
+    async assign(@Param('id', ParseIntPipe) id: number, @Body() dto: any) {
+        return this.contractsService.assignEmployeeToContract(id, dto);
+    }
 
     @UsePipes(new ValidationPipe())
     @HttpCode(200)
