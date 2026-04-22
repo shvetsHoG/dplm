@@ -1,11 +1,12 @@
 import {
+    BadRequestException,
     ConflictException,
     Injectable,
     NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { AuthDto } from '../dto/auth.dto';
-import { ContractAssignDto, ContractDto } from './dto/contracts.dto';
+import { ContractAssignDto, ContractDto, ShiftDto } from './dto/contracts.dto';
 import { ShiftType, WeekdayType } from '@prisma/client';
 import { plainToClass } from 'class-transformer';
 import { ContractResponseDto } from './dto/contracts-rexponse.dto';
@@ -58,25 +59,13 @@ export class ContractsService {
         const contractType =
             shift.id === 1 ? ShiftType.custom_days : ShiftType.cycle;
 
+        const data = this._getCreateUpdateShift(contractType, shift);
+
         return this.prisma.contract.create({
             data: {
                 name,
                 shift: {
-                    create: {
-                        duration: shift.duration,
-                        startDate: new Date(shift.startDate),
-                        startTime: new Date(shift.startTime),
-                        type: contractType,
-                        customDays: {
-                            create: shift.customDays?.map(customDay => ({
-                                type:
-                                    customDay.type === 'weekend'
-                                        ? WeekdayType.weekend
-                                        : WeekdayType.workday,
-                                weeknumber: customDay.weeknumber,
-                            })),
-                        },
-                    },
+                    create: data,
                 },
             },
         });
@@ -119,7 +108,10 @@ export class ContractsService {
         }
     }
 
-    async assignEmployeeToContract(contractId: number, dto: ContractAssignDto) {
+    public async assignEmployeeToContract(
+        contractId: number,
+        dto: ContractAssignDto,
+    ) {
         const { employee } = dto;
 
         const contract = await this.prisma.contract.findUnique({
@@ -157,14 +149,149 @@ export class ContractsService {
                 );
             }
 
-            return this.updateExistingEmployee(contractId, existingEmployee);
+            return this._updateExistingEmployee(contractId, existingEmployee);
         }
 
-        return this.createNewEmployeeInContract(contractId, employee);
+        return this._createNewEmployeeInContract(contractId, employee);
     }
 
-    private async updateExistingEmployee(contractId: number, employee: any) {
-        const employeeGroup = await this.getOrCreateEmployeeGroup(contractId);
+    public async unassignEmployeeFromContract(
+        contractId: number,
+        employeeId: number,
+    ) {
+        return this.prisma.$transaction(async prisma => {
+            const contract = await prisma.contract.findUnique({
+                where: { id: contractId },
+                include: {
+                    employeeGroups: {
+                        include: {
+                            employees: true,
+                        },
+                    },
+                },
+            });
+
+            console.log(contract);
+
+            if (!contract) {
+                throw new NotFoundException(
+                    `Contract with ID ${contractId} not found`,
+                );
+            }
+
+            const employee = await prisma.employee.findUnique({
+                where: { id: employeeId },
+                include: {
+                    employeeGroup: {
+                        include: {
+                            contract: true,
+                        },
+                    },
+                },
+            });
+
+            if (!employee) {
+                throw new NotFoundException(
+                    `Employee with ID ${employeeId} not found`,
+                );
+            }
+
+            if (
+                !employee.employeeGroup ||
+                employee.employeeGroup.contractId !== contractId
+            ) {
+                throw new BadRequestException(
+                    `Employee ${employee.fullname} (ID: ${employeeId}) is not assigned to contract ${contract.name} (ID: ${contractId})`,
+                );
+            }
+
+            await prisma.employee.delete({
+                where: { id: employeeId },
+            });
+
+            return {
+                success: true,
+                message: `Employee ${employee.fullname} successfully unassigned from contract ${contract.name}`,
+                data: {
+                    employee: {
+                        id: employee.id,
+                        fullname: employee.fullname,
+                    },
+                    contract: {
+                        id: contract.id,
+                        name: contract.name,
+                    },
+                },
+            };
+        });
+    }
+
+    public async updateContract(id: number, dto: ContractDto) {
+        const { name, shift } = dto;
+
+        const existingContract = await this.prisma.contract.findUnique({
+            where: { id },
+            include: { shift: true },
+        });
+
+        if (!existingContract) {
+            throw new NotFoundException(`Contract with id ${id} not found`);
+        }
+
+        return this.prisma.$transaction(async prisma => {
+            await prisma.contract.update({
+                where: { id },
+                data: {
+                    name: name || existingContract.name,
+                },
+            });
+
+            if (shift) {
+                const contractType =
+                    shift.id === 1 ? ShiftType.custom_days : ShiftType.cycle;
+
+                if (existingContract.shift) {
+                    const data = this._getCreateUpdateShift(
+                        contractType,
+                        shift,
+                    );
+
+                    await prisma.customDay.deleteMany({
+                        where: { shiftId: existingContract.shift.id },
+                    });
+
+                    await prisma.shift.update({
+                        where: { id: existingContract.shift.id },
+                        data,
+                    });
+                } else {
+                    const data = this._getCreateUpdateShift(
+                        contractType,
+                        shift,
+                        id,
+                    );
+
+                    await prisma.shift.create({
+                        data,
+                    });
+                }
+            }
+
+            return prisma.contract.findUnique({
+                where: { id },
+                include: {
+                    shift: {
+                        include: {
+                            customDays: true,
+                        },
+                    },
+                },
+            });
+        });
+    }
+
+    private async _updateExistingEmployee(contractId: number, employee: any) {
+        const employeeGroup = await this._getOrCreateEmployeeGroup(contractId);
 
         const updatedEmployee = await this.prisma.employee.update({
             where: { id: employee.id },
@@ -192,11 +319,11 @@ export class ContractsService {
         };
     }
 
-    private async createNewEmployeeInContract(
+    private async _createNewEmployeeInContract(
         contractId: number,
         employee: { id: number; fullname: string },
     ) {
-        const employeeGroup = await this.getOrCreateEmployeeGroup(contractId);
+        const employeeGroup = await this._getOrCreateEmployeeGroup(contractId);
 
         const newEmployee = await this.prisma.employee.create({
             data: {
@@ -219,13 +346,11 @@ export class ContractsService {
             employee: {
                 id: newEmployee.id,
                 fullname: newEmployee.fullname,
-                contractId: newEmployee.employeeGroup.contractId,
-                employeeGroupId: newEmployee.employeeGroupId,
             },
         };
     }
 
-    private async getOrCreateEmployeeGroup(contractId: number) {
+    private async _getOrCreateEmployeeGroup(contractId: number) {
         let employeeGroup = await this.prisma.employeeGroup.findFirst({
             where: { contractId },
         });
@@ -241,5 +366,28 @@ export class ContractsService {
         }
 
         return employeeGroup;
+    }
+
+    private _getCreateUpdateShift(
+        contractType: 'custom_days' | 'cycle',
+        shift: ShiftDto,
+        contractId?: number,
+    ) {
+        return {
+            duration: shift.duration,
+            startDate: new Date(shift.startDate),
+            startTime: new Date(shift.startTime),
+            type: contractType,
+            contractId,
+            customDays: {
+                create: shift.customDays?.map(customDay => ({
+                    type:
+                        customDay.type === 'weekend'
+                            ? WeekdayType.weekend
+                            : WeekdayType.workday,
+                    weeknumber: customDay.weeknumber,
+                })),
+            },
+        };
     }
 }

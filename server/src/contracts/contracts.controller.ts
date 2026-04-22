@@ -48,7 +48,9 @@ export class ContractsController {
     async changeContract(
         @Param('id', ParseIntPipe) id: number,
         @Body() dto: ContractDto,
-    ) {}
+    ) {
+        return this.contractsService.updateContract(id, dto);
+    }
 
     @UsePipes(new ValidationPipe())
     @HttpCode(200)
@@ -59,6 +61,14 @@ export class ContractsController {
 
     @UsePipes(new ValidationPipe())
     @HttpCode(200)
-    @Delete(':id/assign/:id')
-    async unassign(@Param('id', ParseIntPipe) id: string) {}
+    @Delete(':contractId/unassign/:employeeId')
+    async unassign(
+        @Param('contractId', ParseIntPipe) contractId: number,
+        @Param('employeeId', ParseIntPipe) employeeId: number,
+    ) {
+        return this.contractsService.unassignEmployeeFromContract(
+            contractId,
+            employeeId,
+        );
+    }
 }

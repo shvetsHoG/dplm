@@ -1,6 +1,6 @@
 import { Exclude, Expose, Type } from 'class-transformer';
 
-class CustomDayResponseDto {
+export class CustomDayResponseDto {
     @Exclude()
     id: number;
 
@@ -14,7 +14,7 @@ class CustomDayResponseDto {
     shiftId: number;
 }
 
-class ShiftResponseDto {
+export class ShiftResponseDto {
     @Exclude()
     id: number;
 
@@ -50,5 +50,35 @@ export class ContractResponseDto {
     shift: ShiftResponseDto;
 
     @Expose()
-    employeeGroups: any[];
+    @Type(() => EmployeeGroupsResponseDto)
+    employeeGroups: EmployeeGroupsResponseDto[];
+}
+
+export class EmployeeGroupsResponseDto {
+    @Expose()
+    id: number;
+
+    @Exclude()
+    externalId: number;
+
+    @Expose()
+    name: string;
+
+    @Expose()
+    @Type(() => EmployeeGroupsEmployeeResponseDto)
+    employees: EmployeeGroupsEmployeeResponseDto[];
+
+    @Exclude()
+    contractId: number;
+}
+
+export class EmployeeGroupsEmployeeResponseDto {
+    @Expose()
+    id: number;
+
+    @Expose()
+    fullname: string;
+
+    @Exclude()
+    employeeGroupId: number;
 }

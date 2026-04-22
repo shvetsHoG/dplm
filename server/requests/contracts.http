@@ -61,12 +61,12 @@ Content-Type: application/json
 
 ### get contract by id
 
-GET {{host}}/contracts/1
+GET {{host}}/contracts/6
 Content-Type: application/json; charset=utf-8;
 
 ### delete contract by id
 
-DELETE {{host}}/contracts/4
+DELETE {{host}}/contracts/1
 Content-Type: application/json; charset=utf-8;
 
 ### get contracts
@@ -76,12 +76,62 @@ Content-Type: application/json; charset=utf-8;
 
 ### assign
 
-POST {{host}}/contracts/1/assign
+POST {{host}}/contracts/6/assign
 Content-Type: application/json
 
 {
   "employee": {
     "fullname": "Лозовой Борис Сергеевич",
     "id": 678937
+  }
+}
+
+### unassign
+
+DELETE {{host}}/contracts/6/unassign/678937
+Content-Type: application/json
+
+### put contract
+
+PUT {{host}}/contracts/6
+Content-Type: application/json
+
+{
+  "name": "Контракт №3",
+  "shift": {
+    "duration": 10,
+    "id": 1,
+    "startDate": null,
+    "startTime": "2026-04-22T12:00:00.000Z",
+    "customDays": [
+      {
+        "type": "workday",
+        "weeknumber": 0
+      },
+      {
+        "type": "workday",
+        "weeknumber": 1
+      },
+      {
+        "type": "workday",
+        "weeknumber": 2
+      },
+      {
+        "type": "workday",
+        "weeknumber": 3
+      },
+      {
+        "type": "workday",
+        "weeknumber": 4
+      },
+      {
+        "type": "weekend",
+        "weeknumber": 5
+      },
+      {
+        "type": "weekend",
+        "weeknumber": 6
+      }
+    ]
   }
 }
