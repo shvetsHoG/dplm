@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { ContractTypesResp, WeekDaysResp } from './dictionary.dto';
+import {
+    ContractTypesResp,
+    EventTypesResp,
+    WeekDaysResp,
+} from './dictionary.dto';
 
 @Injectable()
 export class DictionaryService {
@@ -28,6 +32,18 @@ export class DictionaryService {
         contractTypes = await this.prisma.contractType.findMany();
 
         return contractTypes;
+    }
+
+    public async getEventTypes() {
+        let eventTypes = await this.prisma.eventType.findMany();
+
+        if (eventTypes.length === 0) {
+            await this._initEventTypes();
+        }
+
+        eventTypes = await this.prisma.eventType.findMany();
+
+        return eventTypes;
     }
 
     private async _initWeekDays() {
@@ -104,6 +120,40 @@ export class DictionaryService {
 
         return this.prisma.contractType.createMany({
             data: contractTypes,
+        });
+    }
+
+    private async _initEventTypes() {
+        const eventTypes = [
+            {
+                id: 2,
+                name: 'Больничный',
+                color: '#F4F6FD',
+            },
+            {
+                id: 1,
+                name: 'Выходной',
+                color: '#FCFCFC',
+            },
+            {
+                id: 4,
+                name: 'Отпуск',
+                color: '#F8F2FF',
+            },
+            {
+                id: 5,
+                name: 'Рабочий день',
+                color: '#E6FFE6',
+            },
+            {
+                id: 3,
+                name: 'Форс-мажор',
+                color: '#FAE7F7',
+            },
+        ] as EventTypesResp[];
+
+        return this.prisma.eventType.createMany({
+            data: eventTypes,
         });
     }
 }

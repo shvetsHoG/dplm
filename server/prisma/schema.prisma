@@ -90,6 +90,14 @@ model WeekDay {
   @@map("week_days")
 }
 
+model EventType {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  color String @unique
+
+  @@map("event_types")
+}
+
 enum WeekdayType {
   weekend
   workday

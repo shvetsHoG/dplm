@@ -15,4 +15,9 @@ export class DictionaryController {
     async getContractTypes() {
         return this.dictionaryService.getContractTypes();
     }
+
+    @Get('event_types')
+    async getEventTypes() {
+        return this.dictionaryService.getEventTypes();
+    }
 }

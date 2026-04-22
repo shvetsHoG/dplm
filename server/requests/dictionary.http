@@ -7,3 +7,8 @@ Content-Type: application/json; charset=utf-8;
 
 GET {{host}}/dictionary/contract_types
 Content-Type: application/json; charset=utf-8;
+
+### event_types
+
+GET {{host}}/dictionary/event_types
+Content-Type: application/json; charset=utf-8;

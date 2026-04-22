@@ -11,3 +11,9 @@ export interface ContractTypesResp {
     name: string;
     type: string;
 }
+
+export interface EventTypesResp {
+    id: number;
+    name: string;
+    color: string;
+}
