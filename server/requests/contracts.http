@@ -81,14 +81,14 @@ Content-Type: application/json
 
 {
   "employee": {
-    "fullname": "Лозовой Борис Сергеевич",
-    "id": 678937
+    "fullname": "Кладов Кирилл Андреевич",
+    "id": 1
   }
 }
 
 ### unassign
 
-DELETE {{host}}/contracts/6/unassign/678937
+DELETE {{host}}/contracts/6/unassign/1
 Content-Type: application/json
 
 ### put contract
