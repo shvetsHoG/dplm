@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     HttpCode,
     Param,
     ParseIntPipe,
@@ -23,5 +24,15 @@ export class EventsController {
         @Body() dto: EventsCreateDto,
     ) {
         return this.eventsService.createEvent(employeeId, dto);
+    }
+
+    @UsePipes(new ValidationPipe())
+    @HttpCode(200)
+    @Delete(':employeeId/events/:eventId')
+    async unassign(
+        @Param('employeeId', ParseIntPipe) employeeId: number,
+        @Param('eventId', ParseIntPipe) eventId: number,
+    ) {
+        return this.eventsService.deleteEvent(employeeId, eventId);
     }
 }

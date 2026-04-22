@@ -37,6 +37,20 @@ export class EventsService {
         });
     }
 
+    public async deleteEvent(employeeId: number, eventId: number) {
+        const event = await this.prisma.event.findUnique({
+            where: { id: eventId, employeeId },
+        });
+
+        if (!event) {
+            throw new NotFoundException(`Event not found`);
+        }
+
+        return this.prisma.event.delete({
+            where: { id: eventId, employeeId },
+        });
+    }
+
     private async _findConflictingEvent(
         employeeId: number,
         dto: EventsCreateDto,
