@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { ContractsService } from './contracts.service';
 import { ContractDto } from './dto/contracts.dto';
+import { ContractResponseDto } from './dto/contracts-response.dto';
 
 @Controller('contracts')
 export class ContractsController {
@@ -38,7 +39,10 @@ export class ContractsController {
 
     @Get(':id')
     async getContract(@Param('id', ParseIntPipe) id: number) {
-        return this.contractsService.getContractById(id);
+        const { updatedAt, createdAt, ...rest }: ContractResponseDto =
+            await this.contractsService.getContractById(id);
+
+        return rest;
     }
 
     @UsePipes(new ValidationPipe())

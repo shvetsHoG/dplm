@@ -4,8 +4,9 @@ POST {{host}}/auth/registration
 Content-Type: application/json
 
 {
-  "email": "mail@mail.ru",
-  "password": "12345678"
+  "email": "newmail@mail.ru",
+  "password": "12345678",
+  "name": "Иванов Иван Иваныч"
 }
 
 ### Login

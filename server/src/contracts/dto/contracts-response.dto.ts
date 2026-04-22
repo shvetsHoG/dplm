@@ -46,6 +46,12 @@ export class ContractResponseDto {
     name: string;
 
     @Expose()
+    createdAt: Date;
+
+    @Expose()
+    updatedAt: Date;
+
+    @Expose()
     @Type(() => ShiftResponseDto)
     shift: ShiftResponseDto;
 

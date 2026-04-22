@@ -294,12 +294,8 @@ export class ContractsService {
     }
 
     public async getEmployee(id: string) {
-        const employee = await this.prisma.employee.findUnique({
+        return this.prisma.employee.findUnique({
             where: { id },
-        });
-
-        return plainToClass(EmployeeGroupsEmployeeResponseDto, employee, {
-            excludeExtraneousValues: true,
         });
     }
 

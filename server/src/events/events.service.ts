@@ -86,7 +86,9 @@ export class EventsService {
 
         const items = await Promise.all(
             ids.map(async id => {
-                const employee = await this._contractsService.getEmployee(id);
+                const { employeeGroupId, ...employee } =
+                    await this._contractsService.getEmployee(id);
+
                 const events = await this._getAllEmployeeEventsInDate(
                     id,
                     start,
@@ -95,7 +97,33 @@ export class EventsService {
                     +offset,
                 );
 
-                return { employee, events };
+                const employeeGroup =
+                    await this.prisma.employeeGroup.findUnique({
+                        where: { id: employeeGroupId },
+                    });
+
+                const rawContract = await this.prisma.contract.findUnique({
+                    where: {
+                        id: employeeGroup.contractId,
+                    },
+                    include: {
+                        shift: {
+                            include: {
+                                customDays: true,
+                            },
+                        },
+                    },
+                });
+
+                const { contractId, ...restShift } = rawContract.shift;
+
+                const contract = {
+                    startDt: rawContract.createdAt,
+                    endDt: null,
+                    shift: restShift,
+                };
+
+                return { employee, events, contract };
             }),
         );
 
