@@ -20,10 +20,10 @@ model User {
 }
 
 model Contract {
-  id              Int             @id @default(autoincrement())
-  name            String
-  employee_groups EmployeeGroup[]
-  shift           Shift?
+  id             Int             @id @default(autoincrement())
+  name           String
+  employeeGroups EmployeeGroup[]
+  shift          Shift?
 
   @@map("contracts")
 }

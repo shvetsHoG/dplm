@@ -4,6 +4,8 @@ import {
     Delete,
     Get,
     HttpCode,
+    Param,
+    ParseIntPipe,
     Post,
     Put,
     UsePipes,
@@ -32,20 +34,28 @@ export class ContractsController {
     async deleteContract() {}
 
     @Get(':id')
-    async getContract() {}
+    async getContract(@Param('id', ParseIntPipe) id: number) {
+        return this.contractsService.getContractById(id);
+    }
 
     @UsePipes(new ValidationPipe())
     @HttpCode(200)
     @Put(':id')
-    async changeContract(@Body() dto: ContractDto) {}
+    async changeContract(
+        @Param('id', ParseIntPipe) id: string,
+        @Body() dto: ContractDto,
+    ) {}
 
     @UsePipes(new ValidationPipe())
     @HttpCode(200)
     @Post(':id/assign')
-    async assign(@Body() dto: ContractAssignDto) {}
+    async assign(
+        @Param('id', ParseIntPipe) id: string,
+        @Body() dto: ContractAssignDto,
+    ) {}
 
     @UsePipes(new ValidationPipe())
     @HttpCode(200)
     @Delete(':id/assign/:id')
-    async unassign() {}
+    async unassign(@Param('id', ParseIntPipe) id: string) {}
 }

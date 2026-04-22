@@ -4,6 +4,9 @@
 /build
 server.iml
 
+/requests
+*.http
+
 # Logs
 logs
 *.log
