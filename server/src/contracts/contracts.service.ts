@@ -9,7 +9,10 @@ import { AuthDto } from '../dto/auth.dto';
 import { ContractAssignDto, ContractDto, ShiftDto } from './dto/contracts.dto';
 import { ShiftType, WeekdayType } from '@prisma/client';
 import { plainToClass } from 'class-transformer';
-import { ContractResponseDto } from './dto/contracts-rexponse.dto';
+import {
+    ContractResponseDto,
+    EmployeeGroupsEmployeeResponseDto,
+} from './dto/contracts-response.dto';
 
 @Injectable()
 export class ContractsService {
@@ -287,6 +290,16 @@ export class ContractsService {
                     },
                 },
             });
+        });
+    }
+
+    public async getEmployee(id: number) {
+        const employee = await this.prisma.employee.findUnique({
+            where: { id },
+        });
+
+        return plainToClass(EmployeeGroupsEmployeeResponseDto, employee, {
+            excludeExtraneousValues: true,
         });
     }
 

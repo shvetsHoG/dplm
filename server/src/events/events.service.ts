@@ -4,11 +4,17 @@ import {
     NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { EventsCreateDto } from './dto/events.dto';
+import { EventsCreateDto, QueryCalendarDto } from './dto/events.dto';
+import { ContractsService } from '../contracts/contracts.service';
+import { plainToClass } from 'class-transformer';
+import { EventResponseDto } from './dto/events-response.dto';
 
 @Injectable()
 export class EventsService {
-    constructor(private prisma: PrismaService) {}
+    constructor(
+        private prisma: PrismaService,
+        private _contractsService: ContractsService,
+    ) {}
 
     public async createEvent(employeeId: number, dto: EventsCreateDto) {
         const conflictingEvent = await this._findConflictingEvent(
@@ -71,6 +77,31 @@ export class EventsService {
         });
     }
 
+    public async getCalendar(query: QueryCalendarDto) {
+        const { limit, offset, employeeIds, startDate, endDate } = query;
+
+        const ids: number[] = employeeIds.split(',').map(id => +id);
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        const items = await Promise.all(
+            ids.map(async id => {
+                const employee = await this._contractsService.getEmployee(id);
+                const events = await this._getAllEmployeeEventsInDate(
+                    id,
+                    start,
+                    end,
+                    +limit,
+                    +offset,
+                );
+
+                return { employee, events };
+            }),
+        );
+
+        return items;
+    }
+
     private async _findConflictingEvent(
         employeeId: number,
         dto: EventsCreateDto,
@@ -111,6 +142,51 @@ export class EventsService {
     private async _getEmployeeEvent(employeeId: number, eventId: number) {
         return this.prisma.event.findUnique({
             where: { id: eventId, employeeId },
+        });
+    }
+
+    private async _getAllEmployeeEventsInDate(
+        employeeId: number,
+        start: Date,
+        end: Date,
+        limit: number,
+        offset: number,
+    ) {
+        const where = {
+            employeeId,
+            OR: [
+                {
+                    startDt: {
+                        gte: start,
+                        lte: end,
+                    },
+                },
+                {
+                    endDt: {
+                        gte: start,
+                        lte: end,
+                    },
+                },
+                {
+                    AND: [{ startDt: { lte: start } }, { endDt: { gte: end } }],
+                },
+            ],
+        };
+
+        const events = await this.prisma.event.findMany({
+            where,
+            include: {
+                type: true,
+            },
+            orderBy: {
+                startDt: 'asc',
+            },
+            skip: offset,
+            take: limit,
+        });
+
+        return plainToClass(EventResponseDto, events, {
+            excludeExtraneousValues: true,
         });
     }
 }

@@ -8,12 +8,11 @@ import {
     ParseIntPipe,
     Post,
     Put,
-    Req,
     UsePipes,
     ValidationPipe,
 } from '@nestjs/common';
 import { ContractsService } from './contracts.service';
-import { ContractAssignDto, ContractDto } from './dto/contracts.dto';
+import { ContractDto } from './dto/contracts.dto';
 
 @Controller('contracts')
 export class ContractsController {

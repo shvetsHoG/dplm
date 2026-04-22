@@ -2,20 +2,23 @@ import {
     Body,
     Controller,
     Delete,
+    Get,
     HttpCode,
     Param,
     ParseIntPipe,
     Post,
     Put,
+    Query,
     UsePipes,
     ValidationPipe,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
-import { EventsCreateDto } from './dto/events.dto';
+import { EventsCreateDto, QueryCalendarDto } from './dto/events.dto';
 
 @Controller('employees')
 export class EventsController {
     constructor(private readonly eventsService: EventsService) {}
+
     @UsePipes(new ValidationPipe())
     @HttpCode(200)
     @Post(':employeeId/events')
@@ -45,5 +48,10 @@ export class EventsController {
         @Body() dto: EventsCreateDto,
     ) {
         return this.eventsService.changeEvent(employeeId, eventId, dto);
+    }
+
+    @Get('calendar')
+    async getCalendar(@Query() query: QueryCalendarDto) {
+        return this.eventsService.getCalendar(query);
     }
 }

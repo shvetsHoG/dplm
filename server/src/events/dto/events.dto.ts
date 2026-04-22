@@ -13,3 +13,11 @@ export class EventsCreateDto {
     @IsDateString()
     startDt: string;
 }
+
+export class QueryCalendarDto {
+    limit: string;
+    offset: string;
+    endDate: string;
+    startDate: string;
+    employeeIds: string;
+}
