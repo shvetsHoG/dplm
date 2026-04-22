@@ -61,5 +61,15 @@ Content-Type: application/json
 
 ### get contract by id
 
-GET {{host}}/contracts/3
+GET {{host}}/contracts/2
+Content-Type: application/json; charset=utf-8;
+
+### delete contract by id
+
+DELETE {{host}}/contracts/4
+Content-Type: application/json; charset=utf-8;
+
+### get contracts
+
+GET {{host}}/contracts
 Content-Type: application/json; charset=utf-8;

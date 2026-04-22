@@ -12,7 +12,6 @@ import {
     ValidationPipe,
 } from '@nestjs/common';
 import { ContractsService } from './contracts.service';
-import { Auth } from '../decorators/auth.decorator';
 import { ContractAssignDto, ContractDto } from './dto/contracts.dto';
 
 @Controller('contracts')
@@ -20,7 +19,9 @@ export class ContractsController {
     constructor(private readonly contractsService: ContractsService) {}
 
     @Get()
-    async getContracts() {}
+    async getContracts() {
+        return this.contractsService.getContracts();
+    }
 
     @UsePipes(new ValidationPipe())
     @HttpCode(200)
@@ -31,7 +32,9 @@ export class ContractsController {
 
     @UsePipes(new ValidationPipe())
     @Delete(':id')
-    async deleteContract() {}
+    async deleteContract(@Param('id', ParseIntPipe) id: number) {
+        return this.contractsService.deleteContract(id);
+    }
 
     @Get(':id')
     async getContract(@Param('id', ParseIntPipe) id: number) {
