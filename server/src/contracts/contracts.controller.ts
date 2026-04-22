@@ -63,7 +63,7 @@ export class ContractsController {
     @Delete(':contractId/unassign/:employeeId')
     async unassign(
         @Param('contractId', ParseIntPipe) contractId: number,
-        @Param('employeeId', ParseIntPipe) employeeId: number,
+        @Param('employeeId') employeeId: string,
     ) {
         return this.contractsService.unassignEmployeeFromContract(
             contractId,

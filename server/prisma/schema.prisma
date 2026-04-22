@@ -40,7 +40,7 @@ model EmployeeGroup {
 }
 
 model Employee {
-  id              Int           @id
+  id              String        @id @default(cuid())
   fullname        String
   employeeGroupId Int           @map("employee_group_id")
   employeeGroup   EmployeeGroup @relation(fields: [employeeGroupId], references: [id], onDelete: Cascade)
@@ -69,7 +69,7 @@ model Event {
   endDt       DateTime  @map("end_dt")
   type        EventType @relation(fields: [eventTypeId], references: [id])
   eventTypeId Int       @map("event_type_id")
-  employeeId  Int       @map("employee_id")
+  employeeId  String    @map("employee_id")
   employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
   @@map("events")

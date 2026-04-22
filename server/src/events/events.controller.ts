@@ -23,7 +23,7 @@ export class EventsController {
     @HttpCode(200)
     @Post(':employeeId/events')
     async createEvent(
-        @Param('employeeId', ParseIntPipe) employeeId: number,
+        @Param('employeeId') employeeId: string,
         @Body() dto: EventsCreateDto,
     ) {
         return this.eventsService.createEvent(employeeId, dto);
@@ -33,7 +33,7 @@ export class EventsController {
     @HttpCode(200)
     @Delete(':employeeId/events/:eventId')
     async unassign(
-        @Param('employeeId', ParseIntPipe) employeeId: number,
+        @Param('employeeId') employeeId: string,
         @Param('eventId', ParseIntPipe) eventId: number,
     ) {
         return this.eventsService.deleteEvent(employeeId, eventId);
@@ -43,7 +43,7 @@ export class EventsController {
     @HttpCode(200)
     @Put(':employeeId/events/:eventId')
     async changeContract(
-        @Param('employeeId', ParseIntPipe) employeeId: number,
+        @Param('employeeId') employeeId: string,
         @Param('eventId', ParseIntPipe) eventId: number,
         @Body() dto: EventsCreateDto,
     ) {

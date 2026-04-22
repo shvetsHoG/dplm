@@ -160,7 +160,7 @@ export class ContractsService {
 
     public async unassignEmployeeFromContract(
         contractId: number,
-        employeeId: number,
+        employeeId: string,
     ) {
         return this.prisma.$transaction(async prisma => {
             const contract = await prisma.contract.findUnique({
@@ -293,7 +293,7 @@ export class ContractsService {
         });
     }
 
-    public async getEmployee(id: number) {
+    public async getEmployee(id: string) {
         const employee = await this.prisma.employee.findUnique({
             where: { id },
         });
@@ -334,7 +334,7 @@ export class ContractsService {
 
     private async _createNewEmployeeInContract(
         contractId: number,
-        employee: { id: number; fullname: string },
+        employee: { id: string; fullname: string },
     ) {
         const employeeGroup = await this._getOrCreateEmployeeGroup(contractId);
 

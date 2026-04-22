@@ -82,7 +82,7 @@ Content-Type: application/json
 {
   "employee": {
     "fullname": "Кладов Кирилл Андреевич",
-    "id": 1
+    "id": "cmo7ld4ek0000xsj1gm830nda"
   }
 }
 

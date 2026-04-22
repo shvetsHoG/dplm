@@ -41,8 +41,8 @@ export class ContractAssignEmployeeDto {
     @IsString()
     fullname: string;
 
-    @IsNumber()
-    id: number;
+    @IsString()
+    id: string;
 }
 
 export class ContractAssignDto {

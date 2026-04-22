@@ -16,7 +16,7 @@ export class EventsService {
         private _contractsService: ContractsService,
     ) {}
 
-    public async createEvent(employeeId: number, dto: EventsCreateDto) {
+    public async createEvent(employeeId: string, dto: EventsCreateDto) {
         const conflictingEvent = await this._findConflictingEvent(
             employeeId,
             dto,
@@ -43,7 +43,7 @@ export class EventsService {
         });
     }
 
-    public async deleteEvent(employeeId: number, eventId: number) {
+    public async deleteEvent(employeeId: string, eventId: number) {
         const event = await this._getEmployeeEvent(employeeId, eventId);
 
         if (!event) {
@@ -56,7 +56,7 @@ export class EventsService {
     }
 
     public async changeEvent(
-        employeeId: number,
+        employeeId: string,
         eventId: number,
         dto: EventsCreateDto,
     ) {
@@ -80,7 +80,7 @@ export class EventsService {
     public async getCalendar(query: QueryCalendarDto) {
         const { limit, offset, employeeIds, startDate, endDate } = query;
 
-        const ids: number[] = employeeIds.split(',').map(id => +id);
+        const ids: string[] = employeeIds.split(',');
         const start = new Date(startDate);
         const end = new Date(endDate);
 
@@ -103,7 +103,7 @@ export class EventsService {
     }
 
     private async _findConflictingEvent(
-        employeeId: number,
+        employeeId: string,
         dto: EventsCreateDto,
     ) {
         const { startDt, endDt } = dto;
@@ -139,14 +139,14 @@ export class EventsService {
         });
     }
 
-    private async _getEmployeeEvent(employeeId: number, eventId: number) {
+    private async _getEmployeeEvent(employeeId: string, eventId: number) {
         return this.prisma.event.findUnique({
             where: { id: eventId, employeeId },
         });
     }
 
     private async _getAllEmployeeEventsInDate(
-        employeeId: number,
+        employeeId: string,
         start: Date,
         end: Date,
         limit: number,
