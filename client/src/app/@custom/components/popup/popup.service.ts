@@ -6,7 +6,8 @@ import {
   ViewRef,
   Optional,
   Inject,
-  ViewContainerRef
+  ViewContainerRef,
+  ComponentFactoryResolver
 } from "@angular/core";
 import { PopupComponent } from "./popup.component";
 import { PopupOverlayComponent } from "./popup-overlay/popup-overlay.component";
@@ -25,7 +26,7 @@ class PopupObject {
   ) {}
 }
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class PopupService {
   private readonly OVERLAY_OPACITY = 0.3;
   private _popups: Map<number, PopupObject> = new Map();

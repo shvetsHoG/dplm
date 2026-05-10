@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform, Injectable } from "@angular/core";
 
 @Pipe({
-    name: "dateFormat",
-    pure: true,
-    standalone: false
+  name: "dateFormat",
+  pure: true,
+  standalone: false
 })
 @Injectable()
 export class DateFormatPipe implements PipeTransform {
@@ -58,7 +58,7 @@ export class DateFormatPipe implements PipeTransform {
     const storeLang = sessionStorage.getItem("language");
 
     if (storeLang) {
-      this.locale = storeLang + '-' + storeLang.toUpperCase();
+      this.locale = storeLang + "-" + storeLang.toUpperCase();
     }
 
     const _value = new Date(value);
@@ -96,10 +96,6 @@ export class DateFormatPipe implements PipeTransform {
         unit = unit.replace(/^./, (c) => c.toUpperCase());
       } else {
         unit = _value.toLocaleString(this.locale, this.units[item]);
-      }
-
-      if (index === 0) {
-        unit = unit.toCapitalize();
       }
 
       dateUnits.push(unit);

@@ -1,4 +1,4 @@
-@import "variables";
+@import "../../../../variables";
 $color-pink: #dc06ae;
 $color-pink-bg: #fdeef9;
 $color-white: #ffffff;
@@ -244,7 +244,7 @@ $color-reject: #fe3d3e;
   .input-loading {
     width: 24px;
     height: 24px;
-    mask: url(../../../../assets/icons/custom/custom-inline-loader.svg) no-repeat 50% 50%;
+    mask: url(../../../../../public/icons/custom/custom-inline-loader.svg) no-repeat 50% 50%;
     background-color: $color-d5;
   }
 

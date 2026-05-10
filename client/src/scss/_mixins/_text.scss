@@ -1,0 +1,80 @@
+@mixin text() {
+  margin-bottom: $space;
+  display: block;
+  font-size: $size-text-m;
+  line-height: $size-header-s;
+  app-data-line.has-tooltip ::ng-deep {
+    .app-row {
+      border-bottom: none;
+      & .data-line-content {
+        display: block !important;
+        & .text {
+          display: inline;
+          border-bottom: 1px dotted $color-grey-7;
+        }
+      }
+    }
+  }
+  &:not(.ck-editor__editable) > * {
+    &:first-child {
+      margin-top: 0;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  & a {
+    color: $color-main;
+  }
+
+  & > p {
+    margin: $space 0;
+  }
+  & > h4 {
+    margin-top: $space;
+    margin-bottom: $space-xs;
+  }
+  & strong {
+    font-weight: bold;
+    vertical-align: initial;
+  }
+  & ul {
+    margin: 0;
+    padding-left: 0;
+    margin: $space-xm 0 $space-m 0;
+    & > li {
+      list-style: none;
+      margin: $space-xs 0;
+      &:before {
+        content: "—";
+        margin-right: $space-xs;
+      }
+    }
+
+    &.text-additional {
+      color: $color-grey-7;
+    }
+  }
+  & ol {
+    padding-left: $space;
+    margin: 0;
+    list-style: decimal;
+    & > li {
+      padding-left: $space-xxs;
+      margin: $space-xs 0;
+    }
+
+    &.text-additional {
+      color: $color-grey-7;
+    }
+  }
+}
+
+@mixin text-ul() {
+  padding-left: $space;
+  margin: 0;
+  &.text-additional {
+    color: $color-grey-7;
+  }
+}

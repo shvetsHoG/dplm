@@ -3,7 +3,7 @@ import { ToastComponent } from "@custom/components/toast/toast.component";
 import { ToastParams } from "@custom/components/toast/models/toast-params";
 import { ViewContainerService } from "@core/services/view-container.service";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class ToastService {
   private static _toasts: Map<string, ComponentRef<ToastComponent>> = new Map();
   constructor(

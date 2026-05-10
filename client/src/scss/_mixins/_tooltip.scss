@@ -1,0 +1,21 @@
+.tooltip {
+  & > div {
+    @include text();
+    font-size: $size-text-m;
+    white-space: pre-line;
+    margin-bottom: 0;
+    & > :first-child {
+      margin-top: 0;
+      & > li:first-child {
+        margin-top: 0;
+      }
+    }
+
+    & > :last-child {
+      margin-bottom: 0;
+      & > li:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

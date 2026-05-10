@@ -1,0 +1,29 @@
+@import "../scss/variables";
+@import "../scss/mixins";
+
+:host {
+  .app {
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    @include column;
+    .box-line {
+      width: 100%;
+      box-shadow: 0 0px 20px rgba(0, 0, 0, 0);
+      height: 40px;
+      position: absolute;
+      top: 0;
+      z-index: 1;
+      pointer-events: none;
+      transition: box-shadow 0.4s;
+      &.active {
+        box-shadow: 0 0px 20px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  .dark-shadow {
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 400px 110px inset;
+  }
+}

@@ -17,11 +17,11 @@ import { InputSize } from "@custom/components/input/models/input-size";
 import { CalendarPeriodDirection } from "@custom/components/calendar/models/calendar-period";
 
 @Component({
-    selector: "custom-time-box-overlay",
-    templateUrl: "./time-box-overlay.component.html",
-    styleUrls: ["./time-box-overlay.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: "custom-time-box-overlay",
+  templateUrl: "./time-box-overlay.component.html",
+  styleUrls: ["./time-box-overlay.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class TimeBoxOverlayComponent implements OnInit, OnDestroy {
   public readonly TimeBoxType = TimeBoxType;
@@ -78,7 +78,7 @@ export class TimeBoxOverlayComponent implements OnInit, OnDestroy {
 
   public onClick(e: MouseEvent, val: number, type: TimeBoxType) {
     // (e.target as HTMLDivElement).scrollIntoView({ behavior: 'smooth', block: 'start' }); //была проблема уменьшения высоты проекта, если не повторится, удалить
-    this[`selected${type.toCapitalize()}`] = val;
+    this[`selected${type}`] = val;
     this._createValue(type);
   }
 

@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { DynamicTableCell, DynamicTableRow } from "@custom/components/dynamic-table/dynamic-table";
 import { WfmScheduleService } from "app/services/wfm/wfm-schedule.service";
+import { PopupService } from "@custom/components/popup/popup.service";
 import { WfmScheduleEmployeeChooseComponent } from "app/modules/wfm/wfm-schedule/wfm-timetable/wfm-schedule-employee-choose/wfm-schedule-employee-choose.component";
 import { debounceTime, map, switchMap, takeUntil } from "rxjs/operators";
 import { DestroyService } from "app/services/destroy.service";
@@ -17,7 +18,6 @@ import { WfmContractType, WfmEventType } from "app/models/wfm/wfm-dict";
 import { shiftType, WeekDayType } from "app/models/wfm/wfm";
 import { WfmTimetableEventCreateComponent } from "app/modules/wfm/wfm-schedule/wfm-timetable/wfm-timetable-event-create/wfm-timetable-event-create.component";
 import { getDateToYMD } from "@custom/extensions/date-to-string";
-import { PopupService } from "@custom/components/popup/popup.service";
 
 @Component({
   selector: "app-wfm-timetable",
@@ -47,8 +47,6 @@ export class WfmTimetableComponent implements OnInit {
   public dataSource: DynamicTableRow<WfmEmployeesEvent>[] = [];
 
   public items: WfmEmployeesEvent[] = [];
-
-  public canAdministrateWFM = false;
 
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 

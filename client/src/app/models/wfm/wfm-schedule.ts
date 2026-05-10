@@ -80,8 +80,8 @@ export class WfmEvent {
 
   constructor(data: WfmEventResp) {
     Object.assign(this, data);
-    this.endDt = data.endDt ? new Date(data.endDt).withoutTimezone() : null;
-    this.startDt = data.startDt ? new Date(data.startDt).withoutTimezone() : null;
+    this.endDt = data.endDt ? new Date(data.endDt) : null;
+    this.startDt = data.startDt ? new Date(data.startDt) : null;
   }
 }
 
@@ -130,8 +130,8 @@ export class WfmSchedule {
 
   constructor(data: WfmScheduleResp) {
     Object.assign(this, data);
-    this.endDt = data.endDt ? new Date(data.endDt).withoutTimezone() : null;
-    this.startDt = data.startDt ? new Date(data.startDt).withoutTimezone() : null;
+    this.endDt = data.endDt ? new Date(data.endDt) : null;
+    this.startDt = data.startDt ? new Date(data.startDt) : null;
   }
 }
 
@@ -161,8 +161,8 @@ export class WfmScheduleShift {
 
   constructor(data: WfmScheduleShiftResp) {
     Object.assign(this, data);
-    this.startTime = data.startTime ? new Date(data.startTime).withoutTimezone() : null;
-    this.startDate = data.startDate ? new Date(data.startDate).withoutTimezone() : null;
+    this.startTime = data.startTime ? new Date(data.startTime) : null;
+    this.startDate = data.startDate ? new Date(data.startDate) : null;
   }
 }
 

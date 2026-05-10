@@ -3,7 +3,7 @@ import { BehaviorSubject } from "rxjs";
 import { CustomThemeType } from "@custom/models/custom-theme-type";
 import { filter } from "rxjs/operators";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class ThemeService {
   private _theme$ = new BehaviorSubject<CustomThemeType>(null);
   public theme$ = this._theme$.pipe(filter((i: any) => i !== null));

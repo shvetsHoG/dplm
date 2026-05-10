@@ -93,7 +93,7 @@
           padding: 4px;
           margin-left: 4px;
           background-color: #646464;
-          mask: url(../../../../assets/icons/filter.svg) no-repeat 50% 50%;
+          mask: url(../../../../../public/icons/filter.svg) no-repeat 50% 50%;
           &.tgrid-column-filter-active {
             background-color: #cb11ab;
           }
@@ -115,10 +115,10 @@
             margin-left: 4px;
           }
           & .tgrid-column-sort-desc {
-            content: url(../../../../assets/icons/custom/custom-sort-desc.svg);
+            content: url(../../../../../public/icons/custom/custom-sort-desc.svg);
           }
           & .tgrid-column-sort-asc {
-            content: url(../../../../assets/icons/custom/custom-sort-asc.svg);
+            content: url(../../../../../public/icons/custom/custom-sort-asc.svg);
           }
         }
       }

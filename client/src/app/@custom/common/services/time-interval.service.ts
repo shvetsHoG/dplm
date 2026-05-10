@@ -2,12 +2,12 @@ import { Injectable } from "@angular/core";
 import { takeUntil, share } from "rxjs/operators";
 import { Observable, Subject, timer, Subscriber } from "rxjs";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class TimeIntervalService {
   private _intervalsDictionary: { [period: number]: Observable<number> } = {};
   private _countSubscriptionsDictionary: { [period: number]: number } = {};
 
-  constructor() { }
+  constructor() {}
 
   public getInterval(period: number, due: number): Observable<number> {
     if (this._intervalsDictionary[period]) {

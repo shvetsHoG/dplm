@@ -1,1 +1,326 @@
-/* You can add global styles to this file, and also import other style files */
+@import "./scss/mixins";
+@import "variables";
+@import "./scss/_mixins/tooltip";
+@import "./scss/_mixins/text-links";
+@import "./scss/_mixins/tabs";
+@import "./scss/_mixins/form";
+@import "./scss/fonts";
+@import "./scss/colors";
+@import "./scss/scroll";
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-family: $font-family;
+  margin: 0;
+}
+
+::selection {
+  background: $color-main-background;
+}
+
+body {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  color: var(--color-text);
+}
+
+input,
+button,
+select,
+textarea,
+optgroup,
+option {
+  font-family: inherit;
+}
+
+a {
+  color: $color-link;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: $size-header-xl;
+  overflow-wrap: anywhere;
+}
+h2 {
+  font-size: $size-header-l;
+  overflow-wrap: anywhere;
+}
+h3 {
+  font-size: $size-header-m;
+  overflow-wrap: anywhere;
+}
+h4 {
+  font-size: $size-header-s;
+  overflow-wrap: anywhere;
+}
+
+.app-document {
+  height: 100%;
+}
+
+.block-important {
+  min-height: $space-3xl;
+  display: flex;
+  align-items: center;
+  padding: $space-s 0 $space-s $space-s;
+  border-left: 3px solid $color-main;
+}
+
+.block-info {
+  padding: $space;
+  color: $color-main;
+  font-weight: bold;
+  background-color: $color-main-background--light;
+  border-radius: $border-radius-m;
+}
+
+.text {
+  @include text;
+}
+
+.ck.ck-balloon-panel {
+  z-index: 2000 !important;
+  & .ck.ck-editor__editable_inline {
+    @include text;
+    margin-bottom: 0;
+  }
+  & .ck.ck-toolbar {
+    border-bottom: none;
+  }
+  & .ck .ck-button {
+    width: auto;
+  }
+
+  & .ck.ck-hint-form .hint-editor-container .ck.ck-content.ck-editor__editable {
+    max-height: 350px;
+    background: var(--color-popup);
+    border: 1px solid #d5d5d5;
+  }
+}
+
+.column {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  font-size: $size-text-m;
+  height: min-content;
+  grid-gap: $space-xxs $space-s;
+  align-items: center;
+  & > .column-delimiter {
+    grid-column-start: 1;
+    grid-column-end: -1;
+    padding: $space-x 0;
+  }
+  & > label {
+    color: $color-grey-7;
+    &.double-label {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-gap: $space;
+      & .order-start-price {
+        color: var(--color-text);
+        text-decoration-line: line-through;
+      }
+    }
+  }
+}
+
+$size-spinner: 60px;
+.spinner {
+  position: relative;
+  &.spinner-active {
+    &:before {
+      content: attr(alt);
+      background-image: url("/client/public/icons/custom/custom-loader.svg");
+      width: 120px;
+      height: 85px;
+      position: absolute;
+      top: calc(50% - #{$size-spinner} / 2);
+      // top: 50vh;
+      // transform: translateY(-50%);
+      left: calc(50% - #{$size-spinner});
+      background-size: $size-spinner $size-spinner;
+      background-repeat: no-repeat;
+      background-position-x: center;
+      z-index: 999;
+      display: grid;
+      align-items: end;
+      text-align: center;
+      font-size: $size-header-s;
+      font-weight: bold;
+    }
+    &:after {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    // background-color: rgba(255, 255, 255, 0.75);
+    background-color: var(--spinner);
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      visibility 0s,
+      opacity 0.2s,
+      ease-in-out 0.2s;
+    pointer-events: none;
+    z-index: $index-z-m;
+  }
+}
+
+.text-ul {
+  @include text-ul();
+}
+
+.product-column {
+  display: grid;
+  grid-gap: $space-xxs $space;
+  grid-template-columns: max-content auto;
+  font-size: $size-text-m;
+  height: min-content;
+  align-items: center;
+
+  & > label {
+    color: $color-grey-7;
+    &.double-label {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-gap: $space;
+    }
+  }
+}
+
+.block-panel {
+  @include block-panel;
+}
+
+.block-text {
+  @include text();
+}
+
+.icon-and-text,
+.icon-and-text-m {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: text-bottom;
+  // line-height: 24px;
+  & > custom-svg-icon,
+  & > custom-wb-icon,
+  & > shared-delivery-type-line {
+    display: inline-flex;
+    margin-right: 4px;
+  }
+}
+.icon-and-text-m {
+  & > custom-svg-icon,
+  & > custom-wb-icon,
+  & > shared-delivery-type-line {
+    margin-right: 6px;
+  }
+}
+
+.text-and-icon,
+.text-and-icon-m {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: super;
+  // line-height: 24px;
+  & > custom-svg-icon,
+  & > custom-wb-icon,
+  & > shared-delivery-type-line {
+    display: inline-flex;
+    margin-left: 4px;
+  }
+}
+
+.text-and-icon-m {
+  & > custom-svg-icon,
+  & > custom-wb-icon,
+  & > shared-delivery-type-line {
+    margin-left: 6px;
+  }
+}
+
+.select-all {
+  user-select: all;
+}
+
+.empty-info {
+  color: $color-main;
+}
+
+.data-empty {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  font-weight: 600;
+  color: $color-main;
+}
+
+.tree-item-popup-component {
+  background: var(--color-background--hover);
+  color: var(--color-text);
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.tree-item-grid-component {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.mvd-file-delete {
+  background-color: white;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-top-right-radius: 9px;
+}
+
+.brand-application-download-file {
+  position: absolute;
+  right: 0px;
+  cursor: pointer;
+}
+
+blockquote {
+  overflow: hidden;
+  padding-right: 1.5em;
+  padding-left: 1.5em;
+  margin-left: 0;
+  margin-right: 0;
+  font-style: italic;
+  border-left: 5px solid #ccc;
+}
+
+.app_wrapper {
+  max-width: 1440px;
+  border-radius: $border-radius-m;
+  overflow: hidden;
+  margin: 0 auto;
+  background-color: $color-white;
+  box-sizing: border-box;
+  padding: $space-m;
+}

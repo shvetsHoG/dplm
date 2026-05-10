@@ -14,7 +14,7 @@ export interface ErrorModel {
   url?: string;
 }
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class ErrorHandlerService {
   private _popup: PopupModel;
   private _errors$: BehaviorSubject<ErrorModel[]> = new BehaviorSubject(null);

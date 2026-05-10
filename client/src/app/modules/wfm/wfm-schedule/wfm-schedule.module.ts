@@ -18,20 +18,23 @@ import { WfmScheduleEmployeeChooseComponent } from "./wfm-timetable/wfm-schedule
 import { WfmTimetableEventCreateComponent } from "./wfm-timetable/wfm-timetable-event-create/wfm-timetable-event-create.component";
 import { CustomModule } from "@custom/custom-module";
 
+const components = [
+  WfmScheduleComponent,
+  WfmScheduleGridComponent,
+  WfmContractsComponent,
+  WfmTimetableComponent,
+  WfmActivitiesComponent,
+  WfmNewContractComponent,
+  WfmContractsCheckboxGroupComponent,
+  WfmAssignmentCreateComponent,
+  WfmScheduleEmployeeChooseComponent,
+  WfmTimetableEventCreateComponent
+];
+
 @NgModule({
-  declarations: [
-    WfmScheduleComponent,
-    WfmScheduleGridComponent,
-    WfmContractsComponent,
-    WfmTimetableComponent,
-    WfmActivitiesComponent,
-    WfmNewContractComponent,
-    WfmContractsCheckboxGroupComponent,
-    WfmAssignmentCreateComponent,
-    WfmScheduleEmployeeChooseComponent,
-    WfmTimetableEventCreateComponent
-  ],
+  declarations: [...components],
   imports: [CommonModule, CustomModule, ReactiveFormsModule, CustomCommonModule],
+  exports: [...components],
   providers: [WfmContractsService, WfmDictService, WfmContractsRouterService, WfmScheduleService]
 })
 export class WfmScheduleModule {

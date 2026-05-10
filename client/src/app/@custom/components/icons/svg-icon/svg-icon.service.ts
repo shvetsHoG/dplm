@@ -1,4 +1,4 @@
-import { Injectable, Inject } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Observable, of, throwError } from "rxjs";
 import { switchMap, map, share } from "rxjs/operators";
 
@@ -9,21 +9,13 @@ export class SvgIconService {
 
   private readonly SVG_TAG_SELECTOR = "svg";
 
-  constructor(@Inject("SvgIconPath") private _path: string) {}
-
-  public preload(icons: string[]): void {
-    icons.forEach((icon) => {
-      this.getSvg(icon).subscribe();
-    });
-  }
-
   public loadSvg(icon: string): Observable<SVGElement> {
     if (SvgIconService._inProgressReqs.has(icon)) {
       return SvgIconService._inProgressReqs.get(icon);
     }
 
     let url: string;
-    const path = new URL(`assets/icons/${icon.toLowerCase()}.svg`, document.baseURI).href;
+    const path = new URL(`icons/${icon.toLowerCase()}.svg`, document.baseURI).href;
     try {
       url = path;
     } catch {

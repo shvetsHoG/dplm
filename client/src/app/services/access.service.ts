@@ -8,7 +8,7 @@ import { ServiceBase } from "@custom/common/base/service.base";
 
 const URL = `/api/role/`;
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class AccessService extends ServiceBase {
   public getUsers = new RxFn<AccessControlUsers[], [string[], number[], number[]]>(this._getUsers.bind(this));
 

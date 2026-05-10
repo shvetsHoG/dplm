@@ -1,0 +1,27 @@
+@mixin name {
+  & ::ng-deep {
+    &.button {
+      background-color: $color-reject;
+      border-color: $color-reject;
+      border-radius: 100%;
+
+      opacity: 1;
+
+      transition: opacity 0.1s linear;
+      will-change: opacity;
+      text-transform: none;
+      opacity: 0.75;
+      &:not(.button-loading):hover {
+        opacity: 1;
+      }
+      &:not(.button-loading):active {
+        opacity: 0.9;
+      }
+      custom-svg-icon svg {
+        & path {
+          fill: #ffffff !important;
+        }
+      }
+    }
+  }
+}

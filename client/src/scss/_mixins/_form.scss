@@ -1,0 +1,106 @@
+@mixin form {
+  display: grid;
+  grid-gap: $space-xm;
+
+  & .form-row {
+    @include form-row;
+  }
+  & .form-columns {
+    @include form-columns;
+  }
+  & .form-buttons {
+    @include form-buttons;
+  }
+  & .form-buttons-small {
+    @include form-buttons-small;
+  }
+  & .form-controls {
+    @include form-controls;
+  }
+}
+
+@mixin form-columns {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: $space-xm;
+}
+
+@mixin form-row {
+  & > label {
+    display: block;
+    color: $color-grey-7;
+    margin-bottom: $space-xxs;
+    font-size: $size-text-m;
+  }
+  & .sub-label {
+    margin-top: $space-xxs;
+    color: $color-grey-7;
+    font-size: $size-text-s;
+  }
+
+  & .sub-info {
+    margin-top: $space-xxs;
+    color: $color-main;
+    font-size: $size-text-s;
+  }
+
+  & custom-switch {
+    font-size: $size-text-m;
+  }
+}
+
+@mixin form-row-max-height {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  & .form-row-field {
+    flex: 0 1 100%;
+  }
+}
+
+@mixin form-buttons {
+  margin-top: $space-xxs;
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: $space-xm;
+  width: max-content;
+  align-items: center;
+}
+
+@mixin form-buttons-small {
+  margin-top: $space-xxs;
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: $space-xs;
+  width: max-content;
+  align-items: center;
+}
+
+@mixin form-controls {
+  display: grid;
+  grid-gap: $space-s;
+  grid-auto-flow: column;
+  width: max-content;
+}
+
+.form {
+  @include form;
+
+  & .form-row {
+    @include form-row;
+  }
+  & .form-columns {
+    @include form-columns;
+  }
+  & .form-buttons {
+    @include form-buttons;
+  }
+
+  & .form-row-max-height {
+    @include form-row-max-height;
+  }
+
+  & .form-buttons-small {
+    @include form-buttons-small;
+  }
+}

@@ -1,0 +1,10 @@
+@mixin spinner-inline {
+  min-height: $space-3xl + $space-m;
+  &::before {
+    background: url("../../../public/icons/loader-input.svg");
+    top: calc(50% - #{$space-xs});
+    left: calc(50% - #{$space-xm});
+    width: 40px;
+    height: 40px;
+  }
+}

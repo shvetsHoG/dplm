@@ -1,0 +1,126 @@
+@mixin product {
+  white-space: normal;
+  display: grid;
+  overflow: auto;
+  grid-gap: $space-s;
+  grid-template-columns: max-content auto;
+  grid-template-rows: auto;
+  & > .product-image {
+    @include product-image(100px, 75px);
+  }
+  & > .product-info {
+    @include product-info();
+    & > .product-info-header {
+      @include product-header(1/2);
+    }
+    & > .product-info-params {
+      @include product-params();
+    }
+  }
+}
+
+@mixin product-params {
+  display: grid;
+  grid-gap: $space-xxs $space;
+  grid-template-columns: max-content auto;
+  font-size: $size-text-m;
+  height: min-content;
+  align-items: center;
+
+  & > label {
+    color: $color-grey-7;
+    &.double-label {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-gap: $space;
+    }
+  }
+}
+
+@mixin product-info {
+  display: grid;
+  overflow: auto;
+  align-content: center;
+  grid-gap: $space-s $space;
+  align-content: space-around;
+  grid-template-rows: auto 1fr;
+  box-decoration-break: clone;
+  font-size: $size-text-m;
+  height: max-content;
+}
+
+@mixin preview-video($height, $width) {
+  position: relative;
+  width: $width;
+  height: $height;
+  cursor: pointer;
+  & img {
+    width: $width;
+    height: $height;
+    object-fit: cover;
+  }
+  &:hover::after {
+    opacity: 1;
+  }
+  &::after {
+    content: "";
+    display: block;
+    background-image: url("../../../public/icons/preview-play.svg");
+    background-size: contain;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.75;
+    transition: opacity 0.4s;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@mixin product-image($height, $width) {
+  margin: auto;
+  object-fit: contain;
+  position: relative;
+
+  & > img {
+    max-height: $height;
+    max-width: $width;
+    display: table-cell;
+    position: relative;
+    &:after {
+      content: url(../../../public/icons/empty-image.svg);
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-f6);
+    }
+  }
+}
+
+@mixin product-header($column) {
+  white-space: normal;
+  text-align: start;
+  grid-row: 1/2;
+  grid-column: $column;
+  margin: 0;
+
+  & .product-info-link {
+    color: var(--color-text);
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-grey-7;
+    }
+    & .product-info-brand {
+      text-transform: uppercase;
+    }
+  }
+}

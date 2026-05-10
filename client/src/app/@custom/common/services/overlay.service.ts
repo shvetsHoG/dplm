@@ -14,7 +14,7 @@ import { ThemeService } from "./theme.service";
 import { CustomThemeType } from "@custom/models/custom-theme-type";
 import { ViewContainerService } from "@core/services/view-container.service";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class OverlayService {
   private _overlays: ComponentRef<OverlayComponent<any>>[] = [];
 

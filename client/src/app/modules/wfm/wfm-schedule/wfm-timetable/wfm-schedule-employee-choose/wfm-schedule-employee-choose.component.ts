@@ -23,7 +23,7 @@ export class WfmScheduleEmployeeChooseComponent implements OnInit {
   public dataSource: AccessControlUsers[] = [];
 
   constructor(
-    @Inject("AccessService") public accessService: AccessService,
+    public accessService: AccessService,
     @Inject("popup") public popup: PopupModel,
     private _service: WfmScheduleService,
     private _destroy$: DestroyService

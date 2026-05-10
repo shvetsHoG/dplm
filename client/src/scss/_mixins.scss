@@ -1,0 +1,49 @@
+@import "./_mixins/product";
+@import "./_mixins/panel-block";
+@import "./_mixins/text";
+@import "./_mixins/spinner";
+@import "./_mixins/spoiler";
+
+@mixin shadow-text($shadow-text-color-from: rgba(255, 255, 255, 0), $shadow-text-color-to: var(--color-font-inverse)) {
+  position: relative;
+  &:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20%;
+    height: 100%;
+    background: linear-gradient(90deg, $shadow-text-color-from, $shadow-text-color-to);
+    pointer-events: none;
+  }
+}
+
+@mixin shadow-text-dark(
+  $shadow-text-color-from: rgba(255, 255, 255, 0),
+  $shadow-text-color-to: var(--color-font-inverse-shadow)
+) {
+  position: relative;
+  &:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20%;
+    height: 100%;
+    background: linear-gradient(90deg, $shadow-text-color-from, $shadow-text-color-to);
+    pointer-events: none;
+  }
+}
+
+@mixin grid-row($gap) {
+  display: grid;
+  grid-auto-flow: column;
+  width: max-content;
+  grid-gap: $gap;
+  align-items: center;
+}
+
+@mixin column {
+  display: flex;
+  flex-flow: column;
+}
