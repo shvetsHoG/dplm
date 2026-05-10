@@ -1,0 +1,288 @@
+@import "variables";
+$color-pink: #dc06ae;
+$color-pink-bg: #fdeef9;
+$color-white: #ffffff;
+$color-f5: var(--color-f5);
+$color-d5: #d5d5d5;
+$color-b6: #b6b6b6;
+$color-8b: var(--color-8b);
+$color-reject: #fe3d3e;
+
+@mixin icons($icon, $clear, $sum, $size, $right) {
+  .input-icons {
+    position: absolute;
+    right: $right;
+    display: flex;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &.has-icon:not(.has-clear) {
+    .input-element {
+      padding-right: $icon;
+    }
+  }
+  &.has-clear:not(.has-icon) {
+    .input-element {
+      padding-right: $clear;
+    }
+  }
+
+  &.has-icon.has-clear {
+    .input-element {
+      padding-right: $sum;
+    }
+    .input-clear {
+      margin-right: 4px;
+    }
+  }
+
+  .input-icon {
+    &::ng-deep svg {
+      width: $size;
+      height: $size;
+    }
+  }
+  .input-loading {
+    width: $size;
+    mask-size: $size;
+  }
+}
+
+:host {
+  .input-container {
+    position: relative;
+    line-height: 22px;
+    width: 100%;
+
+    .input-element {
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: none;
+      outline: none;
+      user-select: text;
+      font-weight: inherit;
+      color: var(--color-font);
+
+      &[type="number"]::-webkit-inner-spin-button,
+      &[type="number"]::-webkit-outer-spin-button,
+      &[type="time"]::-webkit-inner-spin-button,
+      &[type="time"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-internal-autofill-selected {
+        -webkit-text-fill-color: none;
+        -webkit-box-shadow: 0 0 200px white inset;
+      }
+      &::-webkit-calendar-picker-indicator {
+        display: none;
+      }
+
+      &:-moz-ui-invalid {
+        box-shadow: none;
+      }
+
+      &[type="time"] {
+        &::-webkit-clear-button {
+          display: none;
+        }
+
+        &::-webkit-datetime-edit-second-field,
+        &::-webkit-datetime-edit-minute-field,
+        &::-webkit-datetime-edit-hour-field {
+          &:focus {
+            background: #f5caeb;
+          }
+        }
+      }
+    }
+
+    &.outlined .input-element {
+      background-color: var(--color-input);
+      border: 1px solid var(--color-border);
+      background-clip: padding-box;
+      position: relative;
+      border-radius: 8px;
+      transition: border-color 0.3s;
+      &:disabled {
+        background-color: var(--color-input--disabled) !important;
+        border-color: var(--color-border--disabled) !important;
+        color: var(--color-font--disabled) !important;
+        cursor: not-allowed;
+      }
+
+      &::placeholder {
+        color: var(--color-placeholder);
+      }
+      &:read-only {
+        background-color: var(--color-input--disabled);
+        border-color: var(--color-border--disabled);
+      }
+      &:focus {
+        border-color: var(--color-border--active);
+      }
+    }
+
+    &.underlined {
+      .input-icons {
+        right: 0 !important;
+      }
+      .input-element {
+        background-color: transparent;
+        border-bottom: 1px solid var(--color-border);
+        position: relative;
+        padding: 0;
+        padding-bottom: 1px;
+        &:focus {
+          border-color: var(--color-border--active);
+        }
+        &:disabled {
+          background-color: var(--color-input--disabled);
+          color: var(--color-font--disabled);
+          cursor: not-allowed;
+        }
+        &::placeholder {
+          color: var(--color-placeholder);
+        }
+        &:read-only {
+          background-color: var(--color-input--disabled);
+        }
+      }
+    }
+
+    &.filled .input-element {
+      background-color: var(--color-input--filled);
+      color: var(--color-text-inverse);
+      position: relative;
+      padding: 0 12px;
+      border-radius: 8px;
+      transition: background-color 0.1s;
+      &::placeholder {
+        color: #ffffffaa;
+      }
+      &:focus {
+        background-color: var(--color-input--filled-focus);
+        color: var(--color-text--active);
+        &::placeholder {
+          color: #ffffffaa;
+        }
+      }
+      &:disabled {
+        background-color: #f2f2f299;
+      }
+    }
+
+    &.pure {
+      & .input-element {
+        padding: 0;
+        background-color: transparent;
+        border: none;
+
+        &:read-only {
+          cursor: default;
+        }
+        &::placeholder {
+          color: $color-b6;
+        }
+      }
+    }
+
+    &.input-size {
+      &__large {
+        height: 40px;
+        @include icons(34px, 26px, 54px, 24px, 10px);
+
+        .input-element {
+          font-size: 16px;
+          &::placeholder {
+            font-size: 16px;
+          }
+        }
+        &.outlined .input-element {
+          padding: 0 10px;
+        }
+
+        .input-auto-width-buffer {
+          font-size: 16px;
+        }
+      }
+      &__small {
+        height: 28px;
+        @include icons(28px, 26px, 48px, 20px, 8px);
+
+        .input-element {
+          font-size: 14px;
+          &::placeholder {
+            font-size: 14px;
+          }
+        }
+        &.outlined .input-element {
+          padding: 0 8px;
+        }
+
+        .input-auto-width-buffer {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  .input-label {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: var(--color-8b);
+    margin-bottom: 2px;
+  }
+
+  .input-loading {
+    width: 24px;
+    height: 24px;
+    mask: url(../../../../assets/icons/custom/custom-inline-loader.svg) no-repeat 50% 50%;
+    background-color: $color-d5;
+  }
+
+  &.ng-dirty.ng-invalid {
+    & .input-element {
+      border-color: $color-reject !important;
+      background-color: $color-pink-bg !important;
+    }
+
+    & .border-new {
+      border-color: var(--color-reject) !important;
+      background-color: transparent !important ;
+    }
+  }
+
+  .validation-container {
+    width: max-content;
+    //position: absolute;
+    font-size: 14px;
+    color: $color-reject;
+  }
+
+  .error-text {
+    margin-top: $space-xxs;
+    font-size: 14px;
+    color: var(--color-reject);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .input-auto-width-buffer {
+    width: max-content;
+    height: 0;
+    position: absolute;
+    z-index: -1;
+    visibility: hidden;
+    font-weight: inherit;
+  }
+}

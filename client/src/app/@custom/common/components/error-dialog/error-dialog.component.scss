@@ -1,0 +1,14 @@
+:host {
+  .error-dialog {
+    max-height: 200px;
+    max-width: 500px;
+    overflow: auto;
+  }
+  .error-dialog-item {
+    padding: 4px 0;
+    white-space: pre-line;
+    & .error-dialog-time {
+      color: gray;
+    }
+  }
+}

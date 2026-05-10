@@ -1,0 +1,37 @@
+<div *ngIf="label" class="textarea-label">
+  {{ label | translate }}
+</div>
+<div
+  class="textarea-container {{ InputSize[size] || InputSize.large }}"
+  [style.height]="height"
+  [class.textarea-resize-vertical]="resizeVertical"
+>
+  <textarea
+    #textarea
+    class="textarea-element scroll scroll__middle"
+    [maxLength]="maxLength || '99999999'"
+    [style.max-height]="maxHeight"
+    [style.min-height]="minHeight"
+    [class.pure]="pure"
+    [disabled]="disabled"
+    [readonly]="readonly"
+    [value]="value"
+    resize="none"
+    [placeholder]="placeholder || '' | translate"
+    [rows]="rows"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+    (change)="onChangeValue($event)"
+    (keyup)="onKeyup($event)"
+    (input)="onInput($event)"
+    (paste)="onPaste($event)"
+    (keyup.control.enter)="onCtrlEnter($event)"
+    (keydown.shift.enter)="onShiftEnter($event)"
+  ></textarea>
+  <div class="textarea-counter" *ngIf="maxLength && value" [hidden]="!value.length">
+    {{ value.length }} / {{ maxLength }}
+  </div>
+</div>
+<div class="validation-container">
+  <ng-content></ng-content>
+</div>

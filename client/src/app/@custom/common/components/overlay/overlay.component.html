@@ -1,0 +1,20 @@
+<div
+  #overlay
+  class="overlay-popover"
+  [attr.data-theme]="themeService ? (themeService.theme$ | async) : null"
+  [class.overlay-popover-bottom]="isAnimated && positionTopY"
+  [class.overlay-popover-top]="isAnimated && positionBottomY"
+  [style.left.px]="positionX"
+  [style.top.px]="positionTopY ? positionTopY + 4 : null"
+  [style.bottom.px]="positionBottomY ? positionBottomY + 4 : null"
+  [style.z-index]="1004 + zIndex"
+  [style.width.px]="width"
+  [style.height.%]="height"
+  [style.height.px]="heightPx"
+  [style.overflow-y]="overflowY"
+  [ngStyle]="{ 'max-height': 'calc(100% - ' + ((positionTopY || positionBottomY) + 4 * 2) + 'px)' }"
+  [class.pure]="pure"
+>
+  <ng-container #container></ng-container>
+  <div></div>
+</div>

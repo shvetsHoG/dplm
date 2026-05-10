@@ -1,0 +1,34 @@
+<div class="container" [customLoader]="isLoading$">
+  <div class="grid-wrapper">
+    <custom-search-panel
+      label="Поиск"
+      [resultFn]="onResultFn"
+      [debounceTime]="500"
+      [inlineSearch]="true"
+      (clearValue)="onClearSearch()"
+    ></custom-search-panel>
+    <app-tgrid class="grid" keyExpr="id" [dataSource]="dataSource" [paging]="true" [perPage]="20">
+      <app-tgrid-column [template]="checkbox" width="50">
+        <ng-template #checkbox let-data="data">
+          <custom-checkbox [value]="isOnEmployeeList(data)" (click)="onPickEmployee($event, data)"></custom-checkbox>
+        </ng-template>
+      </app-tgrid-column>
+      <app-tgrid-column [allowSort]="true" key="name" name="ФИО"></app-tgrid-column>
+      <app-tgrid-column [allowSort]="true" key="email" name="E-mail"></app-tgrid-column>
+      <app-tgrid-column [allowSort]="true" key="id" name="ID"></app-tgrid-column>
+    </app-tgrid>
+  </div>
+  <div class="employees">
+    <ng-container *ngIf="employeesList.length > 0; else emptyEmployees">
+      <div *ngFor="let employee of employeesList" class="employees__item">
+        <custom-checkbox [value]="isPicked(employee)" (click)="onAssignEmployee($event, employee)"></custom-checkbox>
+        <span>{{ employee.name }}</span>
+      </div>
+    </ng-container>
+    <ng-template #emptyEmployees>
+      <div class="empty">
+        <span>Выберите сотрудника</span>
+      </div>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<div
+  #container
+  class="tooltip tooltip-{{ posArrow }}"
+  [class.tooltip-has-arrow]="showArrow"
+  [class.has-template]="template"
+  [style.left.px]="x"
+  [style.top.px]="y"
+  customTheme
+  [attr.data-theme]="themeService ? (themeService.theme$ | async) : null"
+>
+  <div class="tooltip-content" [style.max-height.px]="height">
+    <ng-container *ngIf="template">
+      <ng-container *ngTemplateOutlet="template; context: { data: data, id: id }"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="!template">
+      <div [innerHTML]="content"></div>
+    </ng-container>
+  </div>
+
+  <div class="tooltip-arrow" *ngIf="showArrow" [style.left.px]="xArrow"></div>
+</div>

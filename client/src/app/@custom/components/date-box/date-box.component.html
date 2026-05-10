@@ -1,0 +1,60 @@
+@if (label) {
+  <div class="date-box-label">
+    {{ label }}
+  </div>
+}
+<div #dateBox class="date-box" [style.width.px]="width" (wheel)="onWheel($event)">
+  <div class="date-box-datepicker dateReadonly" (click)="onClick()">
+    <custom-input
+      [focusClass]="!!overlay"
+      [disabled]="disabled"
+      [readonly]="readonly"
+      role="text"
+      [size]="size"
+      [value]="value | dateFormat: format : plural"
+      [theme]="theme"
+      [isDateReadonly]="true"
+    ></custom-input>
+    <!-- <custom-svg-icon
+      *ngIf="showClear && value"
+      class="date-box-clear"
+      [style.width.px]="height - 12"
+      [style.right.px]="height"
+      (iconClick)="onClear($event)"
+      icon="clear"
+    ></custom-svg-icon> -->
+  </div>
+  @if (withTime) {
+    <div class="date-box-timepicker">
+      <custom-time-box
+        #timeBox
+        role="time"
+        [step]="timeStep"
+        [disabled]="disabled"
+        [readonly]="readonly"
+        [size]="size"
+        (valueChange)="onChangeTime($event)"
+        [value]="value"
+      ></custom-time-box>
+    </div>
+  }
+  <div class="date-box__icons">
+    @if (showClear && value && !disabled && !readonly) {
+      <custom-svg-icon
+        class="input-clear"
+        icon="custom/custom-clear"
+        iconWidth="16px"
+        iconHeight="16px"
+        className="icon-grey"
+        (iconClick)="onClear($event)"
+      ></custom-svg-icon>
+    }
+    @if (showIcon && !withTime) {
+      <custom-svg-icon className="icon-grey" icon="custom/custom-calendar"></custom-svg-icon>
+    }
+  </div>
+</div>
+
+<div class="validation-container">
+  <ng-content></ng-content>
+</div>

@@ -1,0 +1,131 @@
+$color-pink: #dc06ae;
+$color-pink-bg: #fdeef9;
+$color-white: #ffffff;
+$color-f5: var(--color-f5);
+$color-d5: #d5d5d5;
+$color-b6: #b6b6b6;
+$color-8b: var(--color-8b);
+
+:host {
+  .select-box-search {
+    margin: 0 8px 8px 8px;
+  }
+  .select-box-options {
+    display: grid;
+    // background-color: white;
+    overflow: hidden;
+    grid-template-rows: 1fr;
+    width: 100%;
+
+    &.select-box-size {
+      &__large {
+        & .select-box-options-wrap {
+          padding: 4px 0 4px 4px;
+        }
+        & .select-box-option {
+          padding: 8px;
+          font-size: 16px;
+        }
+        & .select-box-option-group-name {
+          font-size: 14px;
+        }
+      }
+
+      &__small {
+        & .select-box-options-wrap {
+          padding: 4px 0 4px 4px;
+        }
+        & .select-box-option {
+          padding: 4px 8px;
+          font-size: 14px;
+        }
+        & .select-box-option-group-name {
+          font-size: 12px;
+        }
+      }
+    }
+
+    & .select-box-options-wrap {
+      height: 100%;
+      overflow-x: auto;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    & .select-box-option-group-name {
+      padding: 8px;
+      color: #a7a7a7;
+      position: relative;
+      text-align: center;
+      height: 30px;
+      box-sizing: border-box;
+      & > span {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--color-bg);
+        padding: 0 8px;
+      }
+      &:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background-color: #d5d5d5;
+        left: 0;
+        top: 50%;
+      }
+    }
+
+    & hr {
+      margin: 12px 8px;
+      border-color: #d5d5d5;
+    }
+
+    & .select-box-additions {
+      & .select-box-addition {
+        font-weight: 600;
+      }
+    }
+
+    & .select-box-empty {
+      font-size: 14px;
+      color: $color-8b;
+      padding: 8px;
+    }
+
+    & .select-box-option {
+      cursor: pointer;
+      border-radius: 2px;
+      background-color: transparent;
+      transition: background-color 0.1s;
+      color: var(--color-font);
+      &:hover {
+        background: var(--color-background--hover);
+      }
+      &.select-box-option-selected {
+        color: #dc06ae;
+        font-weight: 600;
+      }
+    }
+
+    &.filled {
+      & .select-box-option {
+        color: #ffffff;
+        &:hover {
+          color: #242424;
+          background-color: var(--color-f6);
+        }
+        &.select-box-option-selected {
+          color: #dc06ae;
+        }
+      }
+    }
+  }
+
+  .select-box-tabs {
+    margin: 12px 0px;
+  }
+}

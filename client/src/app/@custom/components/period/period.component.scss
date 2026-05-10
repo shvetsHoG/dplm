@@ -1,0 +1,137 @@
+@import "variables";
+$color-reject: #fe3d3e;
+$color-pink: #dc06ae;
+$color-pink-bg: #fdeef9;
+
+:host {
+  .period {
+    width: 100%;
+    height: 40px;
+
+    border: 1px solid var(--color-border);
+    position: relative;
+    border-radius: 8px;
+    color: var(--color-text);
+
+    box-sizing: border-box;
+    background-color: var(--color-input);
+    background-clip: padding-box;
+
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    transition: border-color 0.3s;
+
+    &__value {
+      flex: 1;
+
+      & .selected {
+        color: var(--color-main);
+      }
+    }
+
+    &__icons {
+      position: absolute;
+      display: flex;
+      gap: $space-xs;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    &.period-size {
+      &__large {
+        min-width: 380px;
+        font-size: 16px;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 10px;
+
+        &.period-with-time {
+          min-width: 424px;
+        }
+
+        & .period__value > span {
+          display: inline-flex;
+          line-height: 40px;
+        }
+
+        & .period__icons {
+          right: 10px;
+          &::ng-deep svg {
+            width: 24px;
+            height: 24px;
+          }
+        }
+      }
+      &__small {
+        min-width: 245px;
+        font-size: 14px;
+        height: 28px;
+        line-height: 28px;
+        padding: 0 4px 0 8px;
+
+        & .period__value > span {
+          display: inline-flex;
+          line-height: 28px;
+        }
+
+        & .period__icons {
+          right: 8px;
+          &::ng-deep svg {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+
+      &__small-long {
+        min-width: 380px;
+        font-size: 14px;
+        height: 28px;
+        line-height: 28px;
+        padding: 0 4px 0 8px;
+
+        & .period__value > span {
+          display: inline-flex;
+          line-height: 28px;
+        }
+
+        & .period__icons {
+          right: 8px;
+          &::ng-deep svg {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+    }
+  }
+
+  .period-label {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: var(--color-8b);
+    margin-bottom: 2px;
+  }
+
+  &.ng-dirty.ng-invalid {
+    & .period {
+      border-color: $color-reject !important;
+      background-color: $color-pink-bg;
+    }
+  }
+  .validation-container {
+    width: max-content;
+    //position: absolute;
+    font-size: 14px;
+    color: $color-reject;
+  }
+
+  .disabled-period {
+    cursor: not-allowed;
+    border-color: var(--color-border--disabled) !important;
+    background-color: var(--color-input--disabled) !important;
+  }
+}

@@ -1,0 +1,36 @@
+<div
+  #toast
+  class="toast"
+  [style.z-index]="zIndex"
+  [ngStyle]="{ transform: 'translateX(-50%) translateY(' + (open ? topPosition || top : -top) + 'px)' }"
+  [ngClass]="className"
+  [class.toast-open]="open"
+  (mouseover)="onMouseover()"
+>
+  <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+  <ng-container *ngIf="!contentTemplate">
+    <div class="toast__icon-and-text">
+      @if (hasIcon && icon) {
+        <custom-svg-icon [icon]="icon" iconHeight="16px" iconWidth="16px"></custom-svg-icon>
+      }
+      <label *ngIf="text" class="toast-text">{{ text | translate }}</label>
+    </div>
+    <span class="dashed cursor" *ngIf="action" (click)="onAction()">{{ action }}</span>
+    <ng-container *ngIf="reject">
+      {{ " / " }}
+      <span class="dashed cursor" (click)="onReject()">Отменить</span>
+    </ng-container>
+    <ng-container *ngIf="showKey && key">(Ctrl + {{ key.replace("Key", "") }})</ng-container>
+    <span class="toast-timeleft" *ngIf="showTimeleft">
+      {{ labelTimeleft }}
+      <custom-time-interval
+        direction="to"
+        placeholder="—:—"
+        [interval]="1000"
+        [date]="timeleft"
+        format="mm:ss"
+      ></custom-time-interval>
+    </span>
+    <custom-svg-icon *ngIf="closeButton" icon="custom/custom-cancel" (iconClick)="onClose()"></custom-svg-icon>
+  </ng-container>
+</div>

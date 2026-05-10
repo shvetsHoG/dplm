@@ -1,0 +1,19 @@
+<div class="tabs {{ className }}" [class.disabled]="disabled" [class.tabs-flex]="isFlex">
+  <ng-container *ngFor="let tab of dataSource">
+    <div
+      class="tabs-item"
+      [class.selected]="(tab && value && tab.id && value.id && tab.id === value.id) || tab === value"
+      [class.disabled]="tab.disabled"
+      *ngIf="!tab.hidden"
+      (click)="onClick(tab)"
+    >
+      <ng-container
+        *ngTemplateOutlet="tabTemplate || defaultTabTemplate; context: { data: tab, selected: tab === value }"
+      ></ng-container>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #defaultTabTemplate let-data="data">
+  {{ data[displayExpr] || data | translate }}
+</ng-template>

@@ -1,0 +1,93 @@
+<div class="calendar-container" [class.calendar-period]="isPeriod">
+  <div class="calendar-control">
+    <div class="month-button-prev" (click)="onPrev()"></div>
+
+    <div class="calendar-current" [ngSwitch]="mode">
+      <ng-container *ngSwitchCase="CalendarMode.Numbers">
+        <div (click)="switchMode(CalendarMode.Months)">{{ current | dateFormat: "MMMM" : false }}</div>
+        <div (click)="switchMode(CalendarMode.Years)">{{ current | dateFormat: "YYYY" }}</div>
+      </ng-container>
+      <ng-container *ngSwitchCase="CalendarMode.Months">
+        <div (click)="switchMode(CalendarMode.Years)">{{ current | dateFormat: "YYYY" }}</div>
+      </ng-container>
+      <ng-container *ngSwitchCase="CalendarMode.Years">
+        <div (click)="switchMode(CalendarMode.Years)">
+          {{ current.getFullYear() - 4 }} – {{ current.getFullYear() + 4 }}
+        </div>
+      </ng-container>
+    </div>
+    <div class="month-button-next" (click)="onNext()"></div>
+  </div>
+  <div class="calendar-tags">
+    <span class="calendar-tag" (click)="onClickToday()">{{ "COMMON.TODAY" | translate }}</span>
+  </div>
+  <div *ngIf="mode === CalendarMode.Numbers" class="calendar-numbers">
+    <label class="calendar-weekday" *ngFor="let day of days">{{ day }}</label>
+    <div
+      *ngFor="let date of dates"
+      (click)="onClick(date)"
+      (mouseover)="(isPeriod); hoverDate = date"
+      (mouseleave)="(isPeriod); hoverDate = null"
+      class="calendar-number-container"
+      [class.selected]="value && value.getTime() === date.getTime()"
+      [class.selected-start]="isPeriod && value && value.getTime() === date.getTime()"
+      [class.selected-end]="isPeriod && valueEnd && valueEnd.getTime() === date.getTime()"
+      [class.hover-period]="
+        isPeriod &&
+        hoverDate &&
+        value &&
+        ((periodDirection === CalendarPeriodDirection.start &&
+          hoverDate.getTime() < date.getTime() &&
+          date.getTime() < value.getTime()) ||
+          (periodDirection === CalendarPeriodDirection.end &&
+            hoverDate.getTime() > date.getTime() &&
+            date.getTime() > value.getTime()))
+      "
+      [class.selected-period]="
+        isPeriod &&
+        value &&
+        valueEnd &&
+        ((date.getTime() > value.getTime() && date.getTime() < valueEnd.getTime()) ||
+          (date.getTime() < value.getTime() && date.getTime() > valueEnd.getTime()))
+      "
+    >
+      <div
+        class="calendar-number"
+        [class.selected-period-date]="selectedPeriodDate?.getTime() === date.getTime()"
+        [class.now]="now.getTime() === date.getTime()"
+        [class.addition]="
+          date < firstDate ||
+          date > lastDate ||
+          (startDisabledDate && date > startDisabledDate) ||
+          date < disabledTo ||
+          date > disabledFrom
+        "
+      >
+        {{ date.getDate() }}
+      </div>
+      <div *ngIf="arrayValuesDay[date.getDate()] && current.getMonth() === date.getMonth()" class="value-day">
+        {{ arrayValuesDay[date.getDate()] }}
+      </div>
+    </div>
+  </div>
+  <div *ngIf="mode === CalendarMode.Months" class="calendar-months">
+    <div
+      *ngFor="let month of months; let index = index"
+      (click)="onClickMonth(index)"
+      class="calendar-month"
+      [class.selected]="value && value.getMonth() === index"
+    >
+      {{ month }}
+    </div>
+  </div>
+  <div *ngIf="mode === CalendarMode.Years" class="calendar-years">
+    <div
+      *ngFor="let year of years"
+      (click)="onClickYear(year)"
+      class="calendar-year"
+      [class.selected]="value && value.getFullYear() === year"
+    >
+      {{ year }}
+    </div>
+  </div>
+</div>

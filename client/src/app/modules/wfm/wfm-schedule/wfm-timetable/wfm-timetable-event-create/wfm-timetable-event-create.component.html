@@ -1,0 +1,35 @@
+<form class="timetable-event" [formGroup]="formGroup">
+  <div class="timetable-event__info_wrapper">
+    <div class="timetable-event__info">
+      <div class="timetable-event__info__block">
+        <div class="timetable-event__info_label">Сотрудник</div>
+        <div>{{ employeeName }}</div>
+      </div>
+      <div class="timetable-event__info__block">
+        <div class="timetable-event__info_label">График</div>
+        <div>{{ contractType }}</div>
+      </div>
+      <div class="timetable-event__info__block">
+        <div class="timetable-event__info_label">Смена</div>
+        <div>{{ shift }}</div>
+      </div>
+    </div>
+    <custom-button *ngIf="isEdit" (buttonClick)="onDeleteEvent()">Удалить</custom-button>
+  </div>
+
+  <custom-select-box label="Активность" formControlName="activity" [dataSource]="eventTypes"></custom-select-box>
+  <div class="timetable-event__period">
+    <div class="timetable-event__period__wrapper">
+      <div class="timetable-event__period_label">Период или день</div>
+      <custom-period
+        formControlName="period"
+        formatDate="DD.MM.YYYY"
+        (valueChange)="onDateChange($event)"
+      ></custom-period>
+    </div>
+    <div *ngIf="dateDifference" class="timetable-event__info">
+      {{ dateDifference | plural: ["день", "дня", "дней"] }}
+    </div>
+  </div>
+  <custom-textarea label="Комментарий" formControlName="description" [maxLength]="1000"></custom-textarea>
+</form>

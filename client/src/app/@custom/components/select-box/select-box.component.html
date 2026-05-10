@@ -1,0 +1,66 @@
+<div *ngIf="label" class="select-box-label">
+  {{ label | translate }}
+</div>
+<div
+  #selectBox
+  class="select-box {{ SelectBoxSize[size] || SelectBoxSize.large }}"
+  [class.pure]="pure"
+  [class.readonly]="readonly"
+  [class.disabled]="disabled"
+  [style.width.px]="width"
+  (click)="onClick()"
+  (mousedown)="onMouseDown($event)"
+  (wheel)="onWheel($event)"
+  [class.select-box-open]="isOpen && componentStyle === 'default'"
+  [class.select-box-open-new]="isOpen && componentStyle === 'new'"
+>
+  <div *ngIf="!isEmpty" class="select-box-value">
+    <ng-container *ngIf="mode === 'multi'">
+      <ng-container *ngFor="let item of value">
+        <ng-container *ngTemplateOutlet="displayTemplate; context: { item: item }"></ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="mode === 'single'">
+      <ng-container *ngTemplateOutlet="displayTemplate; context: { item: value }"></ng-container>
+    </ng-container>
+  </div>
+  <div *ngIf="isEmpty" class="select-box-placeholder">
+    {{ placeholder | translate }}
+  </div>
+
+  <custom-svg-icon
+    *ngIf="showClear && !isEmpty"
+    class="select-box-clear"
+    (iconClick)="onClear($event)"
+    className="icon-grey"
+    iconWidth="16px"
+    iconHeight="16px"
+    icon="custom/custom-clear"
+  ></custom-svg-icon>
+  <custom-svg-icon
+    class="select-box-expander"
+    className="icon-grey"
+    iconWidth="24px"
+    iconHeight="24px"
+    [active]="isOpen"
+    [icon]="expanderIcon"
+  ></custom-svg-icon>
+</div>
+<div class="validation-container">
+  <ng-content></ng-content>
+</div>
+
+<ng-template #defaultItemTemplate let-item="item">
+  {{ item[displayExpr] || item | translate }}
+</ng-template>
+
+<select #selectRef class="select-box-html" [multiple]="mode === 'multi'" (change)="onChangeValue($event)">
+  <option *ngIf="mode === 'single'" value="none">––</option>
+  <option
+    *ngFor="let item of dataSource"
+    [value]="item | fn: valueExpr.bind(this)"
+    [selected]="selection[valueExpr(item)]"
+  >
+    <ng-container *ngTemplateOutlet="defaultItemTemplate; context: { item: item }"></ng-container>
+  </option>
+</select>

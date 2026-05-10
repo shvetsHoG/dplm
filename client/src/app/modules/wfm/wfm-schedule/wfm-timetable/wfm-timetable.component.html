@@ -1,0 +1,58 @@
+<div class="timetable__wrapper" [customLoader]="isLoading$">
+  <custom-button label="Выбор сотрудников" role="accept" (buttonClick)="onChooseEmployeeClick()"></custom-button>
+  <div class="timetable__tabs-and-period">
+    <div class="timetable__date-boxes">
+      <custom-date-box
+        label="Начало рабочей смены"
+        [disabledFrom]="dateEnd"
+        [(value)]="dateStart"
+        [width]="170"
+        [showIcon]="true"
+        (valueChange)="onDateChange()"
+      ></custom-date-box>
+      <div class="dash"></div>
+      <custom-date-box
+        label="Окончание рабочей смены"
+        [disabledTo]="dateStart"
+        [(value)]="dateEnd"
+        [width]="170"
+        [showIcon]="true"
+        (valueChange)="onDateChange()"
+      ></custom-date-box>
+    </div>
+  </div>
+  <custom-dynamic-table
+    [headerData]="headerData"
+    [headerTemplate]="headerTemplate"
+    [dataSource]="dataSource"
+    [canEditRow]="canAdministrateWFM"
+    [canEditCell]="canAdministrateWFM"
+    (rowEditClick)="openCreateEventPopup($event)"
+    (cellEditClick)="openUpdateEventPopup($event)"
+  ></custom-dynamic-table>
+  <custom-paginator
+    *ngIf="dataSource && totalCount"
+    [perPage]="limit"
+    [currentPage]="page"
+    [totalCount]="totalCount"
+    (changePage)="onChangePage($event)"
+  ></custom-paginator>
+  <ng-template #headerTemplate let-data="data">
+    <div class="timetable__header-template">
+      <span class="timetable__header-template_first" [class.now]="data.columnId | fn: isNow.bind(this)">
+        {{ data.text.first }}
+      </span>
+      <div class="timetable__header-template_labels">
+        <span
+          class="timetable__header-template_item"
+          [class.weekend]="data.additionalData?.type === weekDayType.WEEKEND"
+        >
+          {{ data.text.second }}
+        </span>
+        <span class="timetable__header-template_item" [class.now]="data.columnId | fn: isNow.bind(this)">
+          {{ data.text.third }}
+        </span>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,39 @@
+:host {
+  .period-dropdown {
+    display: flex;
+    height: 298px;
+
+    ::ng-deep .time-box-overlay {
+      &.input-size__large {
+        height: 100% !important;
+        .time-box-overlay-wrapper {
+          padding-bottom: 213px !important;
+        }
+      }
+    }
+
+    ::ng-deep .input-size__small {
+      height: 100% !important;
+    }
+
+    &__time {
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--color-border);
+      color: var(--color-text);
+      & > div {
+        height: 40px;
+        font-weight: 600;
+        text-align: center;
+        line-height: 40px;
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      & > custom-time-box-overlay {
+        flex: 0 1 auto;
+        height: calc(100% - 41px);
+        //height: 100%;
+      }
+    }
+  }
+}

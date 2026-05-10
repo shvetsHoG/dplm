@@ -1,0 +1,119 @@
+$bottom-position: 70px;
+
+:host {
+  .toast {
+    position: fixed;
+    font-size: 14px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    opacity: 0;
+    transition:
+      transform 0.2s ease-out,
+      opacity 0.2s ease-out;
+    z-index: 12000;
+    margin: 0 auto;
+    transform: translateX(-50%) translateY(#{$bottom-position});
+    left: 50%;
+    will-change: transform, opacity;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    color: white;
+
+    & > label {
+      color: #a7a7a7;
+      margin-right: 4px;
+    }
+
+    &.toast-open {
+      opacity: 1;
+    }
+
+    &.toast-warning {
+      color: #242424;
+      & .toast-text {
+        color: #cb11ab;
+        font-weight: bold;
+      }
+      background-color: #ffe9fa;
+    }
+
+    & .toast-timeleft {
+      margin-left: 4px;
+      color: #a7a7a7;
+      & > custom-time-interval {
+        color: white;
+      }
+    }
+
+    &.toast-resolve {
+      color: #ffffff;
+      & .toast-text {
+        color: #ffffff;
+        font-weight: bold;
+      }
+      background-color: var(--color-toast-resolve);
+    }
+
+    &.toast-reject {
+      color: #ffffff;
+      & .toast-text {
+        color: #ffffff;
+        font-weight: bold;
+      }
+      background-color: var(--color-toast-reject);
+    }
+
+    &.toast-reject-new,
+    &.toast-resolve-new,
+    &.toast-warning-new {
+      font-weight: 600;
+      border-radius: 8px;
+      color: #ffffff;
+    }
+
+    &.toast-reject-new-white,
+    &.toast-resolve-new-white,
+    &.toast-informer {
+      font-weight: 600;
+      border-radius: 8px;
+      background-color: var(--color-fc);
+      border-color: #d5d5d5;
+    }
+
+    &.toast-reject-new {
+      background-color: #ff4444;
+    }
+
+    &.toast-resolve-new {
+      background-color: #54c386;
+    }
+
+    &.toast-warning-new {
+      background-color: #ff8a00;
+    }
+
+    &.toast-reject-new-white {
+      color: #ff4444;
+    }
+
+    &.toast-resolve-new-white {
+      color: #54c386;
+    }
+
+    &.toast-informer {
+      font-weight: 400;
+      color: #242424;
+    }
+
+    &__icon-and-text {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+
+      & > custom-svg-icon {
+        margin-top: 2px;
+      }
+    }
+  }
+}

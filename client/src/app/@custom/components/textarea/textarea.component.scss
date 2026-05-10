@@ -1,0 +1,121 @@
+:host {
+  font-size: 16px;
+  &.ng-dirty.ng-invalid {
+    & .textarea-element {
+      border-color: #cb11ab !important;
+      background-color: #fdeef9 !important;
+    }
+  }
+  .validation-container {
+    width: max-content;
+    position: absolute;
+    font-size: 14px;
+    color: #cb11ab;
+  }
+
+  .textarea-container {
+    position: relative;
+    line-height: 22px;
+    // display: flex;
+
+    .textarea-element {
+      resize: none;
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      background-color: var(--color-input);
+      color: var(--color-font);
+      border: none;
+      outline: none;
+      user-select: text;
+      font-size: 1em;
+
+      border: 1px solid var(--color-border);
+      background-clip: padding-box;
+      position: relative;
+      border-radius: 8px;
+      transition: border-color 0.3s;
+
+      &:disabled {
+        background-color: var(--color-input--disabled);
+        border-color: var(--color-border--disabled);
+        color: var(--color-font--disabled);
+        cursor: not-allowed;
+      }
+      &::placeholder {
+        color: var(--color-placeholder);
+      }
+      &:read-only {
+        background-color: var(--color-input--disabled);
+        border-color: var(--color-border--disabled);
+      }
+      &:focus {
+        border-color: var(--color-border--active);
+      }
+
+      &.pure {
+        padding: 0;
+        border-radius: 0;
+        border: none;
+        &:focus {
+          padding: 0;
+          border: none;
+        }
+        &:read-only {
+          cursor: default;
+        }
+      }
+    }
+
+    &.input-size {
+      &__large {
+        .textarea-element {
+          font-size: 16px;
+          padding: 9px 10px;
+          &::placeholder {
+            font-size: 16px;
+          }
+        }
+      }
+      &__small {
+        .textarea-element {
+          font-size: 14px;
+          padding: 7px 8px;
+          &::placeholder {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+
+  .textarea-resize-vertical {
+    &::ng-deep {
+      .textarea-element {
+        resize: vertical !important;
+      }
+    }
+  }
+
+  .textarea-counter {
+    display: flex;
+    float: right;
+    font-size: 14px;
+    color: var(--color-8b);
+
+    &[hidden] {
+      display: block;
+      visibility: hidden;
+    }
+  }
+
+  .textarea-label {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: var(--color-8b);
+    margin-bottom: 2px;
+  }
+}

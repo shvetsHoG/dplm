@@ -1,0 +1,102 @@
+$color-pink: #dc06ae;
+
+:host {
+  position: relative;
+  display: block;
+
+  &.ng-dirty.ng-invalid {
+    & custom-input::ng-deep .input-element {
+      border-color: #dc06ae !important;
+      background-color: #fdeef9 !important;
+    }
+  }
+
+  .validation-container {
+    width: max-content;
+    position: absolute;
+    font-size: 14px;
+    color: #dc06ae;
+  }
+
+  .search-panel-label {
+    display: block;
+    color: var(--color-8b);
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  .search-panel {
+    position: relative;
+
+    &.filled {
+      .search-panel-clear ::ng-deep svg path,
+      .search-panel-loading ::ng-deep svg path,
+      custom-input ::ng-deep .input-icon svg path {
+        fill: #ffffff !important;
+      }
+      &.focus {
+        .search-panel-clear ::ng-deep svg path,
+        .search-panel-loading ::ng-deep svg path,
+        custom-input ::ng-deep .input-icon svg path {
+          fill: #242424 !important;
+        }
+      }
+    }
+  }
+
+  .remove,
+  .loading {
+    position: absolute;
+  }
+
+  .error {
+    ::ng-deep {
+      border-color: #fe3d3e;
+    }
+  }
+  .error-text {
+    color: #fe3d3e;
+    padding-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .search-panel-clear {
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    width: 30px;
+    height: 100%;
+  }
+
+  .search-result {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 8px);
+    width: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+    // background: var(--color-bg);
+    background-color: var(--color-background);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 8px 12px;
+    z-index: 100;
+    & .search-result-item {
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: var(--color-text);
+      &:hover,
+      &.search-result-item-focused {
+        background-color: var(--color-background--hover);
+      }
+    }
+
+    & .search-result-searching,
+    & .search-result-empty {
+      color: var(--color-8b);
+    }
+  }
+}

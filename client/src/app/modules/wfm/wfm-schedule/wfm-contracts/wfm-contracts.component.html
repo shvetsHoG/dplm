@@ -1,0 +1,21 @@
+<ng-container
+  *ngIf="{
+    contracts: contracts$ | async
+  } as data"
+>
+  <div class="contracts" [customLoader]="isLoading$">
+    <custom-button (buttonClick)="onClickNewContract()">Новый контракт</custom-button>
+    <app-wfm-schedule-grid
+      [data]="data.contracts?.contracts"
+      (onDelete)="onDelete($event)"
+      (onRowClick)="openContract($event)"
+    ></app-wfm-schedule-grid>
+    <custom-paginator
+      *ngIf="data.contracts && data.contracts.totalCount"
+      [perPage]="limit"
+      [currentPage]="page"
+      [totalCount]="data.contracts.totalCount"
+      (changePage)="onChangePage($event)"
+    ></custom-paginator>
+  </div>
+</ng-container>

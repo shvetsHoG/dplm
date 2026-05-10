@@ -1,0 +1,17 @@
+<div class="period-dropdown">
+  <custom-calendar
+    [isPeriod]="true"
+    [value]="instance.value[0]"
+    [valueEnd]="instance.value[1]"
+    [disabledFrom]="disabledFrom"
+    [disabledTo]="disabledTo"
+    [periodDirection]="instance.selectedDirection"
+    (valueChange)="onChangeValueStart($event)"
+    (valueEndChange)="onChangeValueEnd($event)"
+    (periodDirectionChange)="onChangePeriodDirection($event)"
+  ></custom-calendar>
+  <div class="period-dropdown__time" *ngIf="instance.withTime">
+    <div>Время</div>
+    <custom-time-box-overlay [instance]="instance" (valueChange)="onValueChange($event)"></custom-time-box-overlay>
+  </div>
+</div>

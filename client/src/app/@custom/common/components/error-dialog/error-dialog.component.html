@@ -1,0 +1,15 @@
+<div class="error-dialog">
+  <div *ngFor="let i of popup.data" class="error-dialog-item">
+    <span style="display: flex; gap: 10px">
+      <span class="error-dialog-time">{{ i.date | dateFormat: "DD.MM.YY, hh:mm:ss" }}</span>
+      <custom-svg-icon
+        icon="common/info"
+        className="icon-dark-grey"
+        iconHeight="20px"
+        iconWidth="20px"
+        [tooltip]="i.response ? i.response : i.message"
+      ></custom-svg-icon>
+    </span>
+    {{ i.message }}
+  </div>
+</div>

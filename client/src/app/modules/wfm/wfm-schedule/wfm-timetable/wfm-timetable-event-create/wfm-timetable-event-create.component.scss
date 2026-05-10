@@ -1,0 +1,52 @@
+@import "variables";
+
+:host {
+  .timetable-event {
+    display: flex;
+    flex-direction: column;
+    gap: $space-m;
+
+    &__info {
+      padding: $space-xs $space;
+      display: flex;
+      gap: $space-m;
+      background-color: var(--color-f5);
+      border-radius: $space-xs;
+
+      &_wrapper {
+        display: flex;
+        gap: $space-m;
+        align-items: flex-end;
+      }
+
+      &__block {
+        min-width: 100px;
+        display: flex;
+        flex-direction: column;
+        gap: $space-xxs;
+      }
+
+      &_label {
+        color: var(--color-8b);
+      }
+    }
+
+    &__period {
+      display: flex;
+      gap: $space-m;
+      align-items: flex-end;
+
+      &__wrapper {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &_label {
+        display: block;
+        color: var(--color-8b);
+        margin-bottom: $space-xxs;
+        font-size: $size-text-m;
+      }
+    }
+  }
+}

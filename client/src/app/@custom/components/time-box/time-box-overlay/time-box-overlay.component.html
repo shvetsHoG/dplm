@@ -1,0 +1,41 @@
+<div class="time-box-overlay {{ InputSize[instance.size] || InputSize.large }}">
+  <div class="time-box-overlay-column">
+    <div class="time-box-overlay-wrapper scroll scroll__small">
+      <div
+        #elHours
+        class="time-box-overlay-item"
+        [class.selected]="selectedHour === item"
+        *ngFor="let item of itemsHour"
+        (click)="onClick($event, item, TimeBoxType.Hour)"
+      >
+        {{ item | fn: toString }}
+      </div>
+    </div>
+  </div>
+  <div class="time-box-overlay-column">
+    <div class="time-box-overlay-wrapper scroll scroll__small">
+      <div
+        #elMinutes
+        class="time-box-overlay-item"
+        [class.selected]="selectedMinute === item"
+        *ngFor="let item of itemsMinute"
+        (click)="onClick($event, item, TimeBoxType.Minute)"
+      >
+        {{ item | fn: toString }}
+      </div>
+    </div>
+  </div>
+  <div class="time-box-overlay-column" *ngIf="instance.step < 60">
+    <div class="time-box-overlay-wrapper scroll scroll__small">
+      <div
+        #elSeconds
+        class="time-box-overlay-item"
+        [class.selected]="selectedSecond === item"
+        *ngFor="let item of itemsSecond"
+        (click)="onClick($event, item, TimeBoxType.Second)"
+      >
+        {{ item | fn: toString }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+@import "variables";
+
+:host {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  .wfm-schedule {
+    max-width: 1440px;
+    border-radius: $border-radius-m;
+    overflow: hidden;
+    margin: 0 auto;
+    background-color: $color-white;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: $space-m;
+    gap: $space-m;
+
+    &__title {
+      font-weight: $weight-bold;
+      font-size: $size-header-xl;
+      color: $color-black;
+      white-space: nowrap;
+    }
+  }
+}

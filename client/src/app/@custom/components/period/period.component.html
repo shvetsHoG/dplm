@@ -1,0 +1,49 @@
+<div *ngIf="label" class="period-label">
+  {{ label }}
+</div>
+<div
+  class="period {{ PeriodSize[size] || PeriodSize.large }}"
+  [class.disabled-period]="disabled"
+  [class.period-with-time]="withTime"
+  [style.width.px]="width"
+  #periodEl
+  (click)="onClick()"
+>
+  <div class="period__value">
+    <ng-container *ngIf="(value && value?.[0]) || value?.[1]">
+      <span
+        *ngIf="value[0]"
+        (click)="onSelectDirection(PeriodDirection.start)"
+        [class.selected]="selectedDirection === PeriodDirection.start"
+      >
+        {{ value[0] | dateFormat: format }}
+      </span>
+      @if (value?.[0] && value?.[1]) {
+        &nbsp;–&nbsp;
+      }
+      <span
+        (click)="onSelectDirection(PeriodDirection.end)"
+        [class.selected]="selectedDirection === PeriodDirection.end"
+      >
+        {{ value[1] | dateFormat: format }}
+      </span>
+    </ng-container>
+  </div>
+  <div class="period__icons">
+    @if (showClear && (value?.[0] || value?.[1]) && !disabled) {
+      <custom-svg-icon
+        class="input-clear"
+        icon="custom/custom-clear"
+        iconWidth="16px"
+        iconHeight="16px"
+        className="icon-grey"
+        (iconClick)="onClear($event)"
+      ></custom-svg-icon>
+    }
+    <custom-svg-icon className="icon-grey" icon="custom/custom-calendar"></custom-svg-icon>
+  </div>
+</div>
+
+<div class="validation-container">
+  <ng-content></ng-content>
+</div>

@@ -1,0 +1,24 @@
+:host {
+  position: absolute;
+  z-index: 1001;
+  .tgrid-filter {
+    max-height: 100%;
+    overflow: auto;
+    background: var(--color-bg);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    grid-gap: 8px;
+  }
+  .tgrid-filter-items {
+    height: 100%;
+    overflow: auto;
+  }
+  .tgrid-filter-buttons {
+    display: grid;
+    grid-gap: 8px;
+    grid-auto-flow: column;
+  }
+}

@@ -1,0 +1,84 @@
+<ng-container
+  *ngIf="{
+    weekDays: weekDays$ | async,
+    contractTypes: contractTypes$ | async,
+    isFiveDays: isFiveDays$ | async
+  } as data"
+>
+  <div class="contract" [customLoader]="isLoading$">
+    <div class="contract__header">
+      <custom-svg-icon className="icon-dark-gray" icon="arrow-back" (iconClick)="onBack()"></custom-svg-icon>
+      <span class="contract__title">{{ contractName || "Новый контракт" }}</span>
+    </div>
+    <div class="contract__content">
+      <form [formGroup]="formGroup" class="shift">
+        <span class="content__title">Смена</span>
+        <custom-input label="Название контракта" formControlName="name" [width]="450"></custom-input>
+        <custom-input
+          label="Продолжительность смены, часы"
+          formControlName="duration"
+          role="number"
+          [width]="94"
+        ></custom-input>
+        <custom-select-box
+          label="График"
+          formControlName="schedule"
+          [width]="212"
+          [dataSource]="data.contractTypes"
+          [value]="data.contractTypes && data.contractTypes[0]"
+        ></custom-select-box>
+        <div *ngIf="data.isFiveDays && data.weekDays">
+          <app-wfm-contracts-checkbox-group
+            formControlName="customDays"
+            [isNotValid]="formGroup.get('customDays')?.dirty && formGroup.get('customDays')?.errors?.isNotFilled"
+            [value]="data.weekDays"
+          ></app-wfm-contracts-checkbox-group>
+        </div>
+        <div class="content__time">
+          <span class="content__time_title">Начало рабочей смены</span>
+          <div class="content__time_boxes">
+            <custom-date-box
+              *ngIf="!data.isFiveDays"
+              formControlName="startDate"
+              format="D.MM.YYYY"
+              [width]="212"
+              [showIcon]="true"
+            ></custom-date-box>
+            <custom-time-box formControlName="startTime" [step]="60" [width]="118"></custom-time-box>
+          </div>
+        </div>
+        <div class="content__buttons">
+          <custom-button role="accept" (buttonClick)="onSaveChanges()">Сохранить изменения</custom-button>
+          <custom-button (buttonClick)="onBack()">Отмена</custom-button>
+        </div>
+      </form>
+      <div *ngIf="contractId" class="appointment">
+        <div class="appointment__header">
+          <span class="content__title">Назначено на сотрудников</span>
+          <custom-button class="content__btn" size="small" (buttonClick)="onUpdateContractAssignees()">
+            Редактировать
+          </custom-button>
+        </div>
+        <custom-search-panel
+          label="Поиск по сотрудникам"
+          [resultFn]="onResultFn"
+          [debounceTime]="500"
+          [inlineSearch]="true"
+          (clearValue)="onClearSearch()"
+        ></custom-search-panel>
+        <div class="employee__group">
+          <div *ngFor="let employee of sortedEmployees" class="employee">
+            {{ employee.fullname }}
+            <custom-svg-icon
+              icon="custom/custom-clear"
+              iconWidth="16px"
+              iconHeight="16px"
+              className="icon-grey"
+              (iconClick)="unassignEmployee(employee)"
+            ></custom-svg-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

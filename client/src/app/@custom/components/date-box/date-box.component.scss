@@ -1,0 +1,64 @@
+$color-pink-bg: #fdeef9;
+$color-reject: #fe3d3e;
+
+:host {
+  position: relative;
+
+  &.ng-dirty.ng-invalid custom-input::ng-deep {
+    & .input-element {
+      border-color: $color-reject !important;
+      background-color: $color-pink-bg !important;
+    }
+  }
+
+  .validation-container {
+    width: max-content;
+    position: absolute;
+    font-size: 14px;
+    color: $color-reject;
+  }
+
+  .date-box {
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 12px;
+    grid-template-columns: 1fr;
+
+    &__icons {
+      position: absolute;
+      display: flex;
+      top: 50%;
+      right: 5px;
+      transform: translateY(-50%);
+    }
+  }
+
+  .dateReadonly {
+    ::ng-deep {
+      .input-element:read-only {
+        background-color: var(--color-input) !important;
+      }
+    }
+  }
+
+  .date-box-datepicker {
+    position: relative;
+  }
+  .date-box-clear {
+    position: absolute;
+    height: 100%;
+    top: 0;
+  }
+  .date-box-timepicker {
+    width: 100px;
+  }
+
+  .date-box-label {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: var(--color-8b);
+    margin-bottom: 2px;
+  }
+}

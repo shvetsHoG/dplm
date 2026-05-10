@@ -1,0 +1,75 @@
+<div
+  [attr.data-theme]="theme | async"
+  class="popup"
+  customTheme
+  [style.width.px]="model.popupWidth"
+  [class.pure]="model.pure"
+  [style.min-width]="model.minWidth"
+  appPopupDraggable
+>
+  <custom-svg-icon
+    class="popup-close"
+    [hidden]="model.hideCloseIcon"
+    icon="custom/custom-close-popup"
+    className="icon-grey"
+    (iconClick)="onClose()"
+  ></custom-svg-icon>
+  <div class="popup-header">
+    <custom-button size="small" *ngIf="model.parentKey">Назад</custom-button>
+    <ng-container
+      [ngTemplateOutlet]="model.headerTemplate ? model.headerTemplate : headerDefaultTemplate"
+    ></ng-container>
+  </div>
+  <div class="popup-body">
+    <ng-container *ngComponentOutlet="model.component; injector: _injector"></ng-container>
+    <ng-container *ngTemplateOutlet="model.template"></ng-container>
+    <ng-container *ngIf="!model.component && model.content">
+      <div class="popup-content" [innerHTML]="model.content"></div>
+    </ng-container>
+  </div>
+  <div class="popup-footer" [ngStyle]="{ 'justify-content': model.alignButtons }">
+    <ng-container
+      [ngTemplateOutlet]="model.footerTemplate ? model.footerTemplate : footerDefaultTemplate"
+    ></ng-container>
+  </div>
+</div>
+
+<ng-template #headerDefaultTemplate>
+  <h2 class="popup-title">{{ model.title | translate }}</h2>
+</ng-template>
+
+<ng-template #footerDefaultTemplate>
+  <custom-button
+    *ngIf="model.accept && !model.hideButton"
+    [role]="model.accept.role"
+    [size]="model.accept.size"
+    [loading]="model.accept.loading"
+    [disabled]="model.accept.disabled"
+    (buttonClick)="model.accept.command()"
+  >
+    {{ model.accept.text | translate }}
+  </custom-button>
+  <ng-container *ngIf="!model.hideButtonAddition">
+    <custom-button
+      *ngFor="let button of model.buttons"
+      [role]="button.role"
+      [size]="button.size"
+      [loading]="button.loading"
+      [disabled]="button.disabled"
+      (buttonClick)="button.command()"
+    >
+      {{ button.text | translate }}
+    </custom-button>
+  </ng-container>
+  <custom-button
+    *ngIf="model.cancel && model.cancel.text && !model.hideButton"
+    [role]="model.cancel.role"
+    [size]="model.cancel.size"
+    [loading]="model.cancel.loading"
+    [disabled]="model.cancel.disabled"
+    (buttonClick)="model.cancel.command()"
+  >
+    {{ model.cancel.text | translate }}
+  </custom-button>
+  <span *ngIf="model.timeoutClose">{{ timeoutCloseLeft }} сек</span>
+</ng-template>

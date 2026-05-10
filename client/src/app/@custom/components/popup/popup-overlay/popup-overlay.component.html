@@ -1,0 +1,11 @@
+<div
+  [attr.data-theme]="themeService ? (themeService.theme$ | async) : null"
+  class="popup-overlay"
+  #container
+  [ngStyle]="{ 'background-color': 'rgba(0, 0, 0, ' + opacity + ')' }"
+  [ngStyle]="{ 'z-index': zIndex }"
+  [hidden]="hidden"
+  (mousedown)="onClick($event)"
+>
+  <ng-container #containerView></ng-container>
+</div>

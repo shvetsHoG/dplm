@@ -1,0 +1,64 @@
+<label class="search-panel-label" *ngIf="label">{{ label }}</label>
+<div class="search-panel" [class.focus]="isFocus" [ngClass]="theme">
+  <custom-input
+    class="search-panel-input"
+    [autoFocus]="autoFocus"
+    [width]="width"
+    [theme]="theme"
+    [role]="role"
+    [size]="size"
+    (focusEvent)="onFocus()"
+    (blurEvent)="onBlur()"
+    (valueChange)="onValueChange($event)"
+    (enterKey)="onEnterClick()"
+    (arrowDown)="onResultDown($event)"
+    (arrowUp)="onResultUp($event)"
+    (inputClick)="onInputClick()"
+    (iconClick)="onSearchClick()"
+    [(value)]="value"
+    [min]="min"
+    [max]="max"
+    [maxLength]="maxLength"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [focusEmitter]="focusEvent"
+    [blurEmitter]="blurEvent"
+    iconClassName="icon-grey"
+    autocomplete="off"
+    [loading]="loading"
+    [showClear]="showClear"
+    [showSearchIcon]="showSearchIcon"
+    icon="custom/custom-search"
+  ></custom-input>
+</div>
+
+<span [ngClass]="{ error: error }" class="error-text">{{ error }}</span>
+<div
+  class="search-result"
+  *ngIf="isFocus && isOpenResult && resultDisplayField"
+  (mousedown)="onClickResult($event)"
+  [style.max-height.px]="maxHeightModal"
+>
+  <div class="search-result-item search-result-searching" *ngIf="loading">Поиск...</div>
+  <div class="search-result-item search-result-empty" *ngIf="!loading && result && result.length === 0">
+    Нет результатов
+  </div>
+  <div
+    *ngFor="let item of result; let i = index"
+    class="search-result-item"
+    [class.search-result-item-focused]="resultIndexFocused === i"
+    (click)="onSelectResult(item)"
+  >
+    <ng-container
+      *ngTemplateOutlet="resultTemplate ? resultTemplate : resultTemplateDefault; context: { item: item }"
+    ></ng-container>
+  </div>
+</div>
+
+<div class="validation-container">
+  <ng-content></ng-content>
+</div>
+
+<ng-template #resultTemplateDefault let-item="item">
+  {{ item[resultDisplayField] }}
+</ng-template>

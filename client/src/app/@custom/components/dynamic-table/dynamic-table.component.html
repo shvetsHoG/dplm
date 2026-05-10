@@ -1,0 +1,63 @@
+<div class="dynamic-table__wrapper">
+  <table *ngIf="isCellView" class="dynamic-table">
+    <thead>
+      <tr class="row">
+        <th
+          class="dynamic-column dynamic-column__head sidebar-cell"
+          [style.width.px]="sidebarWidth"
+          [style.height.px]="columnHeight + 4"
+        >
+          {{ headerData.label }}
+        </th>
+        <ng-container *ngFor="let item of headerData.data">
+          <th
+            class="dynamic-column dynamic-column__head"
+            [style.width.px]="columnWidth"
+            [style.height.px]="columnHeight + 4"
+            [style.background-color]="item.color"
+          >
+            <ng-container *ngIf="headerTemplate; else header">
+              <ng-container *ngTemplateOutlet="headerTemplate; context: { data: item }"></ng-container>
+            </ng-container>
+          </th>
+          <ng-template #header>
+            {{ item.text }}
+          </ng-template>
+        </ng-container>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of dataSource" class="row">
+        <td class="dynamic-column sidebar-cell" [style.width.px]="sidebarWidth" [style.height.px]="columnHeight">
+          <span>{{ data.label }}</span>
+          <custom-svg-icon *ngIf="canEditRow" icon="points" (iconClick)="rowEditClick.emit(data)"></custom-svg-icon>
+        </td>
+        <ng-container *ngFor="let item of headerData.data">
+          <td
+            *ngIf="data.data | fn: getColumnData : item.columnId as columnData; else defaultCell"
+            class="dynamic-column"
+            [style.width.px]="columnWidth"
+            [style.height.px]="columnHeight"
+            [style.background-color]="columnData.color"
+          >
+            <ng-container *ngIf="columnTemplate; else column">
+              <ng-container *ngTemplateOutlet="columnTemplate; context: { data: columnData }"></ng-container>
+            </ng-container>
+            <ng-template #column>
+              {{ columnData.text }}
+            </ng-template>
+            <custom-svg-icon
+              class="dynamic-column__icon"
+              *ngIf="canEditCell"
+              icon="points"
+              (iconClick)="cellEditClick.emit({ cellData: columnData, rowData: data })"
+            ></custom-svg-icon>
+          </td>
+          <ng-template #defaultCell>
+            <td class="dynamic-column" [style.width.px]="columnWidth" [style.height.px]="columnHeight"></td>
+          </ng-template>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,321 @@
+$color-pink: #cb11ab;
+$color-resolve: #56b661;
+$color-reject: #fe3d3e;
+$color-white: var(--color-text-inverse);
+$color-black: #242424;
+$color-gray-3: #d5d5d5;
+$transition-time: 0.1s;
+$transition:
+  color $transition-time linear,
+  background-color $transition-time linear border-color $transition-time linear;
+
+@mixin buttonRole($firstColor, $secondsColor, $defaultColor, $hoverColor: $firstColor, $opacity: 1) {
+  &__default {
+    border-color: $defaultColor;
+    opacity: $opacity;
+    &:not(.button-loading) {
+      background-color: transparent;
+      color: $defaultColor;
+    }
+    &:not(.button-loading):not(:disabled) {
+      &:hover {
+        opacity: 1;
+        background-color: $hoverColor;
+        color: var(--color-text-inverse);
+        & > custom-svg-icon ::ng-deep svg {
+          & path {
+            fill: $secondsColor;
+          }
+
+          & > g > rect {
+            fill: $secondsColor;
+          }
+        }
+      }
+      &:active {
+        opacity: 0.9;
+      }
+    }
+
+    &:not(.button-loading):disabled {
+      border-color: var(--color-button--disabled);
+      color: var(--color-font--disabled);
+    }
+
+    &.button-loading {
+      &:after {
+        background-color: $defaultColor;
+      }
+    }
+
+    & > custom-svg-icon ::ng-deep svg {
+      & path {
+        fill: $defaultColor;
+      }
+    }
+  }
+  &__accept {
+    background-color: $firstColor;
+    &:not(.button-loading) {
+      color: $secondsColor;
+    }
+    &:not(.button-loading):not(:disabled) {
+      &:hover {
+        opacity: 0.85;
+      }
+      &:active {
+        opacity: 0.9;
+      }
+    }
+
+    &:not(.button-loading):disabled {
+      background-color: var(--color-button--disabled);
+      color: var(--color-button-text--disabled);
+    }
+
+    &.button-loading {
+      &:after {
+        background-color: $secondsColor;
+      }
+    }
+
+    & > custom-svg-icon ::ng-deep svg {
+      & path {
+        fill: $secondsColor;
+      }
+    }
+  }
+}
+
+:host {
+  .button {
+    border: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    box-shadow: none;
+    box-sizing: border-box;
+    position: relative;
+
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    &:focus {
+      outline: none !important;
+    }
+
+    &.button-shape {
+      &__rectangle {
+        border-radius: 8px;
+      }
+      &__circle {
+        border-radius: 100%;
+
+        &.button-size {
+          &__large {
+            padding: 0;
+            width: 40px;
+          }
+          &__small {
+            padding: 0;
+            width: 28px;
+          }
+        }
+      }
+      &__ellipse {
+        &.button-size {
+          &__large {
+            border-radius: 40px;
+          }
+          &__small {
+            border-radius: 28px;
+          }
+        }
+      }
+    }
+
+    &.button-role {
+      &__default {
+        border-width: 1px;
+        border-style: solid;
+
+        transition:
+          color $transition-time linear,
+          background-color $transition-time linear,
+          border-color $transition-time linear;
+
+        will-change: color, background-color, border-color;
+      }
+
+      &__accept {
+        border: none;
+        opacity: 1;
+
+        transition: opacity $transition-time linear;
+        will-change: opacity;
+      }
+
+      &__transparent {
+        border: 2px $color-white solid;
+
+        background-color: transparent;
+        color: var(--color-text-inverse);
+
+        transition:
+          color $transition-time linear,
+          background-color $transition-time linear,
+          border-color $transition-time linear;
+
+        will-change: color, background-color, border-color;
+        &:not(.button-loading):not(:disabled) {
+          &:hover {
+            background-color: $color-pink;
+            color: var(--color-text-inverse);
+            border-color: $color-pink;
+          }
+          &:active {
+            opacity: 0.95;
+          }
+        }
+
+        &.button-loading {
+          &:after {
+            background-color: var(--color-background);
+          }
+        }
+
+        &:not(.button-loading):disabled {
+          border-color: $color-gray-3;
+          background-color: transparent;
+          color: $color-gray-3;
+        }
+      }
+    }
+
+    &.button-color {
+      &__main {
+        &.button-role {
+          @include buttonRole(
+            $color-pink,
+            $color-white,
+            var(--color-button-default),
+            var(--color-button--hover),
+            var(--color-button-opacity)
+          );
+        }
+      }
+      &__resolve {
+        &.button-role {
+          @include buttonRole($color-resolve, $color-white, $color-resolve);
+        }
+      }
+      &__reject {
+        &.button-role {
+          @include buttonRole($color-reject, $color-white, $color-reject);
+        }
+      }
+      &__white {
+        &.button-role {
+          @include buttonRole($color-white, var(--color-text), $color-white);
+        }
+      }
+      &__gray {
+        &.button-role {
+          @include buttonRole($color-gray-3, $color-white, $color-gray-3);
+        }
+      }
+    }
+
+    &.button-size {
+      &__large {
+        text-transform: uppercase;
+        height: 40px;
+        padding: 0 24px;
+        &.button-loading {
+          background-size: 24px;
+        }
+      }
+
+      &__middle {
+        height: 36px;
+        padding: 0 20px;
+      }
+
+      &__small {
+        height: 28px;
+        padding: 0 10px;
+        text-transform: none;
+        &.button-loading {
+          background-size: 20px;
+        }
+      }
+    }
+
+    &:not(.button-loading):disabled {
+      cursor: not-allowed;
+    }
+
+    &.button-loading {
+      color: transparent;
+      cursor: wait;
+      &:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 24px;
+        height: 24px;
+        transform: translate(-50%, -50%);
+        mask: url(./icons/button-loader.svg) no-repeat 50% 50%;
+        mask-size: contain;
+      }
+      & custom-svg-icon ::ng-deep svg {
+        visibility: hidden;
+      }
+    }
+
+    &.button-size-tiny {
+      height: 24px;
+      padding: 0 12px;
+      text-transform: none;
+    }
+
+    &.button-icon {
+      padding: 0;
+      &.button-size {
+        &__large {
+          width: 40px;
+          & custom-svg-icon ::ng-deep svg {
+            width: 24px !important;
+            height: 24px !important;
+          }
+        }
+        &__middle {
+          width: 36px;
+          & custom-svg-icon ::ng-deep svg {
+            width: 20px !important;
+            height: 20px !important;
+          }
+        }
+        &__small {
+          width: 28px;
+          & custom-svg-icon ::ng-deep svg {
+            width: 16px !important;
+            height: 16px !important;
+          }
+        }
+      }
+      &.button-role {
+        &:disabled > custom-svg-icon ::ng-deep svg {
+          & path {
+            fill: var(--color-font--disabled);
+          }
+        }
+      }
+    }
+  }
+}

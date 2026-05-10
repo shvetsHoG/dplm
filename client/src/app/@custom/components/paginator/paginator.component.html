@@ -1,0 +1,90 @@
+<div class="paginator-container">
+  <custom-svg-icon
+    (iconClick)="onClick(currentPage - 1)"
+    [disabled]="currentPage === 1"
+    icon="custom/custom-paginator-prev"
+    class="paginator-button-arrow paginator-button-prev"
+  ></custom-svg-icon>
+  <div *ngIf="countPages < maxButons + 2; then single; else several"></div>
+  <div *ngIf="isSingle">
+    <button class="paginator-button">{{ currentPage }}</button>
+  </div>
+  <ng-template #single>
+    <button
+      *ngFor="let page of pages"
+      (click)="onClick(page)"
+      [disabled]="currentPage === page"
+      class="paginator-button"
+    >
+      {{ page }}
+    </button>
+  </ng-template>
+  <ng-template #several>
+    <button
+      *ngFor="let page of leftPages"
+      (click)="onClick(page)"
+      [disabled]="currentPage === page"
+      class="paginator-button"
+    >
+      {{ page }}
+    </button>
+    <span
+      *ngIf="currentPage > middleValue"
+      class="paginator-dots"
+      tooltip=" "
+      [tooltipTemplate]="pageTooltipTemplate"
+      [tooltipShowArrow]="true"
+    >
+      ...
+    </span>
+    <button
+      *ngFor="let page of middlePages"
+      (click)="onClick(page)"
+      [disabled]="currentPage === page"
+      class="paginator-button"
+    >
+      {{ page }}
+    </button>
+    <span
+      *ngIf="currentPage < countPages - middleValue + 1"
+      class="paginator-dots"
+      tooltip=" "
+      [tooltipTemplate]="pageTooltipTemplate"
+      [tooltipShowArrow]="true"
+    >
+      ...
+    </span>
+    <button
+      *ngFor="let page of rightPages"
+      (click)="onClick(page)"
+      [disabled]="currentPage === page"
+      class="paginator-button"
+    >
+      {{ page }}
+    </button>
+  </ng-template>
+  <custom-svg-icon
+    (iconClick)="onClick(currentPage + 1)"
+    [disabled]="currentPage === countPages && !isSingle"
+    icon="custom/custom-paginator-next"
+    class="paginator-button-arrow paginator-button-next"
+  ></custom-svg-icon>
+  <!-- <select (change)="onChangePer($event.target.value)" *ngIf="showPersSelect">
+    <option
+      *ngFor="let per of pers"
+      [selected]="per === perPage"
+      [value]="per"
+    >{{ per }}</option>
+  </select> -->
+</div>
+
+<ng-template #pageTooltipTemplate>
+  <custom-input
+    placeholder="Номер..."
+    [width]="85"
+    role="number"
+    [timeOut]="500"
+    [autoFocus]="true"
+    (valueChange)="onSearchPage($event)"
+  ></custom-input>
+</ng-template>

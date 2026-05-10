@@ -1,0 +1,297 @@
+:host {
+  display: block;
+  padding-top: 1px;
+  position: relative;
+  overflow: hidden;
+  color: var(--color-text);
+  .tgrid-scroll-top {
+    &.tgrid > table > thead > tr > th:first-child .tgrid-column-container {
+      box-shadow: var(--box-shadow);
+    }
+  }
+  .tgrid > table > thead > tr > th:first-child .tgrid-column-container {
+    border-radius: 4px;
+    background-color: var(--color-tgrid-column-container);
+  }
+  .tgrid-scroll-bottom {
+    box-shadow: var(--box-shadow);
+  }
+  .tgrid {
+    height: 100%;
+    overflow: auto;
+    @media (max-width: 1400px) {
+      // overflow-x: scroll;
+      overflow-x: auto;
+    }
+    margin-top: 40px;
+    height: calc(100% - (40px + 40px));
+    color: var(--color-font);
+
+    ::ng-deep .tgrid-column-name {
+      color: var(--color-text);
+    }
+  }
+  .tgrid-fixed-height {
+    overflow-y: auto;
+  }
+  .tgrid > table {
+    color: var(--color-text);
+    border-spacing: 0;
+    border: none;
+    font-size: 14px;
+    table-layout: fixed;
+    &.tgrid-auto-width {
+      table-layout: auto;
+    }
+    &.tgrid-static-header {
+      & > thead > tr > th {
+        & .tgrid-column-container {
+          position: static;
+          border-radius: 0;
+          background-color: var(--color-tgrid-column-container);
+        }
+        &:first-child .tgrid-column-container {
+          border-radius: 4px 0 0 4px;
+          background-color: var(--color-tgrid-column-container);
+        }
+        &:last-child .tgrid-column-container {
+          border-radius: 0 4px 4px 0;
+          background-color: var(--color-tgrid-column-container);
+        }
+      }
+    }
+    & > thead {
+      & tr {
+        // border-bottom: 3px #FFFFFF solid;
+        border-radius: 4px;
+      }
+      & th {
+        white-space: pre;
+        text-align: left;
+        font-weight: normal;
+        line-height: 0;
+        height: 0;
+        padding: 0;
+        &:first-child .tgrid-column-container {
+          padding-left: 20px;
+        }
+        & .tgrid-column-container {
+          position: absolute;
+          display: flex;
+          height: 40px;
+          width: 100%;
+          top: 0;
+          align-items: center;
+          padding: 0 10px;
+          box-sizing: border-box;
+          line-height: normal;
+          font-weight: 600;
+        }
+        & .tgrid-column-filter {
+          width: 14px;
+          height: 14px;
+          padding: 4px;
+          margin-left: 4px;
+          background-color: #646464;
+          mask: url(../../../../assets/icons/filter.svg) no-repeat 50% 50%;
+          &.tgrid-column-filter-active {
+            background-color: #cb11ab;
+          }
+        }
+        &.tgrid-column-sortable {
+          cursor: pointer;
+          user-select: none;
+          &:hover {
+            color: #cb11ab;
+            & .tgrid-column-name {
+              border-color: #cb11ab;
+            }
+          }
+          & .tgrid-column-name {
+            border-bottom: 1px #797979 dashed;
+          }
+          & .tgrid-column-sort-desc,
+          & .tgrid-column-sort-asc {
+            margin-left: 4px;
+          }
+          & .tgrid-column-sort-desc {
+            content: url(../../../../assets/icons/custom/custom-sort-desc.svg);
+          }
+          & .tgrid-column-sort-asc {
+            content: url(../../../../assets/icons/custom/custom-sort-asc.svg);
+          }
+        }
+      }
+    }
+    & > tbody {
+      overflow: auto;
+      height: auto;
+      & tr.tgrid-row {
+        transition: background-color 0.15s;
+        will-change: background-color;
+        background-color: var(--color-background);
+        &.tgrid-row-selected {
+          background-color: var(--color-tgrid-column-container) !important;
+          & > td {
+            border-color: var(--color-tgrid-column-container) !important;
+            color: #cb11ab;
+          }
+          &:not(.tgrid-row-expanded) + tr > td {
+            border-top-color: var(--color-tgrid-column-container);
+          }
+        }
+        &.tgrid-row-detail-expand {
+          background-color: var(--color-tgrid-column-container) !important;
+          & > td {
+            border-color: var(--color-tgrid-column-container) !important;
+            &:first-child {
+              border-bottom-left-radius: 0;
+            }
+            &:last-child {
+              border-bottom-right-radius: 0;
+            }
+          }
+        }
+        & > td {
+          transition:
+            border-radius 0,
+            border-color 0.15s;
+          will-change: border-color;
+          border-top: 1px solid var(--tgrid-row-border);
+          &:first-child {
+            // border-left: 20px #FFFFFF solid;
+            padding-left: 20px;
+            overflow: visible;
+          }
+          &:last-child {
+            // border-right: 20px #FFFFFF solid;
+            padding-right: 20px;
+            overflow: visible;
+          }
+        }
+        &:first-child > td {
+          border-top-color: var(--color-background);
+        }
+        &.tgrid-row-group {
+          & > td {
+            &:first-child {
+              padding-left: 10px;
+              border-left: none;
+              border-radius: 0;
+            }
+            &:last-child {
+              border-right: none;
+              border-radius: 0;
+            }
+            &.tgrid-row-cell-group {
+              vertical-align: top;
+              border-left: none;
+              padding-left: 20px;
+
+              & + td {
+                border-radius: 0;
+              }
+            }
+          }
+        }
+      }
+      & .tgrid-row-filter td {
+        padding: 0;
+        border: 1px var(--tgrid-row-border) solid;
+        & > custom-input ::ng-deep .input-element {
+          border-radius: 0;
+          padding: 0 12px;
+          text-align: left;
+          font-size: 14px;
+        }
+      }
+      & .tgrid-row-detail {
+        & + .tgrid-row > td {
+          border-color: transparent;
+        }
+        & > td {
+          padding: 0;
+          white-space: initial;
+          word-break: break-word;
+          overflow: visible;
+          border: 2px solid var(--color-tgrid-column-container);
+          padding: 0 18px;
+          border-radius: 4px;
+          box-shadow: 0 -4px 0 var(--color-tgrid-column-container);
+        }
+      }
+
+      & td {
+        position: relative;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 10px;
+      }
+    }
+    &.tgrid-clickable {
+      & > tbody > tr.tgrid-row:not(.tgrid-row-deny-detail) {
+        cursor: pointer;
+        background-color: var(--color-background);
+        &:hover {
+          background-color: var(--color-tgrid-column-container);
+          &.tgrid-row-group {
+            background-color: var(--color-background);
+            & > td:not(.tgrid-row-cell-group) {
+              background-color: var(--color-tgrid-column-container);
+            }
+          }
+          & > td {
+            border-color: var(--color-tgrid-column-container) !important;
+
+            &:first-child {
+              border-radius: 4px 0 0 4px;
+            }
+            &:last-child {
+              border-radius: 0 4px 4px 0;
+            }
+          }
+          &:not(.tgrid-row-expanded):not(.tgrid-row-detail-expand) + tr > td {
+            border-top-color: transparent;
+          }
+        }
+      }
+    }
+  }
+  .tgrid-column-sticky {
+    position: sticky !important;
+    right: 0;
+    background: var(--color-background);
+    border-left: 1px solid var(--tgrid-row-border);
+  }
+  .tgrid-paginator {
+    display: flex;
+    align-items: center;
+    height: 40px;
+  }
+
+  .tgrid-control {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    padding: 0 10px 0 20px;
+    display: flex;
+    z-index: 10;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--color-f5) 00 0%, var(--color-f5) 14px, var(--color-f5) 100%);
+    animation: animationControl 0.15s;
+  }
+
+  custom-paginator[hidden] {
+    display: none;
+  }
+}
+
+@keyframes animationControl {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

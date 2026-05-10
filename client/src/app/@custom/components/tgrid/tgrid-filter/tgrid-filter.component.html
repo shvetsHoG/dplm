@@ -1,0 +1,15 @@
+<div class="tgrid-filter">
+  <div class="tgrid-filter-items">
+    <div *ngFor="let item of dataSource">
+      <custom-checkbox
+        [value]="item.checked"
+        (valueChange)="onChange($event, item.key)"
+        [label]="item.key"
+      ></custom-checkbox>
+    </div>
+  </div>
+  <div class="tgrid-filter-buttons">
+    <custom-button role="accept" size="middle" (buttonClick)="onApply()">Применить</custom-button>
+    <custom-button size="middle" (buttonClick)="onReset()">Сбросить</custom-button>
+  </div>
+</div>

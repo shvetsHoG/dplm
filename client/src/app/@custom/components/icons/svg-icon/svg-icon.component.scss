@@ -1,0 +1,265 @@
+:host {
+  display: flex;
+  justify-items: center;
+  position: relative;
+
+  ::ng-deep svg {
+    margin: auto;
+
+    &.icon-dark-gray {
+      & path {
+        transition: fill 0.15s;
+        fill: #999999;
+      }
+
+      & circle {
+        transition: fill 0.15s;
+        stroke: #999999;
+      }
+
+      & rect {
+        transition: fill 0.15s;
+        fill: #999999;
+      }
+    }
+
+    &.icon-gray-main {
+      & path {
+        transition: fill 0.15s;
+        fill: #999999;
+      }
+
+      & circle {
+        transition: fill 0.15s;
+        stroke: #999999;
+      }
+
+      & rect {
+        transition: fill 0.15s;
+        fill: #999999;
+      }
+    }
+
+    &.icon-dark-white {
+      & path {
+        transition: fill 0.15s;
+        fill: #999999;
+      }
+    }
+    &.icon-grey {
+      & path {
+        transition: fill 0.15s;
+        fill: var(--color-icon-grey);
+      }
+    }
+    &.icon-main-stroke-hover {
+      transition: fill 0.15s;
+    }
+
+    &.icon-grey-v2 {
+      & path {
+        transition: fill 0.15s;
+        fill: var(--color-icon-grey-v2);
+      }
+    }
+
+    &.icon-grey-white {
+      & path {
+        transition: fill 0.15s;
+        fill: var(--color-icon-grey-white);
+      }
+    }
+
+    &.icon-black {
+      & path {
+        transition: fill 0.15s;
+        fill: black;
+      }
+    }
+
+    &.icon-opacity {
+      & path {
+        transition: fill 0.15s;
+        fill: rgba(0, 0, 0, 0.35);
+      }
+    }
+
+    &.icon-main {
+      & path {
+        transition: fill 0.15s;
+        fill: #cb11ab;
+      }
+    }
+
+    &.icon-main-stroke {
+      & path {
+        transition: fill 0.15s;
+        fill: #cb11ab;
+        stroke: #cb11ab;
+      }
+    }
+
+    &.icon-main-rect {
+      transition: fill 0.15s;
+      & path {
+        transition: fill 0.15s;
+        fill: #cb11ab;
+      }
+
+      & rect {
+        stroke: #cb11ab;
+      }
+    }
+
+    &.icon-resolve {
+      & path {
+        transition: fill 0.15s;
+        fill: #56b661;
+      }
+    }
+
+    &.icon-white {
+      opacity: 1;
+      transition: opacity 0.15s;
+
+      & path {
+        fill: var(--color-icon-white);
+      }
+
+      & circle {
+        transition: fill 0.15s;
+        stroke: var(--color-icon-white);
+      }
+
+      & rect {
+        transition: fill 0.15s;
+        fill: var(--color-icon-white);
+      }
+    }
+  }
+
+  &.clickable,
+  &.active {
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 200ms ease;
+    will-change: transition;
+    &:hover,
+    &.active {
+      ::ng-deep svg {
+        &.icon-dark-gray {
+          & path {
+            fill: #646464;
+          }
+
+          & circle {
+            stroke: #646464;
+          }
+
+          & rect {
+            fill: #646464;
+          }
+        }
+        &.icon-dark-white {
+          & path {
+            fill: white;
+          }
+        }
+        &.icon-main-stroke-hover {
+          & path {
+            fill: #cb11ab;
+          }
+
+          & rect {
+            stroke: #cb11ab;
+          }
+        }
+        &.icon-black {
+          & path {
+            fill: #cb11ab;
+          }
+        }
+        &.icon-gray-main {
+          & path {
+            fill: #cb11ab;
+          }
+        }
+        &.icon-grey {
+          & path {
+            fill: var(--color-icon-grey--hover);
+          }
+        }
+        &.icon-grey-v2 {
+          & path {
+            fill: var(--color-icon-grey-v2--hover);
+          }
+        }
+
+        &.icon-grey-white {
+          & path {
+            fill: var(--color-icon-grey-white--hover);
+          }
+        }
+        // &.icon-white {
+        //   & path {
+        //     fill: #cb11ab;
+        //   }
+        // }
+
+        &.icon-white {
+          opacity: 0.75;
+        }
+      }
+    }
+  }
+  &.active {
+    ::ng-deep svg {
+      &.icon-dark-gray {
+        & path {
+          fill: #242424;
+        }
+      }
+      &.icon-gray {
+        & path {
+          fill: #cb11ab;
+        }
+      }
+      &.icon-white {
+        & path {
+          opacity: 1;
+        }
+      }
+      &.icon-opacity {
+        & path {
+          fill: #cb11ab;
+        }
+      }
+    }
+  }
+
+  &.disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .value {
+    display: block;
+    position: absolute;
+    border-radius: 100px;
+    width: 13px;
+    height: 13px;
+    background-color: #cb11ab;
+    top: 0;
+    right: 1px;
+    color: white;
+    z-index: 999;
+    font-size: 9px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .value-large {
+    font-size: 8px;
+    width: 18px;
+  }
+}

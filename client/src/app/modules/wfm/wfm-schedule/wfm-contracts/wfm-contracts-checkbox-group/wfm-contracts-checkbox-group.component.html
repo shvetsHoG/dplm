@@ -1,0 +1,14 @@
+<ng-container *ngIf="value">
+  <div class="checkbox-wrapper">
+    <span *ngIf="isNotValid" class="error">Выберите начальный день недели</span>
+    <div class="checkbox-group">
+      <div *ngFor="let weekDay of value">
+        <custom-checkbox
+          [value]="weekDay.type === weekDayType.WORKDAY"
+          (click)="onWeekdayChange(weekDay)"
+        ></custom-checkbox>
+        <span [class.weekend]="weekDay.isWeekend">{{ weekDay.shortname }}</span>
+      </div>
+    </div>
+  </div>
+</ng-container>

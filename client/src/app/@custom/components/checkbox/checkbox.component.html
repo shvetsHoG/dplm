@@ -1,0 +1,15 @@
+<div class="checkbox">
+  <input
+    [attr.id]="'checkbox_id' + uniq"
+    class="checkbox-element"
+    type="checkbox"
+    name="checkbox"
+    (change)="onChangeValue($event)"
+    [checked]="value"
+    [disabled]="disabled"
+  />
+  <label class="checkbox-container" [class.checkbox-radio]="isRadio" [attr.for]="'checkbox_id' + uniq">
+    <span class="checkbox-value" [class.checkbox-checked]="value" [class.checkbox-disabled]="disabled"></span>
+    <span *ngIf="label" class="checkbox-label" [class.checkbox-disabled]="disabled">{{ label }}</span>
+  </label>
+</div>

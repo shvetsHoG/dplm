@@ -1,0 +1,97 @@
+// colors
+$color-main: #cb11ab;
+$color-fb-main: #d029b3;
+$color-main-background: #f5caeb;
+$color-main-background--light: #fae7f7;
+$color-main-back: rgba(203, 17, 171, 0.25);
+
+$color-resolve: #56b661;
+$color-resolve-background: #ecf8ed;
+
+$color-white: #ffffff;
+$color-black: #242424;
+$color-other: #1e90ff;
+$color-medium: #f7ca54;
+$color-reject: #fe3d3e;
+$color-danger: #ff773c;
+$color-link: #4682b4;
+
+$color-grey-0: #f6f6f6;
+$color-grey-1: #f2f2f2;
+$color-grey-2: #e8e8e8;
+$color-grey-3: #d5d5d5;
+$color-grey-4: #cccccc;
+$color-grey-5: #a7a7a7;
+$color-grey-6: #999999;
+$color-grey-7: #8b8b8b;
+$color-grey-8: #646464;
+
+$color-overlay: rgba(0, 0, 0, 0.2);
+
+$color-shadow-1: rgba(0, 0, 0, 0.1);
+$color-shadow-2: rgba(0, 0, 0, 0.2);
+
+// sizes
+$size-text: 14px;
+
+$size-text-xs: 10px;
+$size-text-s: 12px;
+$size-text-m: 14px;
+$size-text-l: 16px;
+
+$size-header-s: 18px;
+$size-header-m: 24px;
+$size-header-l: 28px;
+$size-header-xl: 36px;
+
+// weight
+$weight-semilight: 350;
+$weight-normal: normal;
+$weight-semibold: 600;
+$weight-bold: bold;
+
+// spaces
+$space-x: 2px;
+$space-xxs: 4px;
+$space-xs: 8px;
+$space-s: 12px;
+
+$space: 16px;
+
+$space-xm: 20px;
+$space-m: 24px;
+$space-ml: 28px;
+
+$space-l: 32px;
+$space-xl: 36px;
+$space-xxl: 40px;
+
+$space-2xl: 44px;
+$space-3xl: 48px;
+
+// z-indexes
+$index-z-s: 10;
+$index-z-m: 100;
+
+// shadows
+$shadow-radius: 10px;
+
+$box-shadow-1: 0 0 $shadow-radius $color-shadow-1;
+$box-shadow-2: 0 0 $shadow-radius $color-shadow-2;
+
+// width page variables
+$width-content: 1440px;
+
+// common
+// $font-family: "ALS Hauss";
+$font-family: "Segoe UI";
+
+$border-radius-s: 2px;
+$border-radius-m: 4px;
+$border-radius-l: 8px;
+
+$icon-size-s: 16px;
+$icon-size-m: 20px;
+$icon-size-l: 24px;
+
+$transition-time: 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946);

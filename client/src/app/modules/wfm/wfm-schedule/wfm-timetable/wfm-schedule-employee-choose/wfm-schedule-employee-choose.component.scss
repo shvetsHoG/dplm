@@ -1,0 +1,46 @@
+@import "variables";
+
+:host {
+  .container {
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+
+    .grid {
+      height: 516px;
+    }
+
+    .grid-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: $space;
+    }
+
+    .employees {
+      overflow-y: auto;
+      max-height: 540px;
+      padding-top: $space-xm;
+      display: flex;
+      flex-direction: column;
+
+      &__wrapper {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+
+      &__button {
+        margin-top: $space;
+      }
+
+      &__item {
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: $space-xs;
+        padding: $space-xs;
+      }
+    }
+  }
+}

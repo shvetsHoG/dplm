@@ -1,0 +1,24 @@
+<div *ngIf="label" class="time-box-label">
+  {{ label }}
+</div>
+<div #timeBox class="time-box" [style.width.px]="width" (wheel)="onWheel($event)" (click)="onClick()">
+  <custom-input
+    #input
+    [focusClass]="!!overlay"
+    [icon]="hideIcon ? null : 'custom/custom-time'"
+    icon="custom/custom-time"
+    iconClassName="icon-grey"
+    role="time"
+    [step]="step"
+    [size]="size"
+    [disabled]="disabled"
+    [readonly]="readonly"
+    [showClear]="showClear && !disabled && !readonly"
+    [showSearchIcon]="!hideIcon"
+    (valueChange)="onChangeValue($event)"
+    [value]="inputValue"
+    [theme]="theme"
+    placeholder="--:--"
+    (enterKey)="onEnterKey()"
+  ></custom-input>
+</div>

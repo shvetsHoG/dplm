@@ -1,0 +1,9 @@
+<ng-container *ngIf="date && !vertical">
+  <span [class.text-attention]="isAttention">{{ val }}</span>
+</ng-container>
+<ng-container *ngIf="date && vertical">
+  <div *ngFor="let item of val">
+    {{ item }}
+  </div>
+</ng-container>
+<ng-container *ngIf="!date && placeholder">{{ placeholder }}</ng-container>

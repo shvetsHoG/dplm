@@ -1,0 +1,17 @@
+<button
+  #button
+  class="button {{ ButtonRole[role] || ButtonRole.default }} {{ ButtonSize[size] || ButtonSize.large }} {{
+    ButtonShape[shape] || ButtonShape.rectangle
+  }} {{ ButtonColor[color] || ButtonColor.main }}"
+  [class.button-loading]="loading"
+  [class.button-disabled]="disabled"
+  [class.button-icon]="icon"
+  [style.width]="width"
+  [disabled]="disabled"
+  (click)="onClick($event)"
+  [type]="action"
+>
+  <custom-svg-icon *ngIf="icon" [icon]="icon" iconHeight="20px" iconWidth="20px"></custom-svg-icon>
+  <ng-content></ng-content>
+  <ng-container *ngIf="label">{{ label | translate }}</ng-container>
+</button>

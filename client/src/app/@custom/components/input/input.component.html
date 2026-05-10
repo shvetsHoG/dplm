@@ -1,0 +1,70 @@
+<div *ngIf="label" class="input-label">
+  {{ label | translate }}
+</div>
+<div
+  class="input-container {{ InputSize[size] || InputSize.large }} {{ pure ? 'pure' : theme }}"
+  [style.height.px]="height"
+  [style.width.px]="width"
+  [class.has-icon]="icon"
+  [class.has-clear]="showClear"
+>
+  <input
+    #input
+    class="input-element"
+    [value]="value"
+    [autocomplete]="autocomplete ? 'on' : 'off'"
+    [type]="role"
+    [attr.max]="max"
+    [attr.min]="min"
+    [attr.maxlength]="maxLength"
+    [attr.step]="step"
+    [readonly]="readonly || isDateReadonly"
+    [disabled]="disabled"
+    [attr.pattern]="pattern"
+    [placeholder]="placeholder"
+    [class.border-new]="borderStyle === 'new'"
+    (click)="onClick($event)"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+    (change)="onChangeValue($event)"
+    (keyup)="onKeyup($event)"
+    (keyup.enter)="onEnter($event)"
+    (keyup.arrowdown)="onArrowDown($event)"
+    (keyup.arrowup)="onArrowUp($event)"
+    (keypress)="preventE($event)"
+    (input)="onInput($event)"
+    (paste)="onPaste($event)"
+    [style.width.px]="autoWidth ? buffer.offsetWidth + padding : null"
+    [style.min-width.px]="minWidth"
+  />
+  <div class="input-icons">
+    <custom-svg-icon
+      class="input-clear"
+      *ngIf="showClear && value && !disabled && !loading"
+      icon="custom/custom-clear"
+      iconWidth="16px"
+      iconHeight="16px"
+      className="icon-grey"
+      (iconClick)="onClear($event)"
+    ></custom-svg-icon>
+    <custom-svg-icon
+      class="input-icon"
+      *ngIf="icon && !loading && showSearchIcon"
+      [className]="iconClassName"
+      [icon]="icon"
+      (iconClick)="onClickIcon()"
+    ></custom-svg-icon>
+    <div class="input-loading" *ngIf="loading"></div>
+  </div>
+  <div #buffer class="input-auto-width-buffer">
+    <ng-container *ngIf="autoWidth">{{ value }}</ng-container>
+  </div>
+</div>
+<div class="validation-container">
+  <ng-content></ng-content>
+</div>
+@if (isInvalid && errorText) {
+  <div class="error-text" [style.max-width]="errorMaxWidth">
+    {{ errorText }}
+  </div>
+}

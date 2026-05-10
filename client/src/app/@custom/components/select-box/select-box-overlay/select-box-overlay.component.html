@@ -1,0 +1,84 @@
+<div class="select-box-options {{ SelectBoxSize[instance.size] || SelectBoxSize.large }}">
+  <div #wrap class="select-box-options-wrap">
+    @if (hasArchiveTabs) {
+      <div class="select-box-tabs">
+        <custom-tabs
+          [dataSource]="tabs"
+          [value]="selectedTab"
+          (valueChange)="onChangeTab($event)"
+          className="tabs-switch"
+        ></custom-tabs>
+      </div>
+    }
+    @if (instance.searchEnable) {
+      <div class="select-box-search">
+        <custom-search-panel
+          #searchPanel
+          [placeholder]="searchPlaceholder"
+          theme="underlined"
+          [size]="instance.size"
+          [resultFn]="onSearchFn"
+          [debounceTime]="500"
+          [inlineSearch]="true"
+          (clearValue)="onClearSearch()"
+        ></custom-search-panel>
+      </div>
+    }
+    @if (notFound) {
+      <div class="select-box-empty">По запросу '{{ filterValue }}' ничего не найдено.</div>
+    }
+    @if (instance.optionPlaceholder) {
+      <div class="select-box-option" [class.select-box-option-selected]="instance.isEmpty" (click)="onClickEmpty()">
+        {{ instance.placeholder }}
+      </div>
+    }
+    @if (instance.grouping) {
+      <div class="select-box-option-group" *ngFor="let data of dataSource">
+        @if (filteredItems[data[instance.idExpr]].length) {
+          <div class="select-box-option-group-name">
+            <span>
+              <ng-container *ngTemplateOutlet="instance.itemTemplate; context: { item: data }"></ng-container>
+            </span>
+          </div>
+        }
+        <ng-container
+          *ngTemplateOutlet="groupTemplate; context: { data: filteredItems[data[instance.idExpr]] }"
+        ></ng-container>
+      </div>
+    }
+    @if (!instance.grouping) {
+      <ng-container *ngTemplateOutlet="groupTemplate; context: { data: dataSource }"></ng-container>
+    }
+    @if (instance.additions) {
+      <div class="select-box-additions">
+        @if (dataSource && dataSource.length) {
+          <hr noshade size="1" />
+        }
+        <div
+          *ngFor="let item of instance.additions"
+          (click)="onClickItem(item)"
+          class="select-box-option select-box-addition"
+          [class.select-box-option-selected]="instance.selection[instance.valueExpr(item)]"
+        >
+          <ng-container *ngTemplateOutlet="instance.itemTemplate; context: { item: item }"></ng-container>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<ng-template #groupTemplate let-data="data">
+  @if ((!data || !data.length) && !filterValue) {
+    <div class="select-box-empty">
+      {{ "GENERAL.NO_DATA" | translate }}
+    </div>
+  }
+  <div
+    class="select-box-option"
+    *ngFor="let item of data"
+    [class.select-box-option-selected]="instance.selection[instance.valueExpr(item)]"
+    (click)="onClickItem(item)"
+  >
+    <ng-container *ngTemplateOutlet="instance.itemTemplate; context: { item: item }"></ng-container>
+  </div>
+</ng-template>

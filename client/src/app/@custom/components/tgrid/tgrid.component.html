@@ -1,0 +1,120 @@
+<div
+  #grid
+  [class.scroll]="scrollStyle"
+  class="tgrid"
+  [class.tgrid-scroll-top]="scrollTop"
+  [class.tgrid-fixed-height]="height"
+>
+  <table
+    width="100%"
+    class=""
+    [class.tgrid-with-detail]="detailTemplate"
+    [class.tgrid-clickable]="clickable || detailTemplate"
+    [class.tgrid-auto-width]="autoWidth"
+    [class.tgrid-static-header]="staticHeader"
+  >
+    <colgroup *ngIf="!autoWidth">
+      <col *ngFor="let item of columns; let last = last; trackBy: trackColumnByFn" [width]="item.width" />
+    </colgroup>
+    <thead>
+      <tr>
+        <th
+          *ngFor="let item of columns"
+          [ngClass]="{ 'tgrid-column-sortable': item.allowSort, 'tgrid-column-sticky': item.isSticky }"
+        >
+          <div class="tgrid-column-container" (click)="onClickSort($event, item)">
+            <span class="tgrid-column-name">
+              <!-- <ng-container *ngIf="item.templateColumnName">
+                <ng-container *ngTemplateOutlet="item.templateColumnName; context: item"></ng-container>
+              </ng-container>
+              <ng-container *ngIf="!item.templateColumnName">
+                {{ item.name }}
+              </ng-container> -->
+              <ng-container *ngTemplateOutlet="item.templateColumnName; context: item"></ng-container>
+            </span>
+            <span [ngClass]="'tgrid-column-sort-' + item.sort"></span>
+            <div
+              *ngIf="item.allowFilter && !item.inlineFilter"
+              class="tgrid-column-filter"
+              [class.tgrid-column-filter-active]="item.filterActive"
+              (click)="onClickFilter($event, item)"
+            ></div>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody [style.height]="height">
+      <tr *ngIf="inlineFilter" class="tgrid-row-filter">
+        <td *ngFor="let cell of columns">
+          <custom-input
+            *ngIf="cell.inlineFilter"
+            size="small"
+            icon="common/search"
+            [pure]="true"
+            (valueChange)="onChangeFilter($event, cell)"
+          ></custom-input>
+        </td>
+      </tr>
+      <ng-container *ngFor="let item of _data; let index = index; trackBy: trackByFn">
+        <tr
+          (click)="onClickRow($event, item, index)"
+          class="tgrid-row"
+          [class.tgrid-row-selected]="item.selected"
+          [class.tgrid-row-deny-detail]="detailTemplate && !(item | fn: checkDetail)"
+          [class.tgrid-row-detail-expand]="expandId === item.id || item.expand"
+          [appOverControl]="templateControlRow"
+          [tooltip]="tooltipRowKey ? item.data[tooltipRowKey] : null"
+          [appOverControlData]="item"
+        >
+          <td
+            *ngFor="let cell of columns; let last = last; trackBy: trackColumnByFn"
+            (click)="onClickCell($event, cell)"
+            [style.max-width.px]="cell.maxWidth"
+            [ngClass]="{ 'tgrid-column-sticky': cell.isSticky }"
+          >
+            <ng-container *ngTemplateOutlet="cell.template; context: item"></ng-container>
+          </td>
+        </tr>
+        <tr *ngIf="expandId === item.id || item.expand" class="tgrid-row-detail">
+          <td [attr.colspan]="columns.length">
+            <app-tgrid-detail [detailTemplate]="detailTemplate" [item]="item"></app-tgrid-detail>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+<div #scrollChecker></div>
+<custom-paginator
+  [hidden]="data && data.length && data.length <= perPage"
+  [class.tgrid-scroll-bottom]="scrollBottom"
+  class="tgrid-paginator"
+  *ngIf="data && data.length && paging"
+  [perPage]="perPage"
+  [currentPage]="1"
+  [totalCount]="dataLength ? dataLength : data.length"
+  (changePage)="onChangePage($event)"
+></custom-paginator>
+
+<ng-template #templateHeaderCell let-item="item">
+  <th>
+    <span>{{ item.name }} {{ item.sort }}</span>
+    <span [ngClass]="'tgrid-column-sort-' + item.sort"></span>
+  </th>
+</ng-template>
+
+<ng-template #templateBodyRow let-row="row">
+  <tr>
+    <td *ngFor="let cell of row.columns">{{ row.item[cell.key] }}</td>
+  </tr>
+</ng-template>
+
+<ng-template #templateBodyCell let-item="item">
+  <td>{{ item.value }}</td>
+</ng-template>
+
+<ng-template #templateControlRow let-data="data">
+  <div class="tgrid-control" *ngIf="rowControlTemplate">
+    <ng-container *ngTemplateOutlet="rowControlTemplate; context: data"></ng-container>
+  </div>
+</ng-template>

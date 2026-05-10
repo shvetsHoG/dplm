@@ -1,0 +1,43 @@
+<ng-container>
+  <app-tgrid
+    [autoWidth]="true"
+    [staticHeader]="true"
+    [dataSource]="data"
+    [clickable]="true"
+    (rowClick)="onRowClick.emit($event.data)"
+  >
+    <app-tgrid-column key="id" name="№" [template]="id">
+      <ng-template #id let-data="data">
+        <div>{{ data?.id }}</div>
+      </ng-template>
+    </app-tgrid-column>
+    <app-tgrid-column key="name" name="Контракты" [template]="name">
+      <ng-template #name let-data="data">
+        <div>{{ data?.name }}</div>
+      </ng-template>
+    </app-tgrid-column>
+    <app-tgrid-column key="shiftName" name="График" [template]="shiftName">
+      <ng-template #shiftName let-data="data">
+        <div>{{ data?.shiftName }}</div>
+      </ng-template>
+    </app-tgrid-column>
+    <app-tgrid-column key="employeeCount" name="Присвоен, чел." [template]="employeeCount">
+      <ng-template #employeeCount let-data="data">
+        <div>{{ data?.employeeCount }}</div>
+      </ng-template>
+    </app-tgrid-column>
+    <app-tgrid-column key="delete" name="" [template]="deleteTemplate">
+      <ng-template #deleteTemplate let-data="data">
+        <div class="delete-template">
+          <custom-svg-icon
+            (iconClick)="onDeleteContract($event, data)"
+            className="icon-grey"
+            iconWidth="20px"
+            iconHeight="20px"
+            icon="common/trash"
+          ></custom-svg-icon>
+        </div>
+      </ng-template>
+    </app-tgrid-column>
+  </app-tgrid>
+</ng-container>

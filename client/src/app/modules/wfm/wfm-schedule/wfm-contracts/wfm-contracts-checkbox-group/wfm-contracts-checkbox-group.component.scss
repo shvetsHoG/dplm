@@ -1,0 +1,31 @@
+@import "variables";
+
+:host {
+  .checkbox-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: $space-s 0;
+    gap: 4px;
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: row;
+      gap: $space-s;
+
+      &::ng-deep .checkbox-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .weekend {
+        color: var(--color-main-text);
+      }
+    }
+  }
+
+  .error {
+     font-size: $size-text-m;
+     color: var(--color-reject);
+   }
+}
