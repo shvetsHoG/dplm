@@ -1,0 +1,12 @@
+.angular
+.idea
+.vscode
+/node_modules
+
+*.json
+*.js
+*.yml
+*.yaml
+*.png
+README.md
+.prettierrc
