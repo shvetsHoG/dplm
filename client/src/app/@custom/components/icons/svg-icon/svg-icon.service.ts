@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, of, throwError } from "rxjs";
 import { switchMap, map, share } from "rxjs/operators";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class SvgIconService {
   private static _cache: Map<string, SVGElement> = new Map();
   private static _inProgressReqs: Map<string, Observable<SVGElement>> = new Map();

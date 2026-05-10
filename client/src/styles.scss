@@ -142,7 +142,7 @@ $size-spinner: 60px;
   &.spinner-active {
     &:before {
       content: attr(alt);
-      background-image: url("/client/public/icons/custom/custom-loader.svg");
+      background-image: url("/icons/custom/custom-loader.svg");
       width: 120px;
       height: 85px;
       position: absolute;
