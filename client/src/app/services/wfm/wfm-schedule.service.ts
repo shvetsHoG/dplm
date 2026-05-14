@@ -8,7 +8,7 @@ import { WfmEmployeesEventReq, WfmItems, WfmItemsDtoFn } from "app/models/wfm/wf
 import { AccessControlUsers } from "app/models/access-control/access-control-users";
 import { ObjectHelper } from "@custom/extensions/object-helper.extensions";
 
-const URL = `api/wfm`;
+const URL = `http://localhost:3000/api`;
 
 @Injectable()
 export class WfmScheduleService extends ServiceBase {
@@ -37,18 +37,18 @@ export class WfmScheduleService extends ServiceBase {
       limit,
       offset
     });
-    return this.get(`${URL}/web/v1/employees/calendar?${params}`, WfmItemsDtoFn);
+    return this.get(`${URL}/employees/calendar?${params}`, WfmItemsDtoFn);
   }
 
   private _createEvent(employeeId: number, body: WfmEmployeesEventReq): Observable<{ id: number }> {
-    return this.post(`${URL}/web/v1/employees/${employeeId}/events`, body);
+    return this.post(`${URL}/employees/${employeeId}/events`, body);
   }
 
   private _changeEvent(eventId: number, body: WfmEmployeesEventReq): Observable<void> {
-    return this.put(`${URL}/web/v1/events/${eventId}`, body);
+    return this.put(`${URL}/events/${eventId}`, body);
   }
 
   private _deleteEvent(employeeId: number, eventId: number): Observable<void> {
-    return this.remove(`${URL}/web/v1/employees/${employeeId}/events/${eventId}`);
+    return this.remove(`${URL}/employees/${employeeId}/events/${eventId}`);
   }
 }

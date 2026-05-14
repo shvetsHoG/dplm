@@ -6,8 +6,8 @@ import { InputModule } from "../input/input.module";
 import { CustomCommonModule } from "@custom/common/custom-common.module";
 
 @NgModule({
-    exports: [TimeBoxComponent, TimeBoxOverlayComponent],
-    declarations: [TimeBoxComponent, TimeBoxOverlayComponent],
-    imports: [CommonModule, InputModule, CustomCommonModule]
+  exports: [TimeBoxComponent, TimeBoxOverlayComponent],
+  declarations: [TimeBoxComponent, TimeBoxOverlayComponent],
+  imports: [CommonModule, InputModule, CustomCommonModule]
 })
 export class TimeBoxModule {}

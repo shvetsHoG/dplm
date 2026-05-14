@@ -13,7 +13,7 @@ import {
 import { Observable } from "rxjs";
 import { RxFn } from "rxfn";
 
-const URL = `api/wfm`;
+const URL = `http://localhost:3000/api`;
 
 @Injectable()
 export class WfmDictService extends ServiceBase {
@@ -30,14 +30,14 @@ export class WfmDictService extends ServiceBase {
   public getEventTypes = new RxFn<WfmEventType[]>(this._getEventTypes.bind(this));
 
   private _getContractTypes(): Observable<WfmContractType[]> {
-    return this.get(`${URL}/web/v1/dict/contract_types`, WfmContractTypesDtoFn);
+    return this.get(`${URL}/dictionary/contract_types`, WfmContractTypesDtoFn);
   }
 
   private _getWeekDays(): Observable<WfmContractType[]> {
-    return this.get(`${URL}/web/v1/dict/weekdays`, WfmWeekDaysDtoFn);
+    return this.get(`${URL}/dictionary/weekdays`, WfmWeekDaysDtoFn);
   }
 
   private _getEventTypes(): Observable<WfmEventType[]> {
-    return this.get(`${URL}/web/v1/dict/event_types`, WfmEventTypesDtoFn);
+    return this.get(`${URL}/dictionary/event_types`, WfmEventTypesDtoFn);
   }
 }

@@ -14,7 +14,7 @@ import {
 import { RxFn } from "rxfn";
 import { ObjectHelper } from "@custom/extensions/object-helper.extensions";
 
-const URL = `/api/wfm`;
+const URL = `http://localhost:3000/api`;
 
 @Injectable()
 export class WfmContractsService extends ServiceBase {
@@ -35,31 +35,31 @@ export class WfmContractsService extends ServiceBase {
   public assignEmployee = new RxFn<void, [string, WFMEmployeeAssignResp]>(this._assignEmployee.bind(this));
 
   private _unassignEmployee(id: string, employeeId: number): Observable<void> {
-    return this.remove(`${URL}/web/v1/contracts/${id}/unassign/${employeeId}`, null, null, true);
+    return this.remove(`${URL}/contracts/${id}/unassign/${employeeId}`, null, null, true);
   }
 
   private _deleteContract(id: string): Observable<void> {
-    return this.remove(`${URL}/web/v1/contracts/${id}`, null, null, true);
+    return this.remove(`${URL}/contracts/${id}`, null, null, true);
   }
 
   private _getContracts(limit: number, offset: number): Observable<WFMContracts> {
     const params = ObjectHelper.createQueryParams({ limit, offset });
-    return this.get(`${URL}/web/v1/contracts?`, WFMContractsDtoFn, null, true);
+    return this.get(`${URL}/contracts?`, WFMContractsDtoFn, null, true);
   }
 
   private _createContract(body: WFMContractsReq): Observable<{ id: number }> {
-    return this.post(`${URL}/web/v1/contracts`, body, null, null, true);
+    return this.post(`${URL}/contracts`, body, null, null, true);
   }
 
   private _getContract(id: string): Observable<WFMFullContract> {
-    return this.get(`${URL}/web/v1/contracts/${id}`, WFMFullContractDtoFn, null, true);
+    return this.get(`${URL}/contracts/${id}`, WFMFullContractDtoFn, null, true);
   }
 
   private _changeContract(id: string, body: WFMContractsReq): Observable<void> {
-    return this.put(`${URL}/web/v1/contracts/${id}`, body, null, null, true);
+    return this.put(`${URL}/contracts/${id}`, body, null, null, true);
   }
 
   private _assignEmployee(id: string, body: WFMEmployeeAssignResp): Observable<void> {
-    return this.post(`${URL}/web/v1/contracts/${id}/assign`, body, null, null, true);
+    return this.post(`${URL}/contracts/${id}/assign`, body, null, null, true);
   }
 }
