@@ -1,14 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { WFMContract } from "app/models/wfm/wfm-contracts";
 import { PopupService } from "@custom/components/popup/popup.service";
 
 @Component({
-    selector: "app-wfm-schedule-grid",
-    templateUrl: "./wfm-schedule-grid.component.html",
-    styleUrls: ["./wfm-schedule-grid.component.scss"],
-    standalone: false
+  selector: "app-wfm-schedule-grid",
+  templateUrl: "./wfm-schedule-grid.component.html",
+  styleUrls: ["./wfm-schedule-grid.component.scss"],
+  standalone: false
 })
-export class WfmScheduleGridComponent implements OnInit {
+export class WfmScheduleGridComponent {
   @Input() data: WFMContract[] = [];
 
   @Output() changePage: EventEmitter<number> = new EventEmitter<number>();
@@ -17,9 +17,7 @@ export class WfmScheduleGridComponent implements OnInit {
 
   constructor(private _popup: PopupService) {}
 
-  ngOnInit(): void {}
-
-  onDeleteContract(e: PointerEvent, item: WFMContract): void {
+  public onDeleteContract(e: PointerEvent, item: WFMContract): void {
     e.stopPropagation();
 
     this._popup.open({

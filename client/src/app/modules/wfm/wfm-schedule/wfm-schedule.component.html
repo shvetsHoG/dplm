@@ -1,8 +1,7 @@
 <div class="wfm-schedule">
-  @if (routerPath() === routerPaths.NEW_CONTRACT) {
+  @if (path() === routerPaths.NEW_CONTRACT) {
     <app-wfm-new-contract></app-wfm-new-contract>
-  }
-  @if (routerPath() === routerPaths.CONTRACT) {
+  } @else if (path() === routerPaths.CONTRACT) {
     <app-wfm-new-contract [contractId]="contractId()"></app-wfm-new-contract>
   } @else {
     <span class="wfm-schedule__title">Работа с расписанием</span>

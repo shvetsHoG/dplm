@@ -13,6 +13,7 @@ import { WFMContractsReq, WFMEmployeeGroup } from "app/models/wfm/wfm-contracts"
 import { PopupService } from "@custom/components/popup/popup.service";
 import { WfmAssignmentCreateComponent } from "app/modules/wfm/wfm-schedule/wfm-contracts/wfm-assignment-create/wfm-assignment-create.component";
 import { ErrorHandlerService } from "@custom/common/services/error-handler.service";
+import { NavigationService } from "app/services/navigation-service";
 
 @Component({
   selector: "app-wfm-new-contract",
@@ -43,7 +44,8 @@ export class WfmNewContractComponent extends FormComponentBase implements OnInit
     private _destroy$: DestroyService,
     private _cdr: ChangeDetectorRef,
     private _fb: FormBuilder,
-    private _errorService: ErrorHandlerService
+    private _errorService: ErrorHandlerService,
+    private _navigationService: NavigationService
   ) {
     super();
     this.formGroup = this._fb.group({
@@ -164,7 +166,9 @@ export class WfmNewContractComponent extends FormComponentBase implements OnInit
       });
   }
 
-  public onBack() {}
+  public onBack() {
+    this._navigationService.navigate(WfmRouterPaths.HOME);
+  }
 
   public onSaveChanges() {
     if (!this.isValidForm()) {

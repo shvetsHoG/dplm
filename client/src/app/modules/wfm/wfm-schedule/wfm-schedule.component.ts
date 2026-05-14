@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, signal, WritableSignal } from "@angular/core";
 import { DestroyService } from "app/services/destroy.service";
-import { WfmRouterType, WfmRouterPaths } from "app/models/wfm/wfm";
+import { WfmRouterPaths } from "app/models/wfm/wfm";
 import { NavigationService } from "app/services/navigation-service";
-import { WfmContractsRouterType } from "app/modules/wfm/wfm-schedule/wfm-contracts/wfm-contracts.router";
-import { takeUntil } from "rxjs/operators";
 
 enum PATHS {
   TIMETABLE = "Расписание",
@@ -29,7 +27,6 @@ export class WfmScheduleComponent implements OnInit {
   public readonly pathVariables = PATH_VARIABLES;
 
   public path: WritableSignal<string> = signal(null);
-  public routerPath: WritableSignal<string> = signal(null);
   public contractId: WritableSignal<string> = signal(null);
 
   readonly routerPaths = WfmRouterPaths;

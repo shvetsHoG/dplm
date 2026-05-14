@@ -7,6 +7,7 @@ import { map, takeUntil } from "rxjs/operators";
 import { DestroyService } from "app/services/destroy.service";
 import { BehaviorSubject, combineLatest, merge } from "rxjs";
 import { ErrorHandlerService } from "@custom/common/services/error-handler.service";
+import { NavigationService } from "app/services/navigation-service";
 
 @Component({
   selector: "app-wfm-contracts",
@@ -26,7 +27,8 @@ export class WfmContractsComponent implements OnInit {
   constructor(
     private _contractService: WfmContractsService,
     private _destroy$: DestroyService,
-    private _errorService: ErrorHandlerService
+    private _errorService: ErrorHandlerService,
+    private _navigationService: NavigationService
   ) {}
 
   ngOnInit(): void {
@@ -67,9 +69,14 @@ export class WfmContractsComponent implements OnInit {
       .subscribe(() => this._getContracts(this.page));
   }
 
-  public onClickNewContract() {}
+  public onClickNewContract() {
+    this._navigationService.navigate(WfmRouterPaths.NEW_CONTRACT);
+  }
 
-  public openContract(data: WFMContract) {}
+  public openContract(data: WFMContract) {
+    const url = `${WfmRouterPaths.CONTRACT}/id/${data.id}`;
+    this._navigationService.navigate(url);
+  }
 
   private _getContracts(page: number): void {
     if (!page) {
