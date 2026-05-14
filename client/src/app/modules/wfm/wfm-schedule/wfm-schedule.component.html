@@ -1,12 +1,16 @@
 <div class="wfm-schedule">
-  @if (path === routerPaths.NEW_CONTRACT) {
-    <app-wfm-new-contract *ngIf="path === routerPaths.NEW_CONTRACT"></app-wfm-new-contract>
+  @if (routerPath() === routerPaths.NEW_CONTRACT) {
+    <app-wfm-new-contract></app-wfm-new-contract>
   }
-  @if (path === routerPaths.CONTRACT) {
-    <app-wfm-new-contract *ngIf="path === routerPaths.CONTRACT" [contractId]="contractId"></app-wfm-new-contract>
-  }
-  @if (path === routerPaths.HOME) {
+  @if (routerPath() === routerPaths.CONTRACT) {
+    <app-wfm-new-contract [contractId]="contractId()"></app-wfm-new-contract>
+  } @else {
     <span class="wfm-schedule__title">Работа с расписанием</span>
-    <app-wfm-timetable></app-wfm-timetable>
+    <custom-tabs [initialValue]="true" [dataSource]="tabs" (valueChange)="setPath($event)"></custom-tabs>
+    @if (path() === pathVariables[paths.CONTRACTS]) {
+      <app-wfm-contracts></app-wfm-contracts>
+    } @else if (path() === pathVariables[paths.TIMETABLE]) {
+      <app-wfm-timetable></app-wfm-timetable>
+    }
   }
 </div>

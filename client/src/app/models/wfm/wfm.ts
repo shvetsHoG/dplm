@@ -4,6 +4,10 @@ export enum WfmRouterPaths {
   HOME = ""
 }
 
+export enum WfmRouterType {
+  tab = "TAB"
+}
+
 export enum shiftType {
   CUSTOM_DAYS = "custom_days",
   CYCLE = "cycle"
