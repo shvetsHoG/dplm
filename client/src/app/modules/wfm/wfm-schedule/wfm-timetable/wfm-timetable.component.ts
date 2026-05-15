@@ -338,10 +338,12 @@ export class WfmTimetableComponent implements OnInit {
   }
 
   private _getFirstCycleBlockIndex(startDate: Date, endDate: Date, length: number): number {
-    const ms: number = Math.abs(new Date(endDate).setHours(0, 0, 0, 0) - new Date(startDate).setHours(0, 0, 0, 0));
+    const diff = new Date(endDate).setHours(0, 0, 0, 0) - new Date(startDate).setHours(0, 0, 0, 0);
+
+    const ms: number = Math.abs(diff);
 
     const diffDays = Math.round(ms / (1000 * 60 * 60 * 24));
 
-    return Math.floor(diffDays % length);
+    return diff < 0 ? Math.floor(4 - (diffDays % length)) : Math.floor(diffDays % length);
   }
 }
