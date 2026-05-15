@@ -64,8 +64,8 @@ export class WFMFullContract {
 
 export const WFMFullContractDtoFn = (data: any) =>
   new WFMFullContract({
-    employeeGroups: data.employee_groups
-      ? data.employee_groups.map((i: any) => WFMFullContractEmployeeGroupsDtoFn(i))
+    employeeGroups: data.employeeGroups
+      ? data.employeeGroups.map((i: any) => WFMFullContractEmployeeGroupsDtoFn(i))
       : [],
     id: data.id,
     name: data.name,

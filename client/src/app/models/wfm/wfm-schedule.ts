@@ -169,7 +169,7 @@ export class WfmScheduleShift {
 export const WfmScheduleShiftDtoFn = (data: any) =>
   new WfmScheduleShift({
     customDays: data.customDays ? data.customDays.map((_) => WfmScheduleShiftCustomDaysDtoFn(_)) : [],
-    cycleBlocks: data.cycle_blocks ? data.cycle_blocks.map((_) => WfmScheduleShiftCycleBlocksDtoFn(_)) : [],
+    cycleBlocks: data.cycleBlocks ? data.cycleBlocks.map((_) => WfmScheduleShiftCycleBlocksDtoFn(_)) : [],
     duration: data.duration,
     startTime: data.startTime,
     startDate: data.startDate,
@@ -214,7 +214,7 @@ export class WfmScheduleShiftCycleBlocks {
 
 export const WfmScheduleShiftCycleBlocksDtoFn = (data: any) =>
   new WfmScheduleShiftCycleBlocks({
-    daysCount: data.days_count,
+    daysCount: data.daysCount,
     order: data.order,
     type: data.type
   });

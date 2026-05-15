@@ -9,6 +9,7 @@ import { ContractsService } from '../contracts/contracts.service';
 import { plainToClass } from 'class-transformer';
 import { EventResponseDto } from './dto/events-response.dto';
 import { filter } from 'rxjs';
+import { ShiftType } from '@prisma/client';
 
 @Injectable()
 export class EventsService {
@@ -123,10 +124,30 @@ export class EventsService {
 
                 const { contractId, ...restShift } = rawContract.shift;
 
+                const shift =
+                    restShift.type === ShiftType.custom_days
+                        ? restShift
+                        : {
+                              ...restShift,
+                              customDays: null,
+                              cycleBlocks: [
+                                  {
+                                      order: 0,
+                                      daysCount: 2,
+                                      type: 'workday',
+                                  },
+                                  {
+                                      order: 1,
+                                      daysCount: 2,
+                                      type: 'weekend',
+                                  },
+                              ],
+                          };
+
                 const contract = {
                     startDt: rawContract.createdAt,
                     endDt: null,
-                    shift: restShift,
+                    shift,
                 };
 
                 return { employee, events, contract };

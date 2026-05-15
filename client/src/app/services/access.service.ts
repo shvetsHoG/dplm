@@ -6,22 +6,22 @@ import { RxFn } from "rxfn";
 import { ErrorHandlerService } from "@custom/common/services/error-handler.service";
 import { ServiceBase } from "@custom/common/base/service.base";
 
-const URL = `/api/role/`;
+const URL = `http://localhost:3000/api`;
 
 @Injectable({ providedIn: "root" })
 export class AccessService extends ServiceBase {
-  public getUsers = new RxFn<AccessControlUsers[], [string[], number[], number[]]>(this._getUsers.bind(this));
+  public getUsers = new RxFn<AccessControlUsers[]>(this._getUsers.bind(this));
+  public getUser = new RxFn<AccessControlUsers>(this._getUser.bind(this));
 
   constructor(_http: HttpClient, _errorService: ErrorHandlerService) {
     super(_http, null, _errorService);
   }
 
-  private _getUsers(groupIds: string[], themeIds: number[], levelIds: number[]): Observable<AccessControlUsers[]> {
-    const body = {
-      group_ids: groupIds,
-      theme_ids: themeIds,
-      level_ids: levelIds
-    };
-    return this.post<AccessControlUsers[]>(`${URL}`, body, AccessControlUsersDtoFn);
+  private _getUsers(): Observable<AccessControlUsers[]> {
+    return this.get<AccessControlUsers[]>(`${URL}/user`, AccessControlUsersDtoFn);
+  }
+
+  private _getUser(id: string): Observable<AccessControlUsers> {
+    return this.get<AccessControlUsers>(`${URL}/user/${id}`, AccessControlUsersDtoFn);
   }
 }
