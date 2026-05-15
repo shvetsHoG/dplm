@@ -88,9 +88,9 @@ export class WfmEvent {
 export const WfmEventDtoFn = (data: any) =>
   new WfmEvent({
     desc: data.desc,
-    endDt: data.end_dt,
+    endDt: data.endDt,
     id: data.id,
-    startDt: data.start_dt,
+    startDt: data.startDt,
     type: data.type ? WfmEventTypeDtoFn(data.type) : null
   });
 
@@ -137,9 +137,9 @@ export class WfmSchedule {
 
 export const WfmScheduleDtoFn = (data: any) =>
   new WfmSchedule({
-    endDt: data.end_dt,
+    endDt: data.endDt,
     shift: data.shift ? WfmScheduleShiftDtoFn(data.shift) : null,
-    startDt: data.start_dt
+    startDt: data.startDt
   });
 
 export interface WfmScheduleShiftResp {
@@ -168,11 +168,11 @@ export class WfmScheduleShift {
 
 export const WfmScheduleShiftDtoFn = (data: any) =>
   new WfmScheduleShift({
-    customDays: data.custom_days ? data.custom_days.map((_) => WfmScheduleShiftCustomDaysDtoFn(_)) : [],
+    customDays: data.customDays ? data.customDays.map((_) => WfmScheduleShiftCustomDaysDtoFn(_)) : [],
     cycleBlocks: data.cycle_blocks ? data.cycle_blocks.map((_) => WfmScheduleShiftCycleBlocksDtoFn(_)) : [],
     duration: data.duration,
-    startTime: data.start_time,
-    startDate: data.start_date,
+    startTime: data.startTime,
+    startDate: data.startDate,
     type: data.type
   });
 
@@ -221,9 +221,9 @@ export const WfmScheduleShiftCycleBlocksDtoFn = (data: any) =>
 
 export interface WfmEmployeesEventReq {
   desc: string;
-  end_dt: string;
-  event_type_id: number;
-  start_dt: string;
+  endDt: string;
+  eventTypeId: number;
+  startDt: string;
 }
 
 export enum WfmEventColors {

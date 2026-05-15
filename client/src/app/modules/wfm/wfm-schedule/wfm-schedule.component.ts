@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, signal, WritableSignal } fr
 import { DestroyService } from "app/services/destroy.service";
 import { WfmRouterPaths } from "app/models/wfm/wfm";
 import { NavigationService } from "app/services/navigation-service";
+import { takeUntil, tap } from "rxjs/operators";
 
 enum PATHS {
   TIMETABLE = "Расписание",
@@ -47,10 +48,21 @@ export class WfmScheduleComponent implements OnInit {
     //   .pipe(takeUntil(this._destroy$))
     //   .subscribe((id) => (this.contractId = id));
 
-    this._navigationService.url$.subscribe((items) => this.path.set(items[0]));
+    this._navigationService.url$
+      .pipe(
+        tap((items) => {
+          if (items.length === 3 && items[1] === "id") {
+            this.contractId.set(items[2]);
+          }
+        }),
+        takeUntil(this._destroy$)
+      )
+      .subscribe((items) => this.path.set(items[0]));
   }
 
   public setPath(path: PATHS): void {
     this._navigationService.navigate(PATH_VARIABLES[path]);
   }
+
+  public;
 }

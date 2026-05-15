@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnInit } from "@angular/core";
-import { WfmContractsRouterType } from "app/modules/wfm/wfm-schedule/wfm-contracts/wfm-contracts.router";
-import { WeekDayType, WfmRouterPaths } from "app/models/wfm/wfm";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
+import { shiftType, WeekDayType, WfmRouterPaths } from "app/models/wfm/wfm";
 import { WfmDictService } from "app/services/wfm/wfm-dict.service";
 import { BehaviorSubject, combineLatest, merge, Observable, of } from "rxjs";
 import { WfmContractType, WfmWeekDay } from "app/models/wfm/wfm-dict";
@@ -121,7 +120,7 @@ export class WfmNewContractComponent extends FormComponentBase implements OnInit
       this.employeeGroup = contract.employeeGroups[0]; // TODO: будет исправлено после исправления ручки на бэке
       this.sortedEmployees = contract.employeeGroups[0]?.employees;
 
-      if (contract.shift.customDays) {
+      if (contract.shift.customDays?.length > 0) {
         const customDays: WfmWeekDay[] = [];
         contract.shift.customDays.forEach((weekDay) => {
           const day = this.weekDays$.value.find((customDay) => customDay.number === weekDay.weeknumber);
@@ -136,11 +135,13 @@ export class WfmNewContractComponent extends FormComponentBase implements OnInit
 
       this.formGroup.get("name").setValue(contract.name);
       this.formGroup.get("duration").setValue(contract.shift.duration);
-      this.formGroup
-        .get("schedule")
-        .setValue({ name: contract.shift.name, id: contract.shift.id, type: contract.shift.type } as WfmContractType);
-      this.formGroup.get("startDate").setValue(new Date(contract.shift.startDate || Date.now()));
-      this.formGroup.get("startTime").setValue(new Date(contract.shift.startTime));
+      this.formGroup.get("schedule").setValue({
+        id: contract.shift.id,
+        type: contract.shift.type,
+        name: `${contract.shift.type === shiftType.CUSTOM_DAYS ? "5/2" : "2/2"}`
+      } as WfmContractType);
+      this.formGroup.get("startDate").setValue(new Date(contract.shift.startDate || new Date()).withoutTimezone());
+      this.formGroup.get("startTime").setValue(new Date(contract.shift.startTime).withoutTimezone());
     });
 
     this.isFiveDays$.pipe(takeUntil(this._destroy$)).subscribe((isFiveDays) => {
@@ -161,7 +162,7 @@ export class WfmNewContractComponent extends FormComponentBase implements OnInit
       .get("schedule")
       .valueChanges.pipe(takeUntil(this._destroy$))
       .subscribe((schedule: WfmContractType) => {
-        const isCustomDays = schedule.id === 1;
+        const isCustomDays = schedule.type === shiftType.CUSTOM_DAYS;
         this.isFiveDays$.next(isCustomDays);
       });
   }
@@ -183,9 +184,9 @@ export class WfmNewContractComponent extends FormComponentBase implements OnInit
       shift: {
         duration: +this.formGroup.get("duration").value,
         id: this.formGroup.get("schedule").value.id,
-        start_date: !this.isFiveDays$.value ? startDate.toJSON() : null,
-        start_time: startTime.toJSON(),
-        custom_days: this.isFiveDays$.value
+        startDate: !this.isFiveDays$.value ? startDate.toJSON() : null,
+        startTime: startTime.toJSON(),
+        customDays: this.isFiveDays$.value
           ? this.formGroup
               .get("customDays")
               .value.map((day: WfmWeekDay) => ({ type: day.type, weeknumber: day.number }))

@@ -9,6 +9,8 @@
     background-position: center;
     padding: 0 $space 0 $space;
     background: var(--color-f6);
+    overflow: auto;
+
     @include column;
     .box-line {
       width: 100%;

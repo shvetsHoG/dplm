@@ -96,9 +96,9 @@ export class WfmTimetableEventCreateComponent extends FormComponentBase {
   private _getFormValue() {
     return {
       desc: this.formGroup.get("description").value,
-      event_type_id: this.formGroup.get("activity").value.id,
-      end_dt: new Date(this.formGroup.get("period").value[1].setHours(0, 0, 0, 0)).toJSON(),
-      start_dt: new Date(this.formGroup.get("period").value[0].setHours(0, 0, 0, 0)).toJSON()
+      eventTypeId: this.formGroup.get("activity").value.id,
+      endDt: new Date(this.formGroup.get("period").value[1].setHours(0, 0, 0, 0)).toJSON(),
+      startDt: new Date(this.formGroup.get("period").value[0].setHours(0, 0, 0, 0)).toJSON()
     };
   }
 

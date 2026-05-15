@@ -2,13 +2,13 @@ import { WeekDayType } from "app/models/wfm/wfm";
 
 export interface WfmContractTypeResp {
   id: number;
-  name: string;
+  name?: string;
   type: string;
 }
 
 export class WfmContractType {
   public id: number;
-  public name: string;
+  public name?: string;
   public type: string;
 
   constructor(data: WfmContractTypeResp) {
@@ -45,7 +45,7 @@ export class WfmWeekDay {
 export const WfmWeekDaysDtoFn = (data: any) =>
   new WfmWeekDay({
     fullname: data.fullname,
-    isWeekend: data.is_weekend,
+    isWeekend: data.isWeekend,
     number: data.number,
     shortname: data.shortname
   });

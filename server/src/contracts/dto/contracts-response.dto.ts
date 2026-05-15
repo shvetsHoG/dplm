@@ -15,7 +15,7 @@ export class CustomDayResponseDto {
 }
 
 export class ShiftResponseDto {
-    @Exclude()
+    @Expose()
     id: number;
 
     @Expose()

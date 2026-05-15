@@ -7,7 +7,6 @@ export interface WFMContractsShiftResp {
   }[];
   duration: number;
   id: number;
-  name: string;
   startDate: string;
   startTime: string;
   type: string;
@@ -23,7 +22,6 @@ export class WFMContractsShift {
   public startDate: string;
   public startTime: string;
   public type: string;
-  public name: string;
 
   constructor(data: WFMContractsShiftResp) {
     Object.assign(this, data);
@@ -66,7 +64,9 @@ export class WFMFullContract {
 
 export const WFMFullContractDtoFn = (data: any) =>
   new WFMFullContract({
-    employeeGroups: data.employee_groups ? data.employee_groups.map((i: any) => WFMFullContractEmployeeGroupsDtoFn(i)) : [],
+    employeeGroups: data.employee_groups
+      ? data.employee_groups.map((i: any) => WFMFullContractEmployeeGroupsDtoFn(i))
+      : [],
     id: data.id,
     name: data.name,
     shift: WFMContractsShiftDtoFn(data.shift) || null
@@ -75,19 +75,18 @@ export const WFMFullContractDtoFn = (data: any) =>
 export const WFMFullContractEmployeeGroupsDtoFn = (data: any) =>
   new WFMEmployeeGroup({
     employees: data.employees,
-    externalId: data.external_id,
+    externalId: data.externalId,
     name: data.name
   });
 
 export const WFMContractsShiftDtoFn = (data: any) =>
   new WFMContractsShift({
-    name: data.name,
-    customDays: data.custom_days,
+    customDays: data.customDays,
     duration: data.duration,
     id: data.id,
     type: data.type,
-    startTime: data.start_time,
-    startDate: data.start_date
+    startTime: data.startTime,
+    startDate: data.startDate
   });
 
 export interface WFMContractResp {
@@ -112,8 +111,8 @@ export const WFMContractDtoFn = (data: any) =>
   new WFMContract({
     id: data.id,
     name: data.name,
-    employeeCount: data.employee_count,
-    shiftName: data.shift_name
+    employeeCount: data.employeeCount,
+    shiftName: data.shiftName
   });
 
 export interface WFMContractsResp {
@@ -133,7 +132,7 @@ export class WFMContracts {
 export const WFMContractsDtoFn = (data: any) =>
   new WFMContracts({
     contracts: data.contracts ? data.contracts.map((i: any) => WFMContractDtoFn(i)) : [],
-    totalCount: data.total_count
+    totalCount: data.totalCount
   });
 
 export interface WFMContractsReq {
@@ -142,14 +141,14 @@ export interface WFMContractsReq {
 }
 
 export interface WFMContractsShiftReq {
-  custom_days: {
+  customDays: {
     type: WeekDayType;
     weeknumber: number;
   }[];
   duration: number;
   id: number;
-  start_date: string;
-  start_time: string;
+  startDate: string;
+  startTime: string;
 }
 
 export interface WFMEmployeeAssignResp {
@@ -158,7 +157,7 @@ export interface WFMEmployeeAssignResp {
     id: number;
   };
   team: {
-    external_id: number;
+    externalId: number;
     name: string;
   };
 }

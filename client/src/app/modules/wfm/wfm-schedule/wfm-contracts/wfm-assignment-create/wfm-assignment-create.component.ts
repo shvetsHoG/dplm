@@ -30,8 +30,8 @@ export class WfmAssignmentCreateComponent implements OnInit {
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
-    @Inject("AccessService") public accessService: AccessService,
     @Inject("popup") public popup: PopupModel,
+    public accessService: AccessService,
     private _contractService: WfmContractsService,
     private _cdr: ChangeDetectorRef,
     private _destroy$: DestroyService,
@@ -133,7 +133,7 @@ export class WfmAssignmentCreateComponent implements OnInit {
           id: employee.id
         },
         team: {
-          external_id: null,
+          externalId: null,
           name: null
         }
       } as WFMEmployeeAssignResp);
