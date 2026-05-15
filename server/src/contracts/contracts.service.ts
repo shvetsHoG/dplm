@@ -43,8 +43,8 @@ export class ContractsService {
         const transformedContracts = contracts.map(contract => ({
             id: contract.id,
             name: contract.name,
-            shift_name: contract.shift?.type === 'cycle' ? '2/2' : '5/2',
-            employee_count: contract.employeeGroups.reduce(
+            shiftName: contract.shift?.type === 'cycle' ? '2/2' : '5/2',
+            employeeCount: contract.employeeGroups.reduce(
                 (total, group) => total + group.employees.length,
                 0,
             ),
@@ -52,7 +52,7 @@ export class ContractsService {
 
         return {
             contracts: transformedContracts,
-            total_count: transformedContracts.length,
+            totalCount: transformedContracts.length,
         };
     }
 
@@ -273,6 +273,8 @@ export class ContractsService {
                         shift,
                         id,
                     );
+
+                    console.log(data);
 
                     await prisma.shift.create({
                         data,

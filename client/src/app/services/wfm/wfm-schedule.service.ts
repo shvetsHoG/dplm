@@ -31,9 +31,9 @@ export class WfmScheduleService extends ServiceBase {
     offset?: number
   ): Observable<WfmItems> {
     const params = ObjectHelper.createQueryParams({
-      start_date: startDate,
-      end_date: endDate,
-      employee_ids: employeeIds,
+      startDate: startDate,
+      endDate: endDate,
+      employeeIds: employeeIds,
       limit,
       offset
     });

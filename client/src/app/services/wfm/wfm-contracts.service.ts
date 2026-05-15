@@ -44,7 +44,7 @@ export class WfmContractsService extends ServiceBase {
 
   private _getContracts(limit: number, offset: number): Observable<WFMContracts> {
     const params = ObjectHelper.createQueryParams({ limit, offset });
-    return this.get(`${URL}/contracts?`, WFMContractsDtoFn, null, true);
+    return this.get(`${URL}/contracts?${params}`, WFMContractsDtoFn, null, true);
   }
 
   private _createContract(body: WFMContractsReq): Observable<{ id: number }> {

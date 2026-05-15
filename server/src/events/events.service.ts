@@ -8,6 +8,7 @@ import { EventsCreateDto, QueryCalendarDto } from './dto/events.dto';
 import { ContractsService } from '../contracts/contracts.service';
 import { plainToClass } from 'class-transformer';
 import { EventResponseDto } from './dto/events-response.dto';
+import { filter } from 'rxjs';
 
 @Injectable()
 export class EventsService {
@@ -80,14 +81,19 @@ export class EventsService {
     public async getCalendar(query: QueryCalendarDto) {
         const { limit, offset, employeeIds, startDate, endDate } = query;
 
-        const ids: string[] = employeeIds.split(',');
+        const ids: string[] = employeeIds?.split(',');
         const start = new Date(startDate);
         const end = new Date(endDate);
 
+        const userIds = ids ?? (await this._getUsersIds()).map(i => i.id);
+
         const items = await Promise.all(
-            ids.map(async id => {
-                const { employeeGroupId, ...employee } =
-                    await this._contractsService.getEmployee(id);
+            userIds.map(async id => {
+                const employee = await this._contractsService.getEmployee(id);
+
+                if (!employee) {
+                    return null;
+                }
 
                 const events = await this._getAllEmployeeEventsInDate(
                     id,
@@ -99,7 +105,7 @@ export class EventsService {
 
                 const employeeGroup =
                     await this.prisma.employeeGroup.findUnique({
-                        where: { id: employeeGroupId },
+                        where: { id: employee?.employeeGroupId },
                     });
 
                 const rawContract = await this.prisma.contract.findUnique({
@@ -127,7 +133,10 @@ export class EventsService {
             }),
         );
 
-        return items;
+        return {
+            items: items.filter(Boolean),
+            totalCount: items.filter(Boolean).length > 0 ? userIds.length : 0,
+        };
     }
 
     private async _findConflictingEvent(
@@ -215,6 +224,14 @@ export class EventsService {
 
         return plainToClass(EventResponseDto, events, {
             excludeExtraneousValues: true,
+        });
+    }
+
+    private async _getUsersIds() {
+        return this.prisma.user.findMany({
+            select: {
+                id: true,
+            },
         });
     }
 }

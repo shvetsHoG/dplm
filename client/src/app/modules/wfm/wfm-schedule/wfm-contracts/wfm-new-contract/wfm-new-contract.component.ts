@@ -141,7 +141,7 @@ export class WfmNewContractComponent extends FormComponentBase implements OnInit
         name: `${contract.shift.type === shiftType.CUSTOM_DAYS ? "5/2" : "2/2"}`
       } as WfmContractType);
       this.formGroup.get("startDate").setValue(new Date(contract.shift.startDate || new Date()).withoutTimezone());
-      this.formGroup.get("startTime").setValue(new Date(contract.shift.startTime).withoutTimezone());
+      this.formGroup.get("startTime").setValue(new Date(contract.shift.startTime));
     });
 
     this.isFiveDays$.pipe(takeUntil(this._destroy$)).subscribe((isFiveDays) => {

@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
-import { AuthDto } from '../dto/auth.dto';
+import { AuthDto, RegisterDto } from '../dto/auth.dto';
 import { verify } from 'argon2';
 import { Response } from 'express';
 
@@ -30,7 +30,7 @@ export class AuthService {
         };
     }
 
-    public async register(dto: AuthDto) {
+    public async register(dto: RegisterDto) {
         const oldUser = await this.userService.getUserByEmail(dto.email);
         if (oldUser) {
             throw new BadRequestException('Пользователь уже существует');

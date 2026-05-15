@@ -217,56 +217,55 @@ export class WfmTimetableComponent implements OnInit {
     return employees.map((employee) => {
       let dtc: DynamicTableCell[] = [];
 
-      for (const schedule of employee.contracts) {
-        const currDate = new Date(new Date(schedule.startDt || this.dateStart).setHours(0, 0, 0, 0));
-        const endDate = new Date(new Date(schedule.endDt || this.dateEnd).setHours(0, 0, 0, 0));
+      const schedule = employee.contracts;
+      const currDate = new Date(new Date(schedule.startDt || this.dateStart).setHours(0, 0, 0, 0));
+      const endDate = new Date(new Date(schedule.endDt || this.dateEnd).setHours(0, 0, 0, 0));
 
-        while (currDate <= endDate) {
-          if (schedule.shift.type === shiftType.CUSTOM_DAYS) {
-            const weekDay = schedule.shift.customDays.find((day) => {
-              const currDay = currDate.getDay() === 0 ? 6 : currDate.getDay() - 1; // TODO: костыль, 0 в js - Суббота, а здесь - ПН
-              return day.weeknumber === currDay;
-            });
+      while (currDate <= endDate) {
+        if (schedule.shift.type === shiftType.CUSTOM_DAYS) {
+          const weekDay = schedule.shift.customDays.find((day) => {
+            const currDay = currDate.getDay() === 0 ? 6 : currDate.getDay() - 1; // TODO: костыль, 0 в js - Суббота, а здесь - ПН
+            return day.weeknumber === currDay;
+          });
 
-            const { color, text } = this._getTableCellParams(
-              weekDay.type,
-              schedule.shift.startTime,
-              schedule.shift.duration
-            );
+          const { color, text } = this._getTableCellParams(
+            weekDay.type,
+            schedule.shift.startTime,
+            schedule.shift.duration
+          );
 
-            dtc.push({ columnId: this._getColumnId(currDate), color, text } as DynamicTableCell);
+          dtc.push({ columnId: this._getColumnId(currDate), color, text } as DynamicTableCell);
+
+          currDate.setDate(currDate.getDate() + 1);
+        } else if (schedule.shift.type === shiftType.CYCLE) {
+          const first = schedule.shift.cycleBlocks?.find((day) => day.order === 0);
+          const second = schedule.shift.cycleBlocks?.find((day) => day.order === 1);
+
+          const cycleArray: WfmScheduleShiftCycleBlocks[] = [];
+
+          for (let i = 0; i < first.daysCount; i++) {
+            cycleArray.push(first);
+          }
+
+          for (let i = 0; i < second.daysCount; i++) {
+            cycleArray.push(second);
+          }
+
+          // вычисляем индекс первого рабочего дня - т.е. реальный первый рабочий день сотрудника
+          const index = this._getFirstCycleBlockIndex(schedule.shift.startDate, currDate, cycleArray.length);
+
+          for (let i = index; i < cycleArray.length + index; i++) {
+            if (currDate <= endDate) {
+              const { color, text } = this._getTableCellParams(
+                cycleArray[i % 4].type,
+                schedule.shift.startTime,
+                schedule.shift.duration
+              );
+
+              dtc.push({ columnId: this._getColumnId(currDate), color, text } as DynamicTableCell);
+            }
 
             currDate.setDate(currDate.getDate() + 1);
-          } else if (schedule.shift.type === shiftType.CYCLE) {
-            const first = schedule.shift.cycleBlocks?.find((day) => day.order === 0);
-            const second = schedule.shift.cycleBlocks?.find((day) => day.order === 1);
-
-            const cycleArray: WfmScheduleShiftCycleBlocks[] = [];
-
-            for (let i = 0; i < first.daysCount; i++) {
-              cycleArray.push(first);
-            }
-
-            for (let i = 0; i < second.daysCount; i++) {
-              cycleArray.push(second);
-            }
-
-            // вычисляем индекс первого рабочего дня - т.е. реальный первый рабочий день сотрудника
-            const index = this._getFirstCycleBlockIndex(schedule.shift.startDate, currDate, cycleArray.length);
-
-            for (let i = index; i < cycleArray.length + index; i++) {
-              if (currDate <= endDate) {
-                const { color, text } = this._getTableCellParams(
-                  cycleArray[i % 4].type,
-                  schedule.shift.startTime,
-                  schedule.shift.duration
-                );
-
-                dtc.push({ columnId: this._getColumnId(currDate), color, text } as DynamicTableCell);
-              }
-
-              currDate.setDate(currDate.getDate() + 1);
-            }
           }
         }
 

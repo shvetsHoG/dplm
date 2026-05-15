@@ -10,7 +10,7 @@ import {
     ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthDto } from '../dto/auth.dto';
+import { AuthDto, RegisterDto } from '../dto/auth.dto';
 import { Request, Response } from 'express';
 
 @Controller('auth')
@@ -34,7 +34,7 @@ export class AuthController {
     @HttpCode(200)
     @Post('registration')
     public async register(
-        @Body() dto: AuthDto,
+        @Body() dto: RegisterDto,
         @Res({ passthrough: true }) res: Response,
     ) {
         const { refreshToken, ...response } =

@@ -10,3 +10,17 @@ export class AuthDto {
     @IsString()
     password: string;
 }
+
+export class RegisterDto {
+    @IsEmail()
+    email: string;
+
+    @MinLength(8, {
+        message: 'Пароль должен быть не менее 8 символов',
+    })
+    @IsString()
+    password: string;
+
+    @IsString()
+    name: string;
+}

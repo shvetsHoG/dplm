@@ -73,9 +73,7 @@ export class WfmAssignmentCreateComponent implements OnInit {
             ({
               id: employee.id,
               name: employee.fullname,
-              email: null,
-              roleIds: [],
-              groupIds: []
+              email: null
             }) as AccessControlUsers
         ) || [];
 

@@ -19,5 +19,5 @@ export class QueryCalendarDto {
     offset: string;
     endDate: string;
     startDate: string;
-    employeeIds: string;
+    employeeIds?: string;
 }

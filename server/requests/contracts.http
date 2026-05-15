@@ -61,12 +61,12 @@ Content-Type: application/json
 
 ### get contract by id
 
-GET {{host}}/contracts/8
+GET {{host}}/contracts/12
 Content-Type: application/json; charset=utf-8;
 
 ### delete contract by id
 
-DELETE {{host}}/contracts/7
+DELETE {{host}}/contracts/10
 Content-Type: application/json; charset=utf-8;
 
 ### get contracts
@@ -76,13 +76,13 @@ Content-Type: application/json; charset=utf-8;
 
 ### assign
 
-POST {{host}}/contracts/8/assign
+POST {{host}}/contracts/12/assign
 Content-Type: application/json
 
 {
   "employee": {
-    "fullname": "Иванов Иван Иваныч",
-    "id": "cmoagj11j0000iukeqe38gg03"
+    "fullname": "Kirill",
+    "id": "cmo7ld4ek0000xsj1gm830nda"
   }
 }
 
@@ -93,16 +93,16 @@ Content-Type: application/json
 
 ### put contract
 
-PUT {{host}}/contracts/6
+PUT {{host}}/contracts/9
 Content-Type: application/json
 
 {
   "name": "Контракт №3",
   "shift": {
-    "duration": 10,
+    "duration": 12,
     "id": 1,
     "startDate": null,
-    "startTime": "2026-04-22T12:00:00.000Z",
+    "startTime": "2026-05-23T12:00:00.000Z",
     "customDays": [
       {
         "type": "workday",

@@ -23,13 +23,13 @@ export const WfmItemsDtoFn = (data: any) =>
 export interface WfmEmployeesEventResp {
   employee: WfmEmployee;
   events: WfmEvent[];
-  contracts: WfmSchedule[];
+  contracts: WfmSchedule;
 }
 
 export class WfmEmployeesEvent {
   public employee: WfmEmployee;
   public events: WfmEvent[];
-  public contracts: WfmSchedule[];
+  public contracts: WfmSchedule;
 
   constructor(data: WfmEmployeesEventResp) {
     Object.assign(this, data);
@@ -40,7 +40,7 @@ export const WfmEmployeesEventDtoFn = (data: any) =>
   new WfmEmployeesEvent({
     employee: data.employee ? WfmEmployeeDtoFn(data.employee) : null,
     events: data.events ? data.events.map((_) => WfmEventDtoFn(_)) : [],
-    contracts: data.contracts ? data.contracts.map((_) => WfmScheduleDtoFn(_)) : []
+    contracts: data.contract ? WfmScheduleDtoFn(data.contract) : null
   });
 
 export interface WfmEmployeeResp {

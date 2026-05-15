@@ -1,11 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { AuthDto } from '../dto/auth.dto';
+import { AuthDto, RegisterDto } from '../dto/auth.dto';
 import { hash } from 'argon2';
+import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class UserService {
     constructor(private prisma: PrismaService) {}
+
+    public async getUsers() {
+        const users = await this.prisma.user.findMany();
+
+        return users.map(user => {
+            const { password, ...rest } = user;
+
+            return rest;
+        });
+    }
 
     public async getUserById(id: string) {
         return this.prisma.user.findUnique({
@@ -23,10 +34,10 @@ export class UserService {
         });
     }
 
-    public async createUser(dto: AuthDto) {
+    public async createUser(dto: RegisterDto) {
         const user = {
             email: dto.email,
-            name: '',
+            name: dto.name,
             password: await hash(dto.password),
         };
 
@@ -35,7 +46,7 @@ export class UserService {
         });
     }
 
-    public async updateUser(id: string, dto: AuthDto) {
+    public async updateUser(id: string, dto: UserDto) {
         let data = dto;
 
         if (dto.password) {
@@ -59,8 +70,6 @@ export class UserService {
 
         const { password, ...rest } = profile;
 
-        return {
-            user: rest,
-        };
+        return rest;
     }
 }
