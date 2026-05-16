@@ -2,7 +2,7 @@ import { Injectable, signal, WritableSignal } from "@angular/core";
 import { ServiceBase } from "@custom/common/base/service.base";
 import { HttpClient } from "@angular/common/http";
 import { ErrorHandlerService } from "@custom/common/services/error-handler.service";
-import { AuthForm, AuthResponse } from "app/models/authorization/authorization";
+import { AuthForm, AuthResponse, RegisterForm } from "app/models/authorization/authorization";
 import { tap } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { AccessControlUser } from "app/models/access-control/access-control-user";
@@ -23,7 +23,7 @@ export class AuthorizationService extends ServiceBase {
     super(_http, null, _errorService);
   }
 
-  public authorize(type: "login" | "registration", data: AuthForm) {
+  public authorize(type: "login" | "registration", data: AuthForm | RegisterForm): Observable<AuthResponse> {
     return this._auth(type, data).pipe(
       tap((data: AuthResponse) => {
         if (data.accessToken) {
@@ -68,7 +68,7 @@ export class AuthorizationService extends ServiceBase {
     localStorage.removeItem(EnumTokens.ACCESS_TOKEN);
   }
 
-  private _auth(type: "login" | "registration", data: AuthForm): Observable<AuthResponse> {
+  private _auth(type: "login" | "registration", data: AuthForm | RegisterForm): Observable<AuthResponse> {
     return this.post<AuthResponse>(`${URL}/auth/${type}`, data);
   }
 }

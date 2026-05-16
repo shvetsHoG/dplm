@@ -1,9 +1,13 @@
 @let controls = formGroup.controls;
 
-<form class="form" [formGroup]="formGroup">
-  <div class="form-row"><custom-input label="Email" [formControl]="controls.email"></custom-input></div>
+<form class="form login" [formGroup]="formGroup">
+  <h2>{{ isReg() ? "Регистрация" : "Авторизация" }}</h2>
+  @if (isReg()) {
+    <div class="form-row"><custom-input [width]="400" label="Имя" [formControl]="controls.name"></custom-input></div>
+  }
+  <div class="form-row"><custom-input [width]="400" label="Email" [formControl]="controls.email"></custom-input></div>
   <div class="form-row">
-    <custom-input label="Пароль" role="password" [formControl]="controls.password"></custom-input>
+    <custom-input [width]="400" label="Пароль" role="password" [formControl]="controls.password"></custom-input>
   </div>
   <div class="form-row"><custom-button (buttonClick)="onAuth()">Войти</custom-button></div>
 </form>

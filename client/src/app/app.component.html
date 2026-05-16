@@ -1,15 +1,16 @@
 @if (isAuth()) {
   <div class="app">
-    <div class="box-line"></div>
+    <div class="box-line">
+      <div class="box-line__wrapper">
+        <div class="name">{{ user().name || "Аноним" }}</div>
+        <custom-button (buttonClick)="logout()">Выход</custom-button>
+      </div>
+    </div>
     <app-wfm-schedule></app-wfm-schedule>
   </div>
 } @else {
   <div class="app login">
-    @if (!isReg()) {
-      <app-login></app-login>
-    } @else {
-      <app-registration></app-registration>
-    }
+    <app-login [isReg]="isReg()"></app-login>
   </div>
 }
 <ng-template #toast>

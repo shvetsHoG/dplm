@@ -7,15 +7,16 @@ import { ViewContainerService } from "@core/services/view-container.service";
 import { ToastService } from "@custom/common/services/toast.service";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter, take, takeUntil } from "rxjs/operators";
-import { RegistrationModule } from "app/modules/registration/registration-module";
 import { LoginModule } from "app/modules/login/login-module";
 import { NavigationService } from "app/services/navigation-service";
 import { AuthorizationService } from "app/services/authorization/authorization.service";
 import { DestroyService } from "app/services/destroy.service";
+import { toObservable } from "@angular/core/rxjs-interop";
+import { AccessControlUser } from "app/models/access-control/access-control-user";
 
 @Component({
   selector: "app-root",
-  imports: [CoreModule, CustomModule, CommonModule, WfmScheduleModule, RegistrationModule, LoginModule],
+  imports: [CoreModule, CustomModule, CommonModule, WfmScheduleModule, LoginModule],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
   providers: [DestroyService]
@@ -24,6 +25,7 @@ export class AppComponent implements OnInit {
   @ViewChild("toast", { static: true }) toast: TemplateRef<any>;
   public isAuth: WritableSignal<boolean> = this._authService.isAuth;
   public isReg: WritableSignal<boolean> = signal(false);
+  public user: WritableSignal<AccessControlUser> = this._authService.user;
 
   constructor(
     private _viewContainerService: ViewContainerService,
@@ -33,7 +35,15 @@ export class AppComponent implements OnInit {
     private _authService: AuthorizationService,
     private _navigationService: NavigationService,
     private _destroy$: DestroyService
-  ) {}
+  ) {
+    toObservable(this.isAuth)
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((isAuth) => {
+        if (!isAuth) {
+          this._navigationService.goToLogin();
+        }
+      });
+  }
 
   ngOnInit() {
     this._viewContainerService.setViewContainerRef(this.vcr);
@@ -43,7 +53,8 @@ export class AppComponent implements OnInit {
     this._router.events
       .pipe(
         filter((data) => data instanceof NavigationEnd),
-        take(1)
+        take(1),
+        takeUntil(this._destroy$)
       )
       .subscribe((e: NavigationEnd) => {
         if (!"/registration".includes(e.url) && !this.isAuth()) {
@@ -59,6 +70,15 @@ export class AppComponent implements OnInit {
         }
 
         this.isReg.set(false);
+      });
+  }
+
+  public logout(): void {
+    this._authService
+      .logout()
+      .pipe(take(1), takeUntil(this._destroy$))
+      .subscribe(() => {
+        this._authService.isAuth.set(false);
       });
   }
 
