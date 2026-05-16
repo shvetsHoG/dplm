@@ -9,5 +9,14 @@
   <div class="form-row">
     <custom-input [width]="400" label="Пароль" role="password" [formControl]="controls.password"></custom-input>
   </div>
-  <div class="form-row"><custom-button (buttonClick)="onAuth()">Войти</custom-button></div>
+  <div class="form-row">
+    <custom-button (buttonClick)="onAuth()">{{ isReg() ? "Зарегистрироваться" : "Войти" }}</custom-button>
+  </div>
+  <div class="form-row">
+    @if (isReg()) {
+      <div class="link" (click)="redirectTo('login')">Есть аккаунт? Авторизоваться</div>
+    } @else {
+      <div class="link" (click)="redirectTo('registration')">Нет аккаунта? Зарегистрироваться</div>
+    }
+  </div>
 </form>

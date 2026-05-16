@@ -17,11 +17,13 @@ export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get(':id')
+    @Auth()
     async user(@Param('id') id: string) {
         return this.userService.getProfile(id);
     }
 
     @Get()
+    @Auth()
     async users() {
         return this.userService.getUsers();
     }
@@ -29,6 +31,7 @@ export class UserController {
     @UsePipes(new ValidationPipe())
     @HttpCode(200)
     @Put(':id')
+    @Auth()
     async updateUser(@Param('id') id: string, @Body() dto: UserDto) {
         return this.userService.updateUser(id, dto);
     }

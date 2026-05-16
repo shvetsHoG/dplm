@@ -12,6 +12,7 @@ import {
 import { AuthService } from './auth.service';
 import { AuthDto, RegisterDto } from '../dto/auth.dto';
 import { Request, Response } from 'express';
+import { Auth } from '../decorators/auth.decorator';
 
 @Controller('auth')
 export class AuthController {

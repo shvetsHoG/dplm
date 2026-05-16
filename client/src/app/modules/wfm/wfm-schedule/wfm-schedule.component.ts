@@ -38,16 +38,6 @@ export class WfmScheduleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this._navigationService
-    //   .getPathChannelByName(WfmContractsRouterType.path)
-    //   .pipe(takeUntil(this._destroy$))
-    //   .subscribe((path) => (this.routerPath = path));
-    //
-    // this._navigationService
-    //   .getPathChannelByName(WfmContractsRouterType.id)
-    //   .pipe(takeUntil(this._destroy$))
-    //   .subscribe((id) => (this.contractId = id));
-
     this._navigationService.url$
       .pipe(
         tap((items) => {
@@ -63,6 +53,4 @@ export class WfmScheduleComponent implements OnInit {
   public setPath(path: PATHS): void {
     this._navigationService.navigate(PATH_VARIABLES[path]);
   }
-
-  public;
 }

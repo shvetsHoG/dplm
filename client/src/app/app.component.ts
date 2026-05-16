@@ -6,7 +6,7 @@ import { WfmScheduleModule } from "app/modules/wfm/wfm-schedule/wfm-schedule.mod
 import { ViewContainerService } from "@core/services/view-container.service";
 import { ToastService } from "@custom/common/services/toast.service";
 import { NavigationEnd, Router } from "@angular/router";
-import { filter, take, takeUntil } from "rxjs/operators";
+import { filter, take, takeUntil, tap } from "rxjs/operators";
 import { LoginModule } from "app/modules/login/login-module";
 import { NavigationService } from "app/services/navigation-service";
 import { AuthorizationService } from "app/services/authorization/authorization.service";
@@ -50,6 +50,16 @@ export class AppComponent implements OnInit {
     this._emitOfflineToast();
     this._authService.getNewTokens().pipe(takeUntil(this._destroy$), take(1)).subscribe();
 
+    this._navigationService.url$.pipe(takeUntil(this._destroy$)).subscribe((items) => {
+      if (items.length > 1) return;
+
+      if (items[0] === "registration") {
+        this.isReg.set(true);
+      } else if (items[0] === "login") {
+        this.isReg.set(false);
+      }
+    });
+
     this._router.events
       .pipe(
         filter((data) => data instanceof NavigationEnd),
@@ -66,7 +76,6 @@ export class AppComponent implements OnInit {
         }
         if ("/registration".includes(e.url) && this.isAuth()) {
           this._router.navigate(["timetable"]);
-          this.isReg.set(false);
         }
 
         this.isReg.set(false);
@@ -79,6 +88,7 @@ export class AppComponent implements OnInit {
       .pipe(take(1), takeUntil(this._destroy$))
       .subscribe(() => {
         this._authService.isAuth.set(false);
+        this.isReg.set(false);
       });
   }
 

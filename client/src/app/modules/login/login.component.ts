@@ -6,6 +6,7 @@ import { catchError, take, takeUntil } from "rxjs/operators";
 import { DestroyService } from "app/services/destroy.service";
 import { of } from "rxjs";
 import { toObservable } from "@angular/core/rxjs-interop";
+import { NavigationService } from "app/services/navigation-service";
 
 interface FormBlock {
   email: FormControl<string>;
@@ -28,27 +29,32 @@ export class LoginComponent extends FormComponentBase {
   constructor(
     private _fb: FormBuilder,
     private _authService: AuthorizationService,
-    private _destroy$: DestroyService
+    private _destroy$: DestroyService,
+    private _navigationService: NavigationService
   ) {
     super();
 
     this.formGroup = this._fb.group<FormBlock>({
       email: this._fb.control(null, Validators.required),
       password: this._fb.control(null, Validators.required),
-      name: this._fb.control(null, Validators.required)
+      name: this._fb.control(null)
     });
 
     toObservable(this.isReg)
       .pipe(takeUntil(this._destroy$))
       .subscribe((isReg) => {
         if (isReg) {
-          this.formGroup.controls.name.clearValidators();
+          this.formGroup.controls.name.setValidators(Validators.required);
           this.formGroup.controls.name.updateValueAndValidity();
         } else {
-          this.formGroup.controls.name.setValidators(Validators.required);
+          this.formGroup.controls.name.clearValidators();
           this.formGroup.controls.name.updateValueAndValidity();
         }
       });
+  }
+
+  public redirectTo(type: "login" | "registration"): void {
+    this._navigationService.navigate(type);
   }
 
   public onAuth(): void {
