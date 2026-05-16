@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { AuthDto, RegisterDto } from '../dto/auth.dto';
+import { RegisterDto } from '../dto/auth.dto';
 import { hash } from 'argon2';
 import { UserDto } from './dto/user.dto';
 
@@ -13,7 +13,6 @@ export class UserService {
 
         return users.map(user => {
             const { password, ...rest } = user;
-
             return rest;
         });
     }

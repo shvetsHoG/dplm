@@ -77,13 +77,7 @@ export class AuthService {
     }
 
     public removeRefreshTokenFromResponse(res: Response) {
-        res.cookie(this.REFRESH_TOKEN_NAME, {
-            httpOnly: true,
-            domain: 'localhost',
-            expires: new Date(0),
-            secure: true,
-            sameSite: 'none',
-        });
+        res.clearCookie(this.REFRESH_TOKEN_NAME);
     }
 
     private issueToken(userId: string) {

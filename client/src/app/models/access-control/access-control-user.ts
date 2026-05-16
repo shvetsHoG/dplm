@@ -1,4 +1,4 @@
-export class AccessControlUsers {
+export class AccessControlUser {
   public id?: number;
   public name: string;
   public email: string;
@@ -6,7 +6,7 @@ export class AccessControlUsers {
   public updatedAt: Date;
 
   constructor(data: AccessControlUsersResp) {
-    Object.assign<AccessControlUsers, AccessControlUsersResp>(this, data);
+    Object.assign<AccessControlUser, AccessControlUsersResp>(this, data);
 
     this.createdAt = data.createdAt ? new Date(data.createdAt) : null;
     this.updatedAt = data.updatedAt ? new Date(data.updatedAt) : null;
@@ -22,7 +22,7 @@ export interface AccessControlUsersResp {
 }
 
 export const AccessControlUsersDtoFn = (data: any) => {
-  return new AccessControlUsers({
+  return new AccessControlUser({
     id: data.id,
     name: data.name,
     email: data.email,

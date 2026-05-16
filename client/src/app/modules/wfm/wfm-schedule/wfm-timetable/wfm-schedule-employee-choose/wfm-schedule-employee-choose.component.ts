@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
 import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
-import { AccessControlUsers } from "app/models/access-control/access-control-users";
+import { AccessControlUser } from "app/models/access-control/access-control-user";
 import { AccessService } from "app/services/access.service";
 import { PopupModel } from "@custom/components/popup/models/popup-model";
 import { map, takeUntil } from "rxjs/operators";
@@ -16,11 +16,11 @@ import { WfmScheduleService } from "app/services/wfm/wfm-schedule.service";
 })
 export class WfmScheduleEmployeeChooseComponent implements OnInit {
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  public employeeList: AccessControlUsers[] = [];
-  public employeeList$: BehaviorSubject<AccessControlUsers[]> = this._service.employeesList$;
+  public employeeList: AccessControlUser[] = [];
+  public employeeList$: BehaviorSubject<AccessControlUser[]> = this._service.employeesList$;
 
   public filterValue = "";
-  public dataSource: AccessControlUsers[] = [];
+  public dataSource: AccessControlUser[] = [];
 
   constructor(
     public accessService: AccessService,
@@ -68,7 +68,7 @@ export class WfmScheduleEmployeeChooseComponent implements OnInit {
     this.dataSource = this._applyFilter(this.accessService.getUsers.getValue());
   }
 
-  public isOnEmployeeList(employee: AccessControlUsers): boolean {
+  public isOnEmployeeList(employee: AccessControlUser): boolean {
     for (const pickedEmployee of this.employeeList) {
       if (pickedEmployee.id === employee.id) {
         return true;
@@ -78,7 +78,7 @@ export class WfmScheduleEmployeeChooseComponent implements OnInit {
     return false;
   }
 
-  public onPickEmployee(e: MouseEvent, employee: AccessControlUsers): void {
+  public onPickEmployee(e: MouseEvent, employee: AccessControlUser): void {
     e.preventDefault();
     if (!this.isOnEmployeeList(employee)) {
       this.employeeList.push(employee);
@@ -91,7 +91,7 @@ export class WfmScheduleEmployeeChooseComponent implements OnInit {
     this.employeeList = [];
   }
 
-  private _applyFilter(data: AccessControlUsers[]): AccessControlUsers[] {
+  private _applyFilter(data: AccessControlUser[]): AccessControlUser[] {
     if (!this.filterValue) {
       return data;
     }

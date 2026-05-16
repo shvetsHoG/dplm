@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
 import { BehaviorSubject, combineLatest, merge, Observable, of } from "rxjs";
-import { AccessControlUsers } from "app/models/access-control/access-control-users";
+import { AccessControlUser } from "app/models/access-control/access-control-user";
 import { AccessService } from "app/services/access.service";
 import { map, take, takeUntil } from "rxjs/operators";
 import { DestroyService } from "app/services/destroy.service";
@@ -22,9 +22,9 @@ export class WfmAssignmentCreateComponent implements OnInit {
     { fullname: string; id: number }[]
   >([]);
   public filterValue = "";
-  public dataSource: AccessControlUsers[] = [];
-  public pickedEmployees: AccessControlUsers[] = [];
-  public employeesList: AccessControlUsers[] = [];
+  public dataSource: AccessControlUser[] = [];
+  public pickedEmployees: AccessControlUser[] = [];
+  public employeesList: AccessControlUser[] = [];
   public contractId: string = null;
 
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -74,7 +74,7 @@ export class WfmAssignmentCreateComponent implements OnInit {
               id: employee.id,
               name: employee.fullname,
               email: null
-            }) as AccessControlUsers
+            }) as AccessControlUser
         ) || [];
 
       if (this.employeesList.length === 0) {
@@ -112,7 +112,7 @@ export class WfmAssignmentCreateComponent implements OnInit {
     this.dataSource = this._applyFilter(this.accessService.getUsers.getValue());
   }
 
-  public onPickEmployee(e: MouseEvent, employee: AccessControlUsers) {
+  public onPickEmployee(e: MouseEvent, employee: AccessControlUser) {
     // TODO: неадекватное поведение чекбокса, 2 клика
     e.preventDefault();
     if (!this.isOnEmployeeList(employee)) {
@@ -122,7 +122,7 @@ export class WfmAssignmentCreateComponent implements OnInit {
     }
   }
 
-  public onAssignEmployee(e: MouseEvent, employee: AccessControlUsers) {
+  public onAssignEmployee(e: MouseEvent, employee: AccessControlUser) {
     e.preventDefault();
     if (!this.isPicked(employee)) {
       this._contractService.assignEmployee.setParams(this.contractId, {
@@ -150,7 +150,7 @@ export class WfmAssignmentCreateComponent implements OnInit {
     }
   }
 
-  public isPicked(employee: AccessControlUsers) {
+  public isPicked(employee: AccessControlUser) {
     for (const pickedEmployee of this.pickedEmployees) {
       if (pickedEmployee.id === employee.id) {
         return true;
@@ -160,7 +160,7 @@ export class WfmAssignmentCreateComponent implements OnInit {
     return false;
   }
 
-  public isOnEmployeeList(employee: AccessControlUsers) {
+  public isOnEmployeeList(employee: AccessControlUser) {
     for (const pickedEmployee of this.employeesList) {
       if (pickedEmployee.id === employee.id) {
         return true;
@@ -170,7 +170,7 @@ export class WfmAssignmentCreateComponent implements OnInit {
     return false;
   }
 
-  private _applyFilter(data: AccessControlUsers[]): AccessControlUsers[] {
+  private _applyFilter(data: AccessControlUser[]): AccessControlUser[] {
     if (!this.filterValue) {
       return data;
     }

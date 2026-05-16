@@ -1,1 +1,9 @@
-<p>login works!</p>
+@let controls = formGroup.controls;
+
+<form class="form" [formGroup]="formGroup">
+  <div class="form-row"><custom-input label="Email" [formControl]="controls.email"></custom-input></div>
+  <div class="form-row">
+    <custom-input label="Пароль" role="password" [formControl]="controls.password"></custom-input>
+  </div>
+  <div class="form-row"><custom-button (buttonClick)="onAuth()">Войти</custom-button></div>
+</form>

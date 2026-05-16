@@ -1,3 +1,5 @@
+import { AccessControlUser } from "app/models/access-control/access-control-user";
+
 export interface AuthForm {
   email: string;
   password: string;
@@ -9,13 +11,7 @@ export interface RegisterForm {
   name: string;
 }
 
-export interface User {
-  id: string;
-  name?: string;
-  email: string;
-}
-
 export interface AuthResponse {
   accessToken: string;
-  user: User;
+  user: AccessControlUser;
 }

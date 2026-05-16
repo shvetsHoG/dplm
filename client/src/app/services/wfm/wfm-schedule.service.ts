@@ -5,7 +5,7 @@ import { ErrorHandlerService } from "@custom/common/services/error-handler.servi
 import { RxFn } from "../../../rxfn";
 import { BehaviorSubject, Observable } from "rxjs";
 import { WfmEmployeesEventReq, WfmItems, WfmItemsDtoFn } from "app/models/wfm/wfm-schedule";
-import { AccessControlUsers } from "app/models/access-control/access-control-users";
+import { AccessControlUser } from "app/models/access-control/access-control-user";
 import { ObjectHelper } from "@custom/extensions/object-helper.extensions";
 
 const URL = `http://localhost:3000/api`;
@@ -16,7 +16,7 @@ export class WfmScheduleService extends ServiceBase {
     super(_http, null, _errorService);
   }
 
-  public employeesList$: BehaviorSubject<AccessControlUsers[]> = new BehaviorSubject<AccessControlUsers[]>([]);
+  public employeesList$: BehaviorSubject<AccessControlUser[]> = new BehaviorSubject<AccessControlUser[]>([]);
 
   public getEvents = new RxFn<WfmItems, [string, string, string, number?, number?]>(this._getEvents.bind(this));
   public createEvent = new RxFn<{ id: number }, [number, WfmEmployeesEventReq]>(this._createEvent.bind(this));

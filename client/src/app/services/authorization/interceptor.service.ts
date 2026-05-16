@@ -7,6 +7,10 @@ import { AuthorizationService } from "./authorization.service";
 export const authInterceptor: HttpInterceptorFn = (request, next) => {
   const _authService: AuthorizationService = inject(AuthorizationService);
 
+  if (/\/(registration|login|access-token)$/.test(request.url)) {
+    return next(request);
+  }
+
   return next(_addTokenToRequest(request, _authService.getAccessToken())).pipe(
     catchError((err) => {
       if (err instanceof HttpErrorResponse && err.status === 401) {
@@ -24,5 +28,5 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
 };
 
 const _addTokenToRequest = (request: HttpRequest<any>, token: string): HttpRequest<any> => {
-  return request.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
+  return request.clone({ setHeaders: { Authorization: `Bearer ${token}` }, withCredentials: true });
 };
