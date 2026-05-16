@@ -30,7 +30,7 @@ DATABASE\_URL="postgresql://${POSTGRES\_USER}:${POSTGRES\_PASSWORD}@${POSTGRES\_
 docker compose up -d
 ```
 
-### Клиент открывается на http://localhost:4000, сервер лежит на http://localhost:3000
+### Клиент открывается на http://localhost:4200, сервер лежит на http://localhost:3000
 
 :shipit::shipit::shipit:
 
