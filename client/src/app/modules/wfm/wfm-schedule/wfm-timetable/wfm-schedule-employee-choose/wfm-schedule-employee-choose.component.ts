@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
 import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
 import { AccessControlUsers } from "app/models/access-control/access-control-users";
 import { AccessService } from "app/services/access.service";
@@ -26,15 +26,17 @@ export class WfmScheduleEmployeeChooseComponent implements OnInit {
     public accessService: AccessService,
     @Inject("popup") public popup: PopupModel,
     private _service: WfmScheduleService,
-    private _destroy$: DestroyService
+    private _destroy$: DestroyService,
+    private _cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.accessService
-      .getUsers(null, null, null)
+      .getUsers()
       .pipe(takeUntil(this._destroy$))
       .subscribe((data) => {
         this.dataSource = data;
+        this._cdr.detectChanges();
       });
 
     this.employeeList = [...this.employeeList$.value];

@@ -15,7 +15,11 @@
       </app-tgrid-column>
       <app-tgrid-column [allowSort]="true" key="name" name="ФИО"></app-tgrid-column>
       <app-tgrid-column [allowSort]="true" key="email" name="E-mail"></app-tgrid-column>
-      <app-tgrid-column [allowSort]="true" key="id" name="ID"></app-tgrid-column>
+      <app-tgrid-column [allowSort]="true" name="ID" [template]="idTemplate">
+        <ng-template #idTemplate let-data="data">
+          <div class="id">{{ data.id }}</div>
+        </ng-template>
+      </app-tgrid-column>
     </app-tgrid>
   </div>
   <div class="employees__wrapper">
