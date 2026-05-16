@@ -153,6 +153,9 @@
           }
         }
         & > td {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 100%;
           transition:
             border-radius 0,
             border-color 0.15s;
@@ -166,7 +169,6 @@
           &:last-child {
             // border-right: 20px #FFFFFF solid;
             padding-right: 20px;
-            overflow: visible;
           }
         }
         &:first-child > td {

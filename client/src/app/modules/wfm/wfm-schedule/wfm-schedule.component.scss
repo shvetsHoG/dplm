@@ -4,13 +4,12 @@
   background: var(--color-white);
   border: 1px solid var(--color-d5);
   border-radius: $space-xs;
-  margin-top: 20px;
+  margin: $space;
 
   .wfm-schedule {
     max-width: 1440px;
     border-radius: $border-radius-m;
     overflow: hidden;
-    margin: 0 auto;
     background-color: $color-white;
     box-sizing: border-box;
     display: flex;

@@ -7,7 +7,6 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    padding: 0 $space 0 $space;
     background: var(--color-f6);
     overflow: auto;
 
@@ -29,5 +28,8 @@
 
   .dark-shadow {
     box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 400px 110px inset;
+  }
+
+  .login {
   }
 }
