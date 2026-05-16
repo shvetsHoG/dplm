@@ -325,13 +325,14 @@ export class WfmTimetableComponent implements OnInit {
   }
 
   private _getPopupData(data: DynamicTableRow<WfmEmployeesEvent>) {
+    console.log(data);
     return {
       employeeId: data.additionalData.employee.id,
       shift: this._getShiftHours(
-        data.additionalData.contracts[0].shift.startTime,
-        data.additionalData.contracts[0].shift.duration
+        data.additionalData.contracts.shift.startTime,
+        data.additionalData.contracts.shift.duration
       ),
-      contractType: this.contractTypes.find((i) => i.type === data.additionalData.contracts[0].shift.type).name,
+      contractType: this.contractTypes.find((i) => i.type === data.additionalData.contracts.shift.type).name,
       employeeName: data.additionalData.employee.fullname,
       eventTypes: this.eventTypes
     };
