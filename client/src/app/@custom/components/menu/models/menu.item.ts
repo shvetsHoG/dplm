@@ -1,5 +1,4 @@
 import { RouterServiceBase } from "@core/services/base/router.service.base";
-import { RolesType } from "@core/models/enums/roles-type";
 
 export class MenuItem {
   public isContainer?: boolean;
@@ -16,7 +15,6 @@ export class MenuItem {
     public single?: boolean,
     public icon?: any,
     public iconValue?: number,
-    public role?: RolesType,
     public disabled?: (() => boolean) | boolean,
     public hideTab?: boolean,
     public router?: typeof RouterServiceBase,
@@ -25,7 +23,6 @@ export class MenuItem {
     public injector?: any,
     public showTooltip?: boolean,
     public showCloseButton?: boolean,
-    public roles?: RolesType[],
     public reportName?: string
   ) {
     this.showCloseButton = true;

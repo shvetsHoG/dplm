@@ -1,11 +1,17 @@
-<div class="app">
-  <div class="box-line"></div>
-  <app-wfm-schedule></app-wfm-schedule>
-</div>
-<div #contentContainer class="app login">
-  <!--  <app-login *ngIf="!isReg" [isAuth]="isAuth" (authorized)="onAuthorize($event)"></app-login>-->
-  <!--  <app-registration *ngIf="isReg"></app-registration>-->
-</div>
+@if (isAuth()) {
+  <div class="app">
+    <div class="box-line"></div>
+    <app-wfm-schedule></app-wfm-schedule>
+  </div>
+} @else {
+  <div class="app login">
+    @if (!isReg()) {
+      <app-login></app-login>
+    } @else {
+      <app-registration></app-registration>
+    }
+  </div>
+}
 <ng-template #toast>
   <div class="toast-offline">
     <span>Нет подключения к Интернету. Соединение...</span>

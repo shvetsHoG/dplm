@@ -45,10 +45,10 @@ export class NavigationService {
 
   private _navigateToLogin(): void {
     if (this._activatedRoute?.snapshot?.queryParams?.state) {
-      this._router.navigate(["LOGIN"], { queryParams: this._activatedRoute?.snapshot?.queryParams });
+      this._router.navigate(["login"], { queryParams: this._activatedRoute?.snapshot?.queryParams });
       return;
     }
 
-    this._router.navigate(["LOGIN"]);
+    this._router.navigate(["login"]);
   }
 }

@@ -2,9 +2,10 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from "@angular/
 import { provideRouter } from "@angular/router";
 
 import { routes } from "./app.routes";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, provideHttpClient, withInterceptors } from "@angular/common/http";
 import { provideTranslateService, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { authInterceptor } from "app/services/authorization/interceptor.service";
 
 const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
         useFactory: httpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    provideHttpClient(withInterceptors([authInterceptor]))
   ]
 };
