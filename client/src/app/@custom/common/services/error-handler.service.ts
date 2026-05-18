@@ -41,8 +41,7 @@ export class ErrorHandlerService {
       title: title ? title : "ERROR",
       component: ErrorDialogComponent,
       alignButtons: "right",
-      accept: isNotification ? null : { text: "REPORT_BUG" },
-      cancel: { text: "CLOSE", callback: this._closePopup.bind(this) },
+      cancel: { text: "Закрыть", callback: this._closePopup.bind(this) },
       parent
     });
 
